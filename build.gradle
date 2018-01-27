@@ -1,0 +1,56 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.10.RELEASE'
+        springCloudVersion = 'Edgware.SR1'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.modzo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+//    compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+    compile('org.springframework.security.oauth:spring-security-oauth2')
+    compile('org.springframework.security:spring-security-jwt')
+//    <dependency>
+//    <groupId>org.springframework.security</groupId>
+//			<artifactId>spring-security-jwt</artifactId>
+//    </dependency>
+    
+
+    compile('org.liquibase:liquibase-core')
+    runtime('com.h2database:h2')
+
+    compile('org.apache.commons:commons-lang3:3.4')
+
+    compile('io.springfox:springfox-swagger2:2.8.0')
+    compile('io.springfox:springfox-swagger-ui:2.8.0')
+
+    compile('org.codehaus.groovy:groovy')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
+    testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

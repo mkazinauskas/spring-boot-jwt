@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+security.oauth2.resource.id: oauth2_id
+logging:
+  level:
+    org: debug

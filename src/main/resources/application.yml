@@ -1,0 +1,3 @@
+security.oauth2.resource.id: oauth2_id
+
+spring.profiles.active: mvc
