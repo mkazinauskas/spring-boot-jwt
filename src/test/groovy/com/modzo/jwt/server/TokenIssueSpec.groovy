@@ -1,26 +1,21 @@
 package com.modzo.jwt.server
 
-import com.modzo.jwt.helpers.AuthorizationHelper
-import com.modzo.jwt.helpers.TokenRestTemplate
+import com.modzo.jwt.AbstractSpec
 import groovy.json.JsonSlurper
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.test.context.ContextConfiguration
-import spock.lang.Specification
 
-@ContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TokenIssueSpec extends Specification {
-    @Autowired
-    TokenRestTemplate tokenTemplate
+import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+
+class TokenIssueSpec extends AbstractSpec {
 
     def 'should create token for client'() {
         when:
-            ResponseEntity response = tokenTemplate.post('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=nimda',
-                    [:],
-                    AuthorizationHelper.getAuthorizationHeaders('fooClientIdPassword', 'secret')
+            ResponseEntity response = restTemplate.postForEntity('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=nimda',
+                    builder()
+                            .basic('fooClientIdPassword', 'secret')
+                            .build(),
+                    String
             )
         then:
             response.statusCode == HttpStatus.OK
@@ -31,9 +26,11 @@ class TokenIssueSpec extends Specification {
 
     def 'should fail to create token for client'() {
         when:
-            ResponseEntity response = tokenTemplate.post('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=wrongPassword',
-                    [:],
-                    AuthorizationHelper.getAuthorizationHeaders('fooClientIdPassword', 'secret')
+            ResponseEntity response = restTemplate.postForEntity('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=wrongPassword',
+                    builder()
+                            .basic('fooClientIdPassword', 'secret')
+                            .build(),
+                    String
             )
         then:
             response.statusCode == HttpStatus.BAD_REQUEST

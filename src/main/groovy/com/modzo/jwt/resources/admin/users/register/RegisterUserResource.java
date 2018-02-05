@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.net.URL;
 
 @RestController
 class RegisterUserResource {
@@ -22,6 +23,7 @@ class RegisterUserResource {
     @PostMapping("/api/admin/users")
     ResponseEntity register(@RequestBody RegisterUserRequest account) {
         CreateUser.Response response = handler.handle(new CreateUser(account.getEmail(), account.getPassword()));
+        ResponseEntity.created(URI.create("")).build();
         return ResponseEntity.created(URI.create("/api/admin/users/" + response.getUniqueId())).build();
     }
 }
