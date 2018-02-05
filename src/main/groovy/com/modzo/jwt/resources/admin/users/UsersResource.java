@@ -12,11 +12,11 @@ import static com.modzo.jwt.domain.exceptions.UserNotFoundException.byUniqueId;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-class UsersController {
+class UsersResource {
 
     private final Users users;
 
-    public UsersController(Users users) {
+    public UsersResource(Users users) {
         this.users = users;
     }
 
