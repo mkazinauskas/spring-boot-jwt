@@ -1,6 +1,8 @@
 package com.modzo.jwt.resources.admin.users;
 
 import com.modzo.jwt.domain.Users;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,17 @@ class UsersResource {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/admin/users/{uniqueId}")
     @ResponseStatus(OK)
-    ResponseEntity remove(@PathVariable("uniqueId") String uniqueId) {
+    ResponseEntity<UserBean> getUser(@PathVariable("uniqueId") String uniqueId) {
         UserBean user = users.findByUniqueId(uniqueId).map(UserBean::from)
                 .orElseThrow(() -> byUniqueId(uniqueId));
         return ResponseEntity.ok(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/api/admin/users")
+    @ResponseStatus(OK)
+    ResponseEntity<Page<UserBean>> getUsers(Pageable pageable) {
+        Page<UserBean> result = users.findAll(pageable).map(UserBean::from);
+        return ResponseEntity.ok(result);
     }
 }

@@ -4,8 +4,12 @@ import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.User
 import com.modzo.jwt.domain.Users
 import com.modzo.jwt.helpers.AuthorizationHelper
+import com.modzo.jwt.helpers.PageWrapper
 import com.modzo.jwt.helpers.UserHelper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
@@ -63,6 +67,38 @@ class UsersResourceSpec extends AbstractSpec {
             User user = userHelper.createUser()
         when:
             ResponseEntity<String> response = restTemplate.exchange("/api/admin/users/${user.uniqueId}",
+                    GET,
+                    builder()
+                            .bearer(userToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == FORBIDDEN
+            response.body.contains('access_denied')
+    }
+
+    def 'should list all users'() {
+        given:
+            userHelper.createUser()
+        when:
+            ResponseEntity<PageWrapper<UserBean>> response = restTemplate.exchange("/api/admin/users",
+                    GET,
+                    builder()
+                            .bearer(adminToken)
+                            .build(),
+                    new ParameterizedTypeReference<PageWrapper<UserBean>>() {}
+            )
+        then:
+            response.statusCode == OK
+            response.body.size > 1
+            response.body.content.first().uniqueId
+            response.body.content.first().email
+    }
+
+    def 'users list should not be visible for not admin'() {
+        when:
+            ResponseEntity<String> response = restTemplate.exchange("/api/admin/users",
                     GET,
                     builder()
                             .bearer(userToken)
