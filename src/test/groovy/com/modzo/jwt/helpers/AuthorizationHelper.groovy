@@ -15,6 +15,10 @@ class AuthorizationHelper {
     @Autowired
     private TokenRestTemplate requestTemplate
 
+    String adminToken(){
+        return getToken('admin', 'nimda')
+    }
+
     String getToken(String email, String password) {
         ResponseEntity<String> response = requestTemplate.post(
                 TOKEN_URL + "&username=${email}&password=${password}",

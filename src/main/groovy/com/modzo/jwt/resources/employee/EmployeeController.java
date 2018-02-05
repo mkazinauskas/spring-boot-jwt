@@ -1,6 +1,6 @@
-package com.modzo.jwt.resource.employee;
+package com.modzo.jwt.resources.employee;
 
-import com.modzo.jwt.resource.employee.model.Employee;
+import com.modzo.jwt.resources.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

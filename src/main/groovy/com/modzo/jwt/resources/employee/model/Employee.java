@@ -1,4 +1,4 @@
-package com.modzo.jwt.resource.employee.model;
+package com.modzo.jwt.resources.employee.model;
 
 public class Employee {
     private String email;

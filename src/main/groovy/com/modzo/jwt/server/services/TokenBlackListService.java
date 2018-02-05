@@ -1,7 +1,7 @@
 package com.modzo.jwt.server.services;
 
-import com.modzo.jwt.server.domain.Token;
-import com.modzo.jwt.server.domain.TokensRepository;
+import com.modzo.jwt.domain.Token;
+import com.modzo.jwt.domain.TokensRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

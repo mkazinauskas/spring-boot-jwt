@@ -1,8 +1,9 @@
-package com.modzo.jwt.server.controllers.users;
+package com.modzo.jwt.resources.admin.users;
 
-import com.modzo.jwt.server.domain.Role;
-import com.modzo.jwt.server.domain.User;
-import com.modzo.jwt.server.domain.Users;
+import com.modzo.jwt.domain.Role;
+import com.modzo.jwt.domain.User;
+import com.modzo.jwt.domain.Users;
+import com.modzo.jwt.resources.admin.users.register.RegisterUserRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

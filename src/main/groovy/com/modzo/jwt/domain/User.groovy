@@ -1,4 +1,4 @@
-package com.modzo.jwt.server.domain
+package com.modzo.jwt.domain
 
 import groovy.transform.CompileStatic
 import org.apache.commons.lang3.RandomStringUtils
@@ -44,8 +44,8 @@ class User {
     boolean accountNotLocked
 
     @NotBlank
-    @Column(name = 'unique_id', unique = true, length = 32)
-    String uniqueId = RandomStringUtils.randomAlphanumeric(32)
+    @Column(name = 'unique_id', unique = true, length = 10)
+    String uniqueId = RandomStringUtils.randomAlphanumeric(10)
 
     @Column(name = 'password_reset_code', length = 32)
     String passwordResetCode

@@ -1,4 +1,4 @@
-package com.modzo.jwt.server.domain
+package com.modzo.jwt.domain
 
 import groovy.transform.CompileStatic
 

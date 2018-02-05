@@ -1,4 +1,4 @@
-package com.modzo.jwt.server.domain
+package com.modzo.jwt.domain
 
 import groovy.transform.CompileStatic
 import org.springframework.data.jpa.repository.JpaRepository
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface Users extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email)
 
-    User save(User account)
+    Optional<User> findByUniqueId(String uniqueId)
 
     int deleteAccountById(Long id)
 }

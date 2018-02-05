@@ -1,5 +1,6 @@
-package com.modzo.jwt.resource
+package com.modzo.jwt.resources
 
+import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.helpers.AuthorizationHelper
 import com.modzo.jwt.helpers.TokenRestTemplate
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,9 +13,7 @@ import static com.modzo.jwt.helpers.AuthorizationHelper.asAuthorizationHeader
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.http.HttpStatus.UNAUTHORIZED
 
-@ContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ResourceAccessSpec extends Specification {
+class ResourceAccessSpec extends AbstractSpec {
 
     @Autowired
     TokenRestTemplate tokenTemplate

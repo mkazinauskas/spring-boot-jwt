@@ -1,20 +1,14 @@
 package com.modzo.jwt
 
-import com.modzo.jwt.server.controllers.users.UserActionService
-import com.modzo.jwt.server.controllers.users.RegisterUserRequest
-import org.springframework.beans.factory.annotation.Qualifier
+import com.modzo.jwt.resources.admin.users.UserActionService
+import com.modzo.jwt.resources.admin.users.register.RegisterUserRequest
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-
-import javax.sql.DataSource
 
 @EnableAsync
 @SpringBootApplication

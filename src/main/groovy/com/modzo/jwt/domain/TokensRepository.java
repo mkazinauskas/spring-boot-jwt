@@ -1,6 +1,6 @@
-package com.modzo.jwt.server.domain;
+package com.modzo.jwt.domain;
 
-import com.modzo.jwt.server.domain.Token;
+import com.modzo.jwt.domain.Token;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
