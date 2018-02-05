@@ -23,5 +23,4 @@ class UserHelper {
         CreateUser.Response response = createUserHandler.handle(new CreateUser(randomEmail(), randomAlphanumeric(5)))
         return users.findByUniqueId(response.uniqueId).get()
     }
-
 }
