@@ -9,12 +9,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 @EnableResourceServer
 @Configuration
-public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
+class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests().antMatchers("/employee").authenticated();
-
+        http.authorizeRequests().antMatchers("/api").authenticated();
     }
-
 }

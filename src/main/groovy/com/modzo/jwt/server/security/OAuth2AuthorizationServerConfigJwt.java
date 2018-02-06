@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAdapter {
+class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     @Qualifier("authenticationManagerBean")
