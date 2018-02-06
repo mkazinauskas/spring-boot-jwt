@@ -24,7 +24,7 @@ class TokenIssueSpec extends AbstractSpec {
             body.access_token.length() > 0
     }
 
-    def 'should fail to create token for client'() {
+    def 'should fail to create token for client if credentials are incorrect'() {
         when:
             ResponseEntity response = restTemplate.postForEntity('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=wrongPassword',
                     builder()
@@ -34,5 +34,14 @@ class TokenIssueSpec extends AbstractSpec {
             )
         then:
             response.statusCode == HttpStatus.BAD_REQUEST
+    }
+
+    def 'should create different token for the same user'() {
+        when:
+            String firstAdminToken = authorizationHelper.adminToken()
+        and:
+            String secondAdminToken = authorizationHelper.adminToken()
+        then:
+            firstAdminToken != secondAdminToken
     }
 }
