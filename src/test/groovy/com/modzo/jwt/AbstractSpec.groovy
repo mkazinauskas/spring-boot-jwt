@@ -1,5 +1,7 @@
 package com.modzo.jwt
 
+import com.modzo.jwt.helpers.AuthorizationHelper
+import com.modzo.jwt.helpers.UserHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -12,4 +14,10 @@ class AbstractSpec extends Specification{
 
     @Autowired
     protected TestRestTemplate restTemplate
+
+    @Autowired
+    protected AuthorizationHelper authorizationHelper
+
+    @Autowired
+    protected UserHelper userHelper
 }

@@ -60,6 +60,7 @@ class UsersResourceSpec extends AbstractSpec {
             response.body.credentialsNonExpired == user.credentialsNonExpired
             response.body.accountNotLocked == user.accountNotLocked
             response.body.accountNotExpired == user.accountNotExpired
+            response.body.authorities == user.authorities*.name().toSet()
     }
 
     def 'created user should not be visible for not admin'() {
