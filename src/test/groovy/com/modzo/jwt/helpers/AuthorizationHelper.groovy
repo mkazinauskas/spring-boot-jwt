@@ -11,28 +11,33 @@ import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 @Component
 class AuthorizationHelper {
 
-    private static final String TOKEN_URL = '/oauth/token?grant_type=password&client_id=fooClientIdPassword'
+    private static final String TOKEN_URL = '/oauth/token?'
 
     @Autowired
     private TestRestTemplate restTemplate
 
     String adminToken() {
-        return getToken('admin', 'nimda')
+        return getToken('admin', 'nimda').accessToken
     }
 
     String userToken() {
-        return getToken('john', '123')
+        return getToken('john', '123').accessToken
     }
 
-    String getToken(String email, String password) {
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                TOKEN_URL + "&username=${email}&password=${password}",
+    TokenResponse adminTokenEntity() {
+        return getToken('admin', 'nimda')
+    }
+
+    TokenResponse getToken(String email, String password) {
+        return restTemplate.postForEntity(
+                TOKEN_URL + "grant_type=password" +
+                        "&client_id=fooClientIdPassword" +
+                        "&username=${email}" +
+                        "&password=${password}",
                 builder()
                         .basic('fooClientIdPassword', 'secret')
                         .build(),
-                String
-        )
-
-        return new JsonSlurper().parseText(response.body).access_token
+                TokenResponse
+        ).body
     }
 }
