@@ -3,13 +3,9 @@ package com.modzo.jwt.resources.admin.users
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.User
 import com.modzo.jwt.domain.Users
-import com.modzo.jwt.helpers.AuthorizationHelper
 import com.modzo.jwt.helpers.PageWrapper
-import com.modzo.jwt.helpers.UserHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
@@ -21,13 +17,7 @@ import static org.springframework.http.HttpStatus.OK
 class UsersResourceSpec extends AbstractSpec {
 
     @Autowired
-    AuthorizationHelper authorizationHelper
-
-    @Autowired
     Users users
-
-    @Autowired
-    UserHelper userHelper
 
     @Shared
     String adminToken

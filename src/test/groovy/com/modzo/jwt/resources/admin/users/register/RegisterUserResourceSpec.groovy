@@ -3,7 +3,6 @@ package com.modzo.jwt.resources.admin.users.register
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.User
 import com.modzo.jwt.domain.Users
-import com.modzo.jwt.helpers.AuthorizationHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -16,9 +15,6 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpStatus.*
 
 class RegisterUserResourceSpec extends AbstractSpec {
-
-    @Autowired
-    AuthorizationHelper authorizationHelper
 
     @Autowired
     Users users

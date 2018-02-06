@@ -1,8 +1,6 @@
 package com.modzo.jwt.resources
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.helpers.AuthorizationHelper
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
@@ -12,9 +10,6 @@ import static org.springframework.http.HttpStatus.OK
 import static org.springframework.http.HttpStatus.UNAUTHORIZED
 
 class ResourceAccessSpec extends AbstractSpec {
-
-    @Autowired
-    AuthorizationHelper authorizationHelper
 
     @Shared
     String adminToken
