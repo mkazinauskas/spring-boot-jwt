@@ -6,7 +6,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
-import java.nio.charset.Charset
+import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 
 @Component
 class AuthorizationHelper {
@@ -16,18 +16,20 @@ class AuthorizationHelper {
     @Autowired
     private TestRestTemplate restTemplate
 
-    String adminToken(){
+    String adminToken() {
         return getToken('admin', 'nimda')
     }
 
-    String userToken(){
+    String userToken() {
         return getToken('john', '123')
     }
 
     String getToken(String email, String password) {
         ResponseEntity<String> response = restTemplate.postForEntity(
                 TOKEN_URL + "&username=${email}&password=${password}",
-                HttpEntityBuilder.builder().basic('fooClientIdPassword', 'secret').build(),
+                builder()
+                        .basic('fooClientIdPassword', 'secret')
+                        .build(),
                 String
         )
 

@@ -1,14 +1,11 @@
-package com.modzo.jwt.server.security;
+package com.modzo.jwt.server.resources;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Controller
-public class TokenController {
+class TokenController {
 
     @Resource(name = "tokenServices")
     ConsumerTokenServices tokenServices;
@@ -25,11 +22,11 @@ public class TokenController {
     @Resource(name = "tokenStore")
     TokenStore tokenStore;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/oauth/token/revokeById/{tokenId}")
-    @ResponseBody
-    public void revokeToken(HttpServletRequest request, @PathVariable String tokenId) {
-        tokenServices.revokeToken(tokenId);
-    }
+//    @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token")
+//    @ResponseBody
+//    public void revokeToken(HttpServletRequest request, @RequestHeader(value = "Authotization") String tokenId) {
+//        tokenServices.revokeToken(tokenId);
+//    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokens")
     @ResponseBody
