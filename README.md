@@ -1,3 +1,3 @@
-# spring-boot-jwt
+[![Build Status](https://travis-ci.org/modestukasai/spring-boot-jwt.svg?branch=master)](https://travis-ci.org/modestukasai/spring-boot-jwt)
 
-https://github.com/Baeldung/spring-security-oauth
+# Spring Boot OAUTH2 JWT Bootstrap
