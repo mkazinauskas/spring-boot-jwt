@@ -40,16 +40,16 @@ class TokenIssueSpec extends AbstractSpec {
 
     def 'should create use the same token for the same user'() {
         when:
-            String firstAdminToken = authorizationHelper.adminToken()
+            String firstAdminToken = authorizationHelper.adminAccessToken()
         and:
-            String secondAdminToken = authorizationHelper.adminToken()
+            String secondAdminToken = authorizationHelper.adminAccessToken()
         then:
             firstAdminToken == secondAdminToken
     }
 
     def 'should get access token with refresh token'() {
         given:
-            TokenResponse tokenBeforeRefresh = authorizationHelper.adminTokenEntity()
+            TokenResponse tokenBeforeRefresh = authorizationHelper.adminToken()
         when:
             ResponseEntity<TokenResponse> refreshResponse = restTemplate.exchange(
                     '/oauth/token?grant_type=refresh_token' +

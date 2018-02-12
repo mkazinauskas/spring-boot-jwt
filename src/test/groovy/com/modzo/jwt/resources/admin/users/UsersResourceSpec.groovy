@@ -26,8 +26,8 @@ class UsersResourceSpec extends AbstractSpec {
     String userToken
 
     void setup() {
-        adminToken = authorizationHelper.adminToken()
-        userToken = authorizationHelper.userToken()
+        adminToken = authorizationHelper.adminAccessToken()
+        userToken = authorizationHelper.userAccessToken()
     }
 
     def 'should retrieve created user'() {

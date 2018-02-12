@@ -20,7 +20,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
 
     def 'revoked token should not be present in token store'() {
         given:
-            String tokenBeforeRevoke = authorizationHelper.adminToken()
+            String tokenBeforeRevoke = authorizationHelper.adminAccessToken()
         when:
             ResponseEntity<String> entity = restTemplate.exchange("/tokens?accessToken=${tokenBeforeRevoke}",
                     DELETE,
@@ -34,7 +34,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
 
     def 'cannot refresh token from revoked refresh token'() {
         given:
-            TokenResponse tokenBeforeRevoke = authorizationHelper.adminTokenEntity()
+            TokenResponse tokenBeforeRevoke = authorizationHelper.adminToken()
         when:
             ResponseEntity<String> revokeResponse = restTemplate.exchange(
                     "/tokens?refreshToken=${tokenBeforeRevoke.refreshToken}",

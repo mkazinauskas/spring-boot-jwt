@@ -1,9 +1,6 @@
 package com.modzo.jwt.helpers
 
-import groovy.json.JsonSlurper
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
@@ -13,19 +10,26 @@ class AuthorizationHelper {
 
     private static final String TOKEN_URL = '/oauth/token?'
 
-    @Autowired
-    private TestRestTemplate restTemplate
+    private final TestRestTemplate restTemplate
 
-    String adminToken() {
-        return getToken('admin', 'nimda').accessToken
+    AuthorizationHelper(TestRestTemplate restTemplate) {
+        this.restTemplate = restTemplate
     }
 
-    String userToken() {
-        return getToken('john', '123').accessToken
+    String adminAccessToken() {
+        return adminToken().accessToken
     }
 
-    TokenResponse adminTokenEntity() {
+    TokenResponse adminToken() {
         return getToken('admin', 'nimda')
+    }
+
+    String userAccessToken() {
+        return userToken().accessToken
+    }
+
+    TokenResponse userToken() {
+        return getToken('john', '123')
     }
 
     TokenResponse getToken(String email, String password) {
