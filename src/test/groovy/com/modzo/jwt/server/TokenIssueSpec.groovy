@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
-import static org.springframework.http.HttpMethod.DELETE
-import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 
 class TokenIssueSpec extends AbstractSpec {
@@ -40,16 +38,16 @@ class TokenIssueSpec extends AbstractSpec {
             response.statusCode == HttpStatus.BAD_REQUEST
     }
 
-    def 'should create different token for the same user'() {
+    def 'should create use the same token for the same user'() {
         when:
             String firstAdminToken = authorizationHelper.adminToken()
         and:
             String secondAdminToken = authorizationHelper.adminToken()
         then:
-            firstAdminToken != secondAdminToken
+            firstAdminToken == secondAdminToken
     }
 
-    def 'should refresh token'() {
+    def 'should get access token with refresh token'() {
         given:
             TokenResponse tokenBeforeRefresh = authorizationHelper.adminTokenEntity()
         when:
