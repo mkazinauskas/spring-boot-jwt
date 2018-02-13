@@ -131,6 +131,28 @@ databaseChangeLog:
                   name: refresh_token_validity_seconds
                   type: bigint
         - createTable:
+            tableName: client_authorities
+            columns:
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: client_authorities
+            columnNames: client_id, authority
+        - addForeignKeyConstraint:
+            constraintName: fk_client_authorities_to_client
+            baseTableName: client_authorities
+            baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id
+        - createTable:
             tableName: client_scopes
             columns:
               - column:
@@ -153,7 +175,7 @@ databaseChangeLog:
             referencedTableName: clients
             referencedColumnNames: id
         - createTable:
-            tableName: client_authorities
+            tableName: client_grant_types
             columns:
               - column:
                   name: client_id
@@ -161,16 +183,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: authority
-                  type: varchar(40)
+                  name: grant_type
+                  type: varchar(32)
                   constraints:
                     nullable: false
         - addPrimaryKey:
-            tableName: client_authorities
-            columnNames: client_id, authority
+            tableName: client_grant_types
+            columnNames: client_id, grant_type
         - addForeignKeyConstraint:
-            constraintName: fk_client_authorities_to_client
-            baseTableName: client_authorities
+            constraintName: fk_client_grant_types_to_client
+            baseTableName: client_grant_types
             baseColumnNames: client_id
             referencedTableName: clients
             referencedColumnNames: id

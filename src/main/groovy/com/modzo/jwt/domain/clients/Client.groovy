@@ -60,6 +60,13 @@ class Client {
     @Column(name = 'scope')
     final Set<Scope> scopes = []
 
+    @NotEmpty
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = 'client_grant_types', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'grant_type')
+    final Set<GrantType> grantTypes = []
+
     @URL
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = 'client_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))

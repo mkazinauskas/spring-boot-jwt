@@ -23,6 +23,8 @@ class CreateClient {
 
     Set<Client.Scope> scopes
 
+    Set<Client.GrantType> grantTypes
+
     Set<String> redirectUris
 
     @Component
@@ -46,6 +48,8 @@ class CreateClient {
             client.authorities.addAll(createClient.authorities)
             client.scopes.addAll(createClient.scopes)
             client.redirectUris.addAll(createClient.redirectUris)
+            client.grantTypes.addAll(createClient.grantTypes)
+
             Client savedClient = clients.save(client)
             return new Response(uniqueId: savedClient.uniqueId)
         }

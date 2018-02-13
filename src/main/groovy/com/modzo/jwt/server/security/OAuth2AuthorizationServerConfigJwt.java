@@ -91,7 +91,6 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
 
     @Bean
     public TokenStore tokenStore() {
-//        return new JwtTokenStore(accessTokenConverter());
         return new InMemoryTokenStore();
     }
 
