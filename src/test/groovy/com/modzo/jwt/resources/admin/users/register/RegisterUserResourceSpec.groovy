@@ -1,15 +1,15 @@
 package com.modzo.jwt.resources.admin.users.register
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Ignore
 import spock.lang.Shared
 
-import static com.modzo.jwt.domain.Role.ROLE_REGISTERED
+import static com.modzo.jwt.domain.users.User.Authority.ROLE_REGISTERED
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpStatus.*

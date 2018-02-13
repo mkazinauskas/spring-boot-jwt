@@ -14,6 +14,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: unique_id
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
                   name: version
                   type: bigint
                   constraints:
@@ -42,12 +48,6 @@ databaseChangeLog:
                   name: account_not_locked
                   type: bit
               - column:
-                  name: unique_id
-                  type: varchar(32)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
                   name: password_reset_code
                   type: varchar(32)
                   constraints:
@@ -72,39 +72,21 @@ databaseChangeLog:
                   type: varchar(32)
                   constraints:
                     nullable: false
-        - createTable:
-            tableName: user_scopes
-            columns:
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: scope
-                  type: varchar(32)
-                  constraints:
-                    nullable: false
         - addPrimaryKey:
             tableName: user_authorities
             columnNames: user_id,authority
         - addForeignKeyConstraint:
-            constraintName: FK_user_to_user_authorities
+            constraintName: fk_user_authorities_to_user
             baseTableName: user_authorities
             baseColumnNames: user_id
             referencedTableName: users
             referencedColumnNames: id
-        - addPrimaryKey:
-            tableName: user_scopes
-            columnNames: user_id,scope
-        - addForeignKeyConstraint:
-            constraintName: FK_user_to_user_scopes
-            baseTableName: user_scopes
-            baseColumnNames: user_id
-            referencedTableName: users
-            referencedColumnNames: id
+  - changeSet:
+      id: 2
+      author: modestukasai
+      changes:
         - createTable:
-            tableName: tokens
+            tableName: clients
             columns:
               - column:
                   name: id
@@ -114,28 +96,103 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: unique_id
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
                   name: version
                   type: bigint
                   constraints:
                     nullable: false
               - column:
-                  name: jti
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: user_id
-                  type: bigint
+                  name: secret
+                  type: varchar(255)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
-                  name: expires
-                  type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: blacklisted
+                  name: enabled
                   type: bit
+              - column:
+                  name: auto_approve
+                  type: bit
+              - column:
+                  name: access_token_validity_seconds
+                  type: bigint
+              - column:
+                  name: refresh_token_validity_seconds
+                  type: bigint
+        - createTable:
+            tableName: client_scopes
+            columns:
+              - column:
+                  name: client_id
+                  type: bigint
                   constraints:
                     nullable: false
+              - column:
+                  name: scope
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: client_scopes
+            columnNames: client_id, scope
+        - addForeignKeyConstraint:
+            constraintName: fk_client_scopes_to_client
+            baseTableName: client_scopes
+            baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id
+        - createTable:
+            tableName: client_authorities
+            columns:
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: client_authorities
+            columnNames: client_id, authority
+        - addForeignKeyConstraint:
+            constraintName: fk_client_authorities_to_client
+            baseTableName: client_authorities
+            baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id
+        - createTable:
+            tableName: client_redirect_uris
+            columns:
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: redirect_uri
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: client_redirect_uris
+            columnNames: client_id, redirect_uri
+        - addForeignKeyConstraint:
+            constraintName: fk_client_redirect_uris_to_client
+            baseTableName: client_redirect_uris
+            baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id

@@ -1,8 +1,8 @@
 package com.modzo.jwt.resources.admin.users
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
 import com.modzo.jwt.helpers.PageWrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference

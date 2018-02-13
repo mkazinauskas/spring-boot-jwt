@@ -1,0 +1,90 @@
+package com.modzo.jwt.domain.clients
+
+import groovy.transform.CompileStatic
+import org.hibernate.validator.constraints.NotBlank
+import org.hibernate.validator.constraints.NotEmpty
+
+import javax.persistence.*
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+
+@CompileStatic
+@Entity
+@Table(name = 'clients')
+class Client {
+    @Id
+    @GeneratedValue
+    @Column(name = 'id')
+    Long id
+
+    @NotBlank
+    @Column(name = 'unique_id', unique = true, length = 10)
+    String uniqueId = randomAlphanumeric(10)
+
+
+    @Version
+    @Column(name = 'version', nullable = false)
+    long version
+
+    @NotBlank
+    @Column(name = 'name', unique = true)
+    String name
+
+    @NotBlank
+    @Column(name = 'secret')
+    String secret
+
+    @Column(name = 'enabled')
+    boolean enabled
+
+    @Column(name = 'auto_approve')
+    boolean autoApprove
+
+    @Column(name = 'access_token_validity_seconds')
+    long accessTokenValiditySeconds = 3600L
+
+    @Column(name = 'refresh_token_validity_seconds')
+    long refreshTokenValiditySeconds = 36000L
+
+    @NotEmpty
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = 'client_authorities', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'authority')
+    final Set<Authority> authorities = []
+
+    @NotEmpty
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = 'client_scopes', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'scope')
+    final Set<Scope> scopes = [Scope.READ, Scope.WRITE] as Set
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = 'client_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'redirectUri')
+    final Set<String> redirectUris = new HashSet<>()
+
+
+    static enum Authority {
+        ADMIN, CLIENT
+    }
+
+    static enum GrantType {
+        IMPLICIT('implicit'),
+        PASSWORD('password'),
+        REFRESH_TOKEN('refresh_token'),
+        AUTHORIZATION_CODE('authorization_code')
+        final String type
+
+        GrantType(String type) {
+            this.type = type
+        }
+    }
+
+    static enum Scope {
+        READ,
+        WRITE
+    }
+}
+

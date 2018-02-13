@@ -1,4 +1,4 @@
-package com.modzo.jwt.domain.exceptions
+package com.modzo.jwt.domain.users.exceptions
 
 class UserNotFoundException extends RuntimeException {
 

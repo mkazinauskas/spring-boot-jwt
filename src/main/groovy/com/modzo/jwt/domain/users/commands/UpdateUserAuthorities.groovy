@@ -1,19 +1,18 @@
-package com.modzo.jwt.domain.commands
+package com.modzo.jwt.domain.users.commands
 
-import com.modzo.jwt.domain.Role
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-import static com.modzo.jwt.domain.exceptions.UserNotFoundException.byUniqueId
+import static com.modzo.jwt.domain.users.exceptions.UserNotFoundException.byUniqueId
 
-class UpdateUserRoles {
+class UpdateUserAuthorities {
     String uniqueId
 
-    Set<Role> roles
+    Set<User.Authority> roles
 
-    UpdateUserRoles(String uniqueId, Set<Role> roles) {
+    UpdateUserAuthorities(String uniqueId, Set<User.Authority> roles) {
         this.uniqueId = uniqueId
         this.roles = roles
     }
@@ -27,7 +26,7 @@ class UpdateUserRoles {
         }
 
         @Transactional
-        void handle(UpdateUserRoles createUser) {
+        void handle(UpdateUserAuthorities createUser) {
             User user = users.findByUniqueId(createUser.uniqueId).orElseThrow { byUniqueId(createUser.uniqueId) }
             user.authorities.clear()
             user.authorities.addAll(createUser.roles)

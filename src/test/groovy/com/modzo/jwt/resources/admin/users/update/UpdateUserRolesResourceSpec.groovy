@@ -1,13 +1,13 @@
 package com.modzo.jwt.resources.admin.users.update
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
-import static com.modzo.jwt.domain.Role.*
+import static com.modzo.jwt.domain.users.User.Authority.*
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.FORBIDDEN

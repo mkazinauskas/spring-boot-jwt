@@ -1,4 +1,4 @@
-package com.modzo.jwt.domain
+package com.modzo.jwt.domain.users
 
 import groovy.transform.CompileStatic
 import org.springframework.data.jpa.repository.JpaRepository

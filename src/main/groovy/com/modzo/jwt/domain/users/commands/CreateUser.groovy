@@ -1,13 +1,10 @@
-package com.modzo.jwt.domain.commands
+package com.modzo.jwt.domain.users.commands
 
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
-import groovy.transform.CompileStatic
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-
-import static com.modzo.jwt.domain.Role.ROLE_REGISTERED
 
 class CreateUser {
 
@@ -40,7 +37,7 @@ class CreateUser {
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
-            user.authorities.add(ROLE_REGISTERED)
+            user.authorities.add(User.Authority.ROLE_REGISTERED)
             User save = users.save(user)
             return new Response(uniqueId: save.uniqueId)
         }

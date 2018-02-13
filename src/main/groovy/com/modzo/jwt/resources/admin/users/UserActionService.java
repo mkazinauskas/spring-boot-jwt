@@ -1,8 +1,7 @@
 package com.modzo.jwt.resources.admin.users;
 
-import com.modzo.jwt.domain.Role;
-import com.modzo.jwt.domain.User;
-import com.modzo.jwt.domain.Users;
+import com.modzo.jwt.domain.users.User;
+import com.modzo.jwt.domain.users.Users;
 import com.modzo.jwt.resources.admin.users.register.RegisterUserRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +85,7 @@ public class UserActionService implements UserDetailsService {
         User user = new User();
         user.setEmail(account.getEmail());
         user.setEncodedPassword(passwordEncoder.encode(account.getPassword()));
-        user.getAuthorities().add(Role.ROLE_USER);
+        user.getAuthorities().add(User.Authority.ROLE_USER);
         return accountRepo.save(user);
     }
 

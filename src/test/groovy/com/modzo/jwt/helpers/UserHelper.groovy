@@ -1,8 +1,8 @@
 package com.modzo.jwt.helpers
 
-import com.modzo.jwt.domain.User
-import com.modzo.jwt.domain.Users
-import com.modzo.jwt.domain.commands.CreateUser
+import com.modzo.jwt.domain.users.User
+import com.modzo.jwt.domain.users.Users
+import com.modzo.jwt.domain.users.commands.CreateUser
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.helpers.RandomDataUtil.randomEmail

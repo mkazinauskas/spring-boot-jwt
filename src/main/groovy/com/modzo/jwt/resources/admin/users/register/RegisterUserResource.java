@@ -1,6 +1,6 @@
 package com.modzo.jwt.resources.admin.users.register;
 
-import com.modzo.jwt.domain.commands.CreateUser;
+import com.modzo.jwt.domain.users.commands.CreateUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.net.URL;
 
 @RestController
 class RegisterUserResource {

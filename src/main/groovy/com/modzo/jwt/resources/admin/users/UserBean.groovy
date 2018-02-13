@@ -1,6 +1,6 @@
 package com.modzo.jwt.resources.admin.users
 
-import com.modzo.jwt.domain.User
+import com.modzo.jwt.domain.users.User
 
 class UserBean {
     String uniqueId
