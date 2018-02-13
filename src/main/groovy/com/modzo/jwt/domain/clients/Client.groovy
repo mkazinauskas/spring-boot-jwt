@@ -3,6 +3,7 @@ package com.modzo.jwt.domain.clients
 import groovy.transform.CompileStatic
 import org.hibernate.validator.constraints.NotBlank
 import org.hibernate.validator.constraints.NotEmpty
+import org.hibernate.validator.constraints.URL
 
 import javax.persistence.*
 
@@ -20,7 +21,6 @@ class Client {
     @NotBlank
     @Column(name = 'unique_id', unique = true, length = 10)
     String uniqueId = randomAlphanumeric(10)
-
 
     @Version
     @Column(name = 'version', nullable = false)
@@ -58,12 +58,13 @@ class Client {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = 'client_scopes', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
     @Column(name = 'scope')
-    final Set<Scope> scopes = [Scope.READ, Scope.WRITE] as Set
+    final Set<Scope> scopes = []
 
+    @URL
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = 'client_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
     @Column(name = 'redirectUri')
-    final Set<String> redirectUris = new HashSet<>()
+    final Set<String> redirectUris = []
 
 
     static enum Authority {
