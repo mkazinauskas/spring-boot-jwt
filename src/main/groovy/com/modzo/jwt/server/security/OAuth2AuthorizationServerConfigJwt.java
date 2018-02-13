@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.util.Arrays;
@@ -33,6 +32,9 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     @Autowired
     private CustomTokenEnhancer customTokenEnhancer;
 
+    @Autowired
+    private LocalClientDetailsService localClientDetailsService;
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()")
@@ -41,43 +43,7 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("sampleClientId")
-                .authorizedGrantTypes("implicit")
-                .scopes("read", "write", "foo", "bar")
-                .redirectUris()
-                .autoApprove(false)
-                .accessTokenValiditySeconds(3600)
-
-                .and()
-                .withClient("fooClientIdPassword")
-                .secret("secret")
-                .authorities()
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .scopes("foo", "read", "write")
-                .accessTokenValiditySeconds(3600)
-                // 1 hour
-                .refreshTokenValiditySeconds(2592000)
-                // 30 days
-
-                .and()
-                .withClient("barClientIdPassword")
-                .secret("secret")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .scopes("bar", "read", "write")
-                .accessTokenValiditySeconds(3600)
-                // 1 hour
-                .refreshTokenValiditySeconds(2592000) // 30 days
-        ;
-    }
-
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-        return defaultTokenServices;
+        clients.withClientDetails(localClientDetailsService);
     }
 
     @Override
@@ -90,6 +56,16 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     }
 
     @Bean
+    @Primary
+    public DefaultTokenServices tokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
+    }
+
+
+    @Bean
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
     }
@@ -97,8 +73,7 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+        converter.setSigningKey("SupperStrongSigningKey");
         return converter;
     }
 }

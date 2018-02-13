@@ -7,15 +7,20 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
 import static org.springframework.http.HttpMethod.POST
 
 class TokenIssueSpec extends AbstractSpec {
 
     def 'should create token for client'() {
         when:
-            ResponseEntity response = restTemplate.postForEntity('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=nimda',
+            ResponseEntity response = restTemplate.postForEntity(
+                    "/oauth/token?grant_type=password" +
+                            "&client_id=${TEST_CLIENT.clientId}" +
+                            "&username=admin" +
+                            "&password=nimda",
                     builder()
-                            .basic('fooClientIdPassword', 'secret')
+                            .basic('test', 'secret')
                             .build(),
                     String
             )
@@ -28,9 +33,13 @@ class TokenIssueSpec extends AbstractSpec {
 
     def 'should fail to create token for client if credentials are incorrect'() {
         when:
-            ResponseEntity response = restTemplate.postForEntity('/oauth/token?grant_type=password&client_id=fooClientIdPassword&username=admin&password=wrongPassword',
+            ResponseEntity response = restTemplate.postForEntity(
+                    "/oauth/token?grant_type=password" +
+                            "&client_id=${TEST_CLIENT.clientId}" +
+                            "&username=admin" +
+                            "&password=wrongPassword",
                     builder()
-                            .basic('fooClientIdPassword', 'secret')
+                            .basic('test', 'secret')
                             .build(),
                     String
             )
@@ -56,7 +65,7 @@ class TokenIssueSpec extends AbstractSpec {
                             "&refresh_token=${tokenBeforeRefresh.refreshToken}",
                     POST,
                     builder()
-                            .basic('fooClientIdPassword', 'secret')
+                            .basic('test', 'secret')
                             .build(),
                     TokenResponse)
         then:

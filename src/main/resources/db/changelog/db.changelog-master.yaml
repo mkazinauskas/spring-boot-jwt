@@ -107,29 +107,35 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: name
+                  name: client_id
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: secret
+                  name: client_secret
                   type: varchar(255)
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: secret_required
+                  type: bit
               - column:
                   name: enabled
+                  type: bit
+              - column:
+                  name: scoped
                   type: bit
               - column:
                   name: auto_approve
                   type: bit
               - column:
                   name: access_token_validity_seconds
-                  type: bigint
+                  type: int
               - column:
                   name: refresh_token_validity_seconds
-                  type: bigint
+                  type: int
         - createTable:
             tableName: client_authorities
             columns:
@@ -175,7 +181,7 @@ databaseChangeLog:
             referencedTableName: clients
             referencedColumnNames: id
         - createTable:
-            tableName: client_grant_types
+            tableName: client_authorized_grant_types
             columns:
               - column:
                   name: client_id
@@ -183,21 +189,21 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: grant_type
+                  name: authorized_grant_type
                   type: varchar(32)
                   constraints:
                     nullable: false
         - addPrimaryKey:
-            tableName: client_grant_types
-            columnNames: client_id, grant_type
+            tableName: client_authorized_grant_types
+            columnNames: client_id, authorized_grant_type
         - addForeignKeyConstraint:
-            constraintName: fk_client_grant_types_to_client
-            baseTableName: client_grant_types
+            constraintName: fk_client_authorized_grant_types_to_client
+            baseTableName: client_authorized_grant_types
             baseColumnNames: client_id
             referencedTableName: clients
             referencedColumnNames: id
         - createTable:
-            tableName: client_redirect_uris
+            tableName: client_registered_redirect_uris
             columns:
               - column:
                   name: client_id
@@ -205,16 +211,38 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: redirect_uri
+                  name: uri
                   type: varchar(40)
                   constraints:
                     nullable: false
         - addPrimaryKey:
-            tableName: client_redirect_uris
-            columnNames: client_id, redirect_uri
+            tableName: client_registered_redirect_uris
+            columnNames: client_id, uri
         - addForeignKeyConstraint:
-            constraintName: fk_client_redirect_uris_to_client
-            baseTableName: client_redirect_uris
+            constraintName: fk_client_registered_redirect_uris_to_client
+            baseTableName: client_registered_redirect_uris
             baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id
+        - createTable:
+            tableName: client_resource_ids
+            columns:
+              - column:
+                  name: client_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resource_id
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: client_resource_ids
+            columnNames: client_id, resource_id
+        - addForeignKeyConstraint:
+            constraintName: fk_client_resource_ids_to_client
+            baseTableName: client_resource_ids
+            baseColumnNames: resource_id
             referencedTableName: clients
             referencedColumnNames: id

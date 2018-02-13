@@ -7,9 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty
 
 class RegisterClientRequest {
     @NotBlank
-    String name
+    String clientId
 
-    @NotBlank
     String secret
 
     boolean enabled
@@ -31,7 +30,7 @@ class RegisterClientRequest {
 
     CreateClient toCreateClient() {
         return new CreateClient(
-                name: name,
+                clientId: clientId,
                 secret: secret,
                 enabled: enabled,
                 autoApprove: autoApprove,

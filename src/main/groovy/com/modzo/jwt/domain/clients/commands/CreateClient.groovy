@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 
 class CreateClient {
 
-    String name
+    String clientId
 
     String secret
 
@@ -19,13 +19,13 @@ class CreateClient {
 
     long refreshTokenValiditySeconds
 
-    Set<Client.Authority> authorities
+    Set<Client.Authority> authorities = []
 
-    Set<Client.Scope> scopes
+    Set<Client.Scope> scopes = []
 
-    Set<Client.GrantType> grantTypes
+    Set<Client.GrantType> grantTypes = []
 
-    Set<String> redirectUris
+    Set<String> redirectUris = []
 
     @Component
     static class Handler {
@@ -38,8 +38,8 @@ class CreateClient {
         @Transactional
         Response handle(CreateClient createClient) {
             Client client = new Client(
-                    name: createClient.name,
-                    secret: createClient.secret,
+                    clientId: createClient.clientId,
+                    clientSecret: createClient.secret,
                     enabled: createClient.enabled,
                     autoApprove: createClient.autoApprove,
                     accessTokenValiditySeconds: createClient.accessTokenValiditySeconds,
@@ -47,8 +47,8 @@ class CreateClient {
             )
             client.authorities.addAll(createClient.authorities)
             client.scopes.addAll(createClient.scopes)
-            client.redirectUris.addAll(createClient.redirectUris)
-            client.grantTypes.addAll(createClient.grantTypes)
+            client.registeredRedirectUris.addAll(createClient.redirectUris)
+            client.authorizedGrantTypes.addAll(createClient.grantTypes)
 
             Client savedClient = clients.save(client)
             return new Response(uniqueId: savedClient.uniqueId)

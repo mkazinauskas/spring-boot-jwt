@@ -4,6 +4,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
 
 @Component
 class AuthorizationHelper {
@@ -35,11 +36,11 @@ class AuthorizationHelper {
     TokenResponse getToken(String email, String password) {
         return restTemplate.postForEntity(
                 TOKEN_URL + "grant_type=password" +
-                        "&client_id=fooClientIdPassword" +
+                        "&client_id=${TEST_CLIENT.clientId}" +
                         "&username=${email}" +
                         "&password=${password}",
                 builder()
-                        .basic('fooClientIdPassword', 'secret')
+                        .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                         .build(),
                 TokenResponse
         ).body

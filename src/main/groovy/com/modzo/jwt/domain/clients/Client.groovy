@@ -27,12 +27,17 @@ class Client {
     long version
 
     @NotBlank
-    @Column(name = 'name', unique = true)
-    String name
+    @Column(name = 'client_id', unique = true)
+    String clientId
 
-    @NotBlank
-    @Column(name = 'secret')
-    String secret
+    @Column(name = 'client_secret')
+    String clientSecret
+
+    @Column(name = 'secret_required')
+    boolean secretRequired
+
+    @Column(name = 'scoped')
+    boolean scoped
 
     @Column(name = 'enabled')
     boolean enabled
@@ -41,37 +46,38 @@ class Client {
     boolean autoApprove
 
     @Column(name = 'access_token_validity_seconds')
-    long accessTokenValiditySeconds = 3600L
+    int accessTokenValiditySeconds = 3600L
 
     @Column(name = 'refresh_token_validity_seconds')
-    long refreshTokenValiditySeconds = 36000L
+    int refreshTokenValiditySeconds = 36000L
 
-    @NotEmpty
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = 'client_authorities', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
     @Column(name = 'authority')
     final Set<Authority> authorities = []
 
-    @NotEmpty
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = 'client_scopes', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
     @Column(name = 'scope')
     final Set<Scope> scopes = []
 
-    @NotEmpty
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = 'client_grant_types', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
-    @Column(name = 'grant_type')
-    final Set<GrantType> grantTypes = []
+    @CollectionTable(name = 'client_authorized_grant_types', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'authorized_grant_type')
+    final Set<GrantType> authorizedGrantTypes = []
 
-    @URL
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = 'client_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
-    @Column(name = 'redirectUri')
-    final Set<String> redirectUris = []
+    @CollectionTable(name = 'client_registered_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'uri')
+    final Set<String> registeredRedirectUris = []
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = 'client_resource_ids', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @Column(name = 'resource_id')
+    final Set<String> resourceIds = []
 
 
     static enum Authority {
@@ -91,8 +97,14 @@ class Client {
     }
 
     static enum Scope {
-        READ,
-        WRITE
+        READ('read'),
+        WRITE('write')
+
+        final String type
+
+        Scope(String type) {
+            this.type = type
+        }
     }
 }
 

@@ -4,13 +4,14 @@ import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.helpers.TokenResponse
 import groovy.json.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.provider.token.TokenStore
 
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpMethod.POST
+import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.OK
 
 class RevokeTokenResourceSpec extends AbstractSpec {
@@ -52,11 +53,11 @@ class RevokeTokenResourceSpec extends AbstractSpec {
                             "&refresh_token=${tokenBeforeRevoke.refreshToken}",
                     POST,
                     builder()
-                            .basic('fooClientIdPassword', 'secret')
+                            .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
                     String)
         then:
-            refreshResponse.statusCode == HttpStatus.BAD_REQUEST
+            refreshResponse.statusCode == BAD_REQUEST
         and:
             def body = new JsonSlurper().parseText(refreshResponse.body)
             body.error == 'invalid_grant'
