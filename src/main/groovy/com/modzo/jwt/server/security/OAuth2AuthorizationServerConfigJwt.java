@@ -35,6 +35,9 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     @Autowired
     private LocalClientDetailsService localClientDetailsService;
 
+    @Autowired
+    private JwtSecurityConfiguration jwtSecurityConfiguration;
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer.tokenKeyAccess("permitAll()")
@@ -64,7 +67,6 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
         return defaultTokenServices;
     }
 
-
     @Bean
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
@@ -73,7 +75,7 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("SupperStrongSigningKey");
+        converter.setSigningKey(jwtSecurityConfiguration.getSigningKey());
         return converter;
     }
 }

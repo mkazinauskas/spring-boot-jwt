@@ -4,7 +4,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-security.oauth2.resource.id: oauth2_id
+security.oauth2.authorization:
+  signing-key: veryStongSigningKey
 logging:
   level:
     org: debug

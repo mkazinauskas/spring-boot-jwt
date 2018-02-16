@@ -6,15 +6,20 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
+import static com.modzo.jwt.domain.users.User.Authority.ROLE_REGISTERED
+
 class CreateUser {
 
-    String email
+    final String email
 
-    String password
+    final String password
 
-    CreateUser(String email, String password) {
+    final Set<User.Authority> authorities = []
+
+    CreateUser(String email, String password, Collection<User.Authority> authorities) {
         this.email = email
         this.password = password
+        this.authorities.addAll(authorities)
     }
 
     @Component
@@ -37,7 +42,8 @@ class CreateUser {
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
-            user.authorities.add(User.Authority.ROLE_REGISTERED)
+            user.authorities.add(ROLE_REGISTERED)
+            user.authorities.addAll(createUser.authorities)
             User save = users.save(user)
             return new Response(uniqueId: save.uniqueId)
         }

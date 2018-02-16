@@ -19,8 +19,9 @@ class UserHelper {
         this.users = users
     }
 
-    User createUser() {
-        CreateUser.Response response = createUserHandler.handle(new CreateUser(randomEmail(), randomAlphanumeric(5)))
+    User createRegosteredUser() {
+        CreateUser.Response response = createUserHandler.handle(
+                new CreateUser(randomEmail(), randomAlphanumeric(5), []))
         return users.findByUniqueId(response.uniqueId).get()
     }
 }

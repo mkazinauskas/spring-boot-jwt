@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Ignore
 import spock.lang.Shared
 
+import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
 import static com.modzo.jwt.domain.users.User.Authority.ROLE_REGISTERED
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
@@ -38,7 +39,8 @@ class RegisterUserResourceSpec extends AbstractSpec {
             String randomString = randomAlphanumeric(5)
             RegisterUserRequest request = new RegisterUserRequest(
                     email: "${randomString}@${randomString}.com",
-                    password: randomString
+                    password: randomString,
+                    authorities: [ROLE_ADMIN]
             )
         when:
             ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
@@ -57,7 +59,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             User user = users.findByUniqueId(uniqueId).get()
             user.email == request.email
             passwordEncoder.matches(request.password, user.encodedPassword)
-            user.authorities == [ROLE_REGISTERED] as Set
+            user.authorities == [ROLE_REGISTERED, ROLE_ADMIN] as Set
             user.encodedPassword
             user.accountNotLocked
             user.credentialsNonExpired

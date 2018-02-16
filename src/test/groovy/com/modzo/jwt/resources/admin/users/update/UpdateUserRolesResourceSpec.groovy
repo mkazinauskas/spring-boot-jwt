@@ -31,7 +31,7 @@ class UpdateUserRolesResourceSpec extends AbstractSpec {
 
     def 'should update user roles'() {
         given:
-            User newUser = userHelper.createUser()
+            User newUser = userHelper.createRegosteredUser()
             UpdateUserRolesRequest request = new UpdateUserRolesRequest(
                     roles: [ROLE_REGISTERED, ROLE_USER, ROLE_ADMIN]
             )

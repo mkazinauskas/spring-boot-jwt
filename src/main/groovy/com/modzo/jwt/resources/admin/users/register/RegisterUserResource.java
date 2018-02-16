@@ -21,7 +21,13 @@ class RegisterUserResource {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/admin/users")
     ResponseEntity register(@RequestBody RegisterUserRequest account) {
-        CreateUser.Response response = handler.handle(new CreateUser(account.getEmail(), account.getPassword()));
+        CreateUser.Response response = handler.handle(
+                new CreateUser(
+                        account.getEmail(),
+                        account.getPassword(),
+                        account.getAuthorities()
+                )
+        );
         return ResponseEntity.created(URI.create("/api/admin/users/" + response.getUniqueId())).build();
     }
 }
