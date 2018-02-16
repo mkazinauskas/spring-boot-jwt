@@ -17,7 +17,7 @@ class TestDataInit {
 
     static final TestClient TEST_CLIENT = new TestClient('test', 'secret')
     static final TestUser TEST_ADMIN_USER = new TestUser(randomEmail(), 'adminPassword', [User.Authority.ROLE_ADMIN] as Set)
-    static final TestUser TEST_USER = new TestUser(randomEmail(), 'userPassword', [User.Authority.ROLE_ADMIN] as Set)
+    static final TestUser TEST_USER = new TestUser(randomEmail(), 'userPassword', [User.Authority.ROLE_USER] as Set)
 
 
     @Bean

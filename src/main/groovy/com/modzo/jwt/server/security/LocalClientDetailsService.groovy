@@ -26,7 +26,7 @@ class LocalClientDetailsService implements ClientDetailsService {
         Client client = clients.findByClientId(clientId).orElseThrow { -> byClientId(clientId) }
         return new LocalClientDetails(
                 clientId: client.clientId,
-                clientSecret: client.clientSecret,
+                clientSecret: client.clientEncryptedSecret,
                 secretRequired: client.secretRequired,
                 scoped: client.scoped,
                 scope: client.scopes.collect { it.type } as Set,

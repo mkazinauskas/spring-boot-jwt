@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -26,8 +27,7 @@ import java.util.Arrays;
 class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+    private WebSecurityConfig authenticationManager;
 
     @Autowired
     private CustomTokenEnhancer customTokenEnhancer;
@@ -38,9 +38,14 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
     @Autowired
     private JwtSecurityConfiguration jwtSecurityConfiguration;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.tokenKeyAccess("permitAll()")
+        oauthServer
+                .passwordEncoder(passwordEncoder)
+                .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
 
@@ -55,7 +60,7 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer, accessTokenConverter()));
         endpoints.tokenStore(tokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager.authenticationManagerBean());
     }
 
     @Bean

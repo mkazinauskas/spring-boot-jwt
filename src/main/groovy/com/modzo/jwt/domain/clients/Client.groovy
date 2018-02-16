@@ -30,8 +30,8 @@ class Client {
     @Column(name = 'client_id', unique = true)
     String clientId
 
-    @Column(name = 'client_secret')
-    String clientSecret
+    @Column(name = 'client_encrypted_secret')
+    String clientEncryptedSecret
 
     @Column(name = 'secret_required')
     boolean secretRequired

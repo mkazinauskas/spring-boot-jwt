@@ -113,7 +113,7 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: client_secret
+                  name: client_encrypted_secret
                   type: varchar(255)
                   constraints:
                     nullable: false

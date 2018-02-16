@@ -1,12 +1,16 @@
 package com.modzo.jwt.server
 
 import com.modzo.jwt.AbstractSpec
+import com.modzo.jwt.Urls
+import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.helpers.TokenResponse
 import groovy.json.JsonSlurper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
+import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.jwt.init.TestDataInit.TEST_ADMIN_USER
 import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
 import static org.springframework.http.HttpMethod.POST
 
@@ -14,32 +18,27 @@ class TokenIssueSpec extends AbstractSpec {
 
     def 'should create token for client'() {
         when:
-            ResponseEntity response = restTemplate.postForEntity(
-                    "/oauth/token?grant_type=password" +
-                            "&client_id=${TEST_CLIENT.clientId}" +
-                            "&username=admin" +
-                            "&password=nimda",
+            ResponseEntity<TokenResponse> response = restTemplate.postForEntity(
+                    Urls.accessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, TEST_ADMIN_USER.password),
                     builder()
-                            .basic('test', 'secret')
+                            .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
-                    String
+                    TokenResponse
             )
         then:
             response.statusCode == HttpStatus.OK
         and:
-            def body = new JsonSlurper().parseText(response.body)
-            body.access_token.length() > 0
+            TokenResponse body = response.body
+            body.accessToken.length() > 0
+            body.refreshToken.length() > 0
     }
 
     def 'should fail to create token for client if credentials are incorrect'() {
         when:
             ResponseEntity response = restTemplate.postForEntity(
-                    "/oauth/token?grant_type=password" +
-                            "&client_id=${TEST_CLIENT.clientId}" +
-                            "&username=admin" +
-                            "&password=wrongPassword",
+                    Urls.accessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, 'wrongPassword'),
                     builder()
-                            .basic('test', 'secret')
+                            .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
                     String
             )
