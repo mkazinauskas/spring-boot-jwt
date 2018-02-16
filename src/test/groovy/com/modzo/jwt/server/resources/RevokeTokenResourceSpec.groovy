@@ -23,7 +23,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
         given:
             String tokenBeforeRevoke = authorizationHelper.adminAccessToken()
         when:
-            ResponseEntity<String> entity = restTemplate.exchange("/tokens?getAccessToken=${tokenBeforeRevoke}",
+            ResponseEntity<String> entity = restTemplate.exchange("/tokens?accessToken=${tokenBeforeRevoke}",
                     DELETE,
                     builder().build(),
                     String)
