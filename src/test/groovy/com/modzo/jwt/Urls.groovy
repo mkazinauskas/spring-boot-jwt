@@ -23,4 +23,8 @@ class Urls {
     static String revokeRefreshToken(String refreshToken){
         return "/tokens?refreshToken=${refreshToken}"
     }
+
+    static String adminClients(){
+        return '/api/admin/clients'
+    }
 }
