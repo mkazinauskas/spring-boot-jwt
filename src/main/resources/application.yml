@@ -1,4 +1,4 @@
 spring.profiles.active: prod
 
-security.oauth2:
+security.oauth2.authorization:
   signing-key: veryStongSigningKey
