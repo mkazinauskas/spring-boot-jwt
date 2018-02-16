@@ -5,4 +5,3 @@
 ## TODO
 * Rename to OAUTH client entities
 * Fix client registration and edit details endpoints
-* Use clients from database not hardcoded
