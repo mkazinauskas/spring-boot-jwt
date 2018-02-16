@@ -34,7 +34,7 @@ class AuthorizationHelper {
 
     TokenResponse getToken(String email, String password) {
         return restTemplate.postForEntity(
-                Urls.accessToken(PASSWORD, TEST_CLIENT.clientId, email, password),
+                Urls.getAccessToken(PASSWORD, TEST_CLIENT.clientId, email, password),
                 builder()
                         .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                         .build(),

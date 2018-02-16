@@ -2,9 +2,7 @@ package com.modzo.jwt.server
 
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.Urls
-import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.helpers.TokenResponse
-import groovy.json.JsonSlurper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -19,7 +17,7 @@ class TokenIssueSpec extends AbstractSpec {
     def 'should create token for client'() {
         when:
             ResponseEntity<TokenResponse> response = restTemplate.postForEntity(
-                    Urls.accessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, TEST_ADMIN_USER.password),
+                    Urls.getAccessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, TEST_ADMIN_USER.password),
                     builder()
                             .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
@@ -36,7 +34,7 @@ class TokenIssueSpec extends AbstractSpec {
     def 'should fail to create token for client if credentials are incorrect'() {
         when:
             ResponseEntity response = restTemplate.postForEntity(
-                    Urls.accessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, 'wrongPassword'),
+                    Urls.getAccessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, 'wrongPassword'),
                     builder()
                             .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
