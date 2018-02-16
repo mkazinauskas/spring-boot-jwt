@@ -113,7 +113,7 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: client_encrypted_secret
+                  name: client_encoded_secret
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -243,6 +243,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             constraintName: fk_client_resource_ids_to_client
             baseTableName: client_resource_ids
-            baseColumnNames: resource_id
+            baseColumnNames: client_id
             referencedTableName: clients
             referencedColumnNames: id

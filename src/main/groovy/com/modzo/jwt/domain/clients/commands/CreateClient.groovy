@@ -12,22 +12,6 @@ class CreateClient {
 
     String secret
 
-    boolean enabled
-
-    boolean autoApprove
-
-    long accessTokenValiditySeconds
-
-    long refreshTokenValiditySeconds
-
-    Set<Client.Authority> authorities = []
-
-    Set<Client.Scope> scopes = []
-
-    Set<Client.GrantType> grantTypes = []
-
-    Set<String> redirectUris = []
-
     @Component
     static class Handler {
         private final Clients clients
@@ -43,17 +27,8 @@ class CreateClient {
         Response handle(CreateClient createClient) {
             Client client = new Client(
                     clientId: createClient.clientId,
-                    clientEncryptedSecret: passwordEncoder.encode(createClient.secret),
-                    enabled: createClient.enabled,
-                    autoApprove: createClient.autoApprove,
-                    accessTokenValiditySeconds: createClient.accessTokenValiditySeconds,
-                    refreshTokenValiditySeconds: createClient.refreshTokenValiditySeconds
+                    clientEncodedSecret: passwordEncoder.encode(createClient.secret),
             )
-            client.authorities.addAll(createClient.authorities)
-            client.scopes.addAll(createClient.scopes)
-            client.registeredRedirectUris.addAll(createClient.redirectUris)
-            client.authorizedGrantTypes.addAll(createClient.grantTypes)
-
             Client savedClient = clients.save(client)
             return new Response(uniqueId: savedClient.uniqueId)
         }

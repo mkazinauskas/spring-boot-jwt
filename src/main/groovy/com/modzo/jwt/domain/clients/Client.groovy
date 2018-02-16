@@ -30,8 +30,8 @@ class Client {
     @Column(name = 'client_id', unique = true)
     String clientId
 
-    @Column(name = 'client_encrypted_secret')
-    String clientEncryptedSecret
+    @Column(name = 'client_encoded_secret')
+    String clientEncodedSecret
 
     @Column(name = 'secret_required')
     boolean secretRequired
@@ -46,10 +46,10 @@ class Client {
     boolean autoApprove
 
     @Column(name = 'access_token_validity_seconds')
-    int accessTokenValiditySeconds = 3600L
+    int accessTokenValiditySeconds = 3600
 
     @Column(name = 'refresh_token_validity_seconds')
-    int refreshTokenValiditySeconds = 36000L
+    int refreshTokenValiditySeconds = 36000
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
