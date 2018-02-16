@@ -58,8 +58,7 @@ class TokenIssueSpec extends AbstractSpec {
             TokenResponse tokenBeforeRefresh = authorizationHelper.adminToken()
         when:
             ResponseEntity<TokenResponse> refreshResponse = restTemplate.exchange(
-                    '/oauth/token?grant_type=refresh_token' +
-                            "&refresh_token=${tokenBeforeRefresh.refreshToken}",
+                    Urls.refreshTokens(tokenBeforeRefresh.refreshToken),
                     POST,
                     builder()
                             .basic('test', 'secret')

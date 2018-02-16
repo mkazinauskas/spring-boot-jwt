@@ -1,12 +1,14 @@
 package com.modzo.jwt.server.resources
 
 import com.modzo.jwt.AbstractSpec
+import com.modzo.jwt.Urls
 import com.modzo.jwt.helpers.TokenResponse
 import groovy.json.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.provider.token.TokenStore
 
+import static com.modzo.jwt.Urls.*
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
 import static org.springframework.http.HttpMethod.DELETE
@@ -23,7 +25,8 @@ class RevokeTokenResourceSpec extends AbstractSpec {
         given:
             String tokenBeforeRevoke = authorizationHelper.adminAccessToken()
         when:
-            ResponseEntity<String> entity = restTemplate.exchange("/tokens?accessToken=${tokenBeforeRevoke}",
+            ResponseEntity<String> entity = restTemplate.exchange(
+                    revokeAccessToken(tokenBeforeRevoke),
                     DELETE,
                     builder().build(),
                     String)
@@ -38,7 +41,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
             TokenResponse tokenBeforeRevoke = authorizationHelper.adminToken()
         when:
             ResponseEntity<String> revokeResponse = restTemplate.exchange(
-                    "/tokens?refreshToken=${tokenBeforeRevoke.refreshToken}",
+                    revokeRefreshToken(tokenBeforeRevoke.refreshToken),
                     DELETE,
                     builder().build(),
                     String)
@@ -49,8 +52,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
             !tokenStore.readAccessToken(tokenBeforeRevoke.accessToken)
         when:
             ResponseEntity<String> refreshResponse = restTemplate.exchange(
-                    '/oauth/token?grant_type=refresh_token' +
-                            "&refresh_token=${tokenBeforeRevoke.refreshToken}",
+                    refreshTokens(tokenBeforeRevoke.refreshToken),
                     POST,
                     builder()
                             .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
