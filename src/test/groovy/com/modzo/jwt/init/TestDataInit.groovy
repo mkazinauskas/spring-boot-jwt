@@ -39,8 +39,8 @@ class TestDataInit {
                                      UpdateClientData.Handler updateClientDataHandler,
                                      TestClient testClient) {
         CreateClient.Response response = createClientHandler.handle(new CreateClient(
-                clientId: testClient.clientId,
-                secret: testClient.secret)
+                testClient.clientId,
+                testClient.secret)
         )
         updateClientDataHandler.handle(new UpdateClientData(
                 uniqueId: response.uniqueId,

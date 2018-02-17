@@ -32,7 +32,7 @@ class UsersResourceSpec extends AbstractSpec {
 
     def 'should retrieve created user'() {
         given:
-            User user = userHelper.createRegosteredUser()
+            User user = userHelper.createRegisteredUser()
         when:
             ResponseEntity<UserBean> response = restTemplate.exchange("/api/admin/users/${user.uniqueId}",
                     GET,
@@ -55,7 +55,7 @@ class UsersResourceSpec extends AbstractSpec {
 
     def 'created user should not be visible for not admin'() {
         given:
-            User user = userHelper.createRegosteredUser()
+            User user = userHelper.createRegisteredUser()
         when:
             ResponseEntity<String> response = restTemplate.exchange("/api/admin/users/${user.uniqueId}",
                     GET,
@@ -71,7 +71,7 @@ class UsersResourceSpec extends AbstractSpec {
 
     def 'should list all users'() {
         given:
-            userHelper.createRegosteredUser()
+            userHelper.createRegisteredUser()
         when:
             ResponseEntity<PageWrapper<UserBean>> response = restTemplate.exchange("/api/admin/users",
                     GET,

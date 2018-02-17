@@ -27,4 +27,8 @@ class Urls {
     static String adminClients(){
         return '/api/admin/clients'
     }
+
+    static String adminClient(String uniqueId) {
+        return "/api/admin/clients/${uniqueId}"
+    }
 }

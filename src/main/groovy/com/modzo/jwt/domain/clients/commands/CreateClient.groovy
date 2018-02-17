@@ -12,6 +12,11 @@ class CreateClient {
 
     String secret
 
+    CreateClient(String clientId, String secret) {
+        this.clientId = clientId
+        this.secret = secret
+    }
+
     @Component
     static class Handler {
         private final Clients clients
