@@ -31,4 +31,8 @@ class Urls {
     static String adminClient(String uniqueId) {
         return "/api/admin/clients/${uniqueId}"
     }
+
+    static String adminUpdateClientData(String uniqueId) {
+        return "/api/admin/clients/${uniqueId}"
+    }
 }
