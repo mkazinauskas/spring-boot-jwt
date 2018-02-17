@@ -39,4 +39,12 @@ class Urls {
     static String adminUpdateClientSecret(String uniqueId) {
         return "/api/admin/clients/${uniqueId}/secret"
     }
+
+    static String adminUsers() {
+        return '/api/admin/users'
+    }
+
+    static String adminUser(String user){
+        return "/api/admin/users/${user}"
+    }
 }

@@ -9,6 +9,8 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
+import static com.modzo.jwt.Urls.adminUser
+import static com.modzo.jwt.Urls.adminUsers
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.FORBIDDEN
@@ -34,7 +36,8 @@ class UsersResourceSpec extends AbstractSpec {
         given:
             User user = userHelper.createRegisteredUser()
         when:
-            ResponseEntity<UserBean> response = restTemplate.exchange("/api/admin/users/${user.uniqueId}",
+            ResponseEntity<UserBean> response = restTemplate.exchange(
+                    adminUser(user.uniqueId),
                     GET,
                     builder()
                             .bearer(adminToken)
@@ -50,14 +53,15 @@ class UsersResourceSpec extends AbstractSpec {
             response.body.credentialsNonExpired == user.credentialsNonExpired
             response.body.accountNotLocked == user.accountNotLocked
             response.body.accountNotExpired == user.accountNotExpired
-            response.body.authorities == user.authorities*.name().toSet()
+            response.body.authorities == user.authorities
     }
 
     def 'created user should not be visible for not admin'() {
         given:
             User user = userHelper.createRegisteredUser()
         when:
-            ResponseEntity<String> response = restTemplate.exchange("/api/admin/users/${user.uniqueId}",
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUser(user.uniqueId),
                     GET,
                     builder()
                             .bearer(userToken)
@@ -73,7 +77,8 @@ class UsersResourceSpec extends AbstractSpec {
         given:
             userHelper.createRegisteredUser()
         when:
-            ResponseEntity<PageWrapper<UserBean>> response = restTemplate.exchange("/api/admin/users",
+            ResponseEntity<PageWrapper<UserBean>> response = restTemplate.exchange(
+                    adminUsers(),
                     GET,
                     builder()
                             .bearer(adminToken)
@@ -83,13 +88,22 @@ class UsersResourceSpec extends AbstractSpec {
         then:
             response.statusCode == OK
             response.body.size > 1
-            response.body.content.first().uniqueId
-            response.body.content.first().email
+        and:
+            UserBean responseUser = response.body.content.first()
+            User currentUser = users.findByUniqueId(responseUser.uniqueId).get()
+            responseUser.uniqueId == currentUser.uniqueId
+            responseUser.email == currentUser.email
+            responseUser.enabled == currentUser.enabled
+            responseUser.credentialsNonExpired == currentUser.credentialsNonExpired
+            responseUser.accountNotLocked == currentUser.accountNotLocked
+            responseUser.accountNotExpired == currentUser.accountNotExpired
+            responseUser.authorities == currentUser.authorities
     }
 
     def 'users list should not be visible for not admin'() {
         when:
-            ResponseEntity<String> response = restTemplate.exchange("/api/admin/users",
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUsers(),
                     GET,
                     builder()
                             .bearer(userToken)

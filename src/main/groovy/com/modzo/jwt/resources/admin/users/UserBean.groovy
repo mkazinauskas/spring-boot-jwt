@@ -9,7 +9,7 @@ class UserBean {
     boolean accountNotExpired
     boolean credentialsNonExpired
     boolean accountNotLocked
-    Set<String> authorities
+    Set<User.Authority> authorities
 
     static UserBean from(User user) {
         return new UserBean(
@@ -19,7 +19,7 @@ class UserBean {
                 accountNotExpired: user.accountNotExpired,
                 credentialsNonExpired: user.credentialsNonExpired,
                 accountNotLocked: user.accountNotLocked,
-                authorities: user.authorities.collect { it.name() }.toSet()
+                authorities: user.authorities
         )
     }
 }
