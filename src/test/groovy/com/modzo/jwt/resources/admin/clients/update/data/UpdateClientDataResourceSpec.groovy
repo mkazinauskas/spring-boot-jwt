@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.admin.clients.update
+package com.modzo.jwt.resources.admin.clients.update.data
 
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.clients.Client

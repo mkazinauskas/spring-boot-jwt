@@ -24,10 +24,10 @@ class ClientHelper {
         this.clients = clients
     }
 
-    Client createRegisteredClient() {
+    Client createRegisteredClient(String secret = randomAlphanumeric(5)) {
         String clientId = randomAlphanumeric(5)
         CreateClient.Response response = createClientHandler.handle(
-                new CreateClient(clientId, randomAlphanumeric(5)))
+                new CreateClient(clientId, secret))
 
         updateCLientDataHandler.handle(new UpdateClientData(
                 uniqueId: response.uniqueId,
