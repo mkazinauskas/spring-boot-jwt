@@ -14,12 +14,9 @@ class CreateUser {
 
     final String password
 
-    final Set<User.Authority> authorities = []
-
-    CreateUser(String email, String password, Collection<User.Authority> authorities) {
+    CreateUser(String email, String password) {
         this.email = email
         this.password = password
-        this.authorities.addAll(authorities)
     }
 
     @Component
@@ -42,8 +39,7 @@ class CreateUser {
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
-            user.authorities.add(ROLE_REGISTERED)
-            user.authorities.addAll(createUser.authorities)
+            user.authorities.addAll([ROLE_REGISTERED])
             User save = users.save(user)
             return new Response(uniqueId: save.uniqueId)
         }

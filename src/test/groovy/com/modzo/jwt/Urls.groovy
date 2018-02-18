@@ -47,4 +47,8 @@ class Urls {
     static String adminUser(String user){
         return "/api/admin/users/${user}"
     }
+
+    static String adminUserData(String uniqueId) {
+        return "/api/admin/users/${uniqueId}"
+    }
 }

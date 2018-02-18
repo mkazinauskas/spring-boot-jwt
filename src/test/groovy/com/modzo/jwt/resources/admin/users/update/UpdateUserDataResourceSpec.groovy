@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
+import static com.modzo.jwt.Urls.adminUserData
 import static com.modzo.jwt.domain.users.User.Authority.*
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
-class UpdateUserRolesResourceSpec extends AbstractSpec {
+class UpdateUserDataResourceSpec extends AbstractSpec {
 
     @Autowired
     Users users
@@ -29,14 +30,20 @@ class UpdateUserRolesResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should update user roles'() {
+    def 'should update user data'() {
         given:
             User newUser = userHelper.createRegisteredUser()
-            UpdateUserRolesRequest request = new UpdateUserRolesRequest(
-                    roles: [ROLE_REGISTERED, ROLE_USER, ROLE_ADMIN]
+            UpdateUserDataRequest request = new UpdateUserDataRequest(
+                    email: 'newemail@github.com',
+                    enabled: true,
+                    accountNotExpired: true,
+                    credentialsNonExpired: true,
+                    accountNotLocked: true,
+                    authorities: [ROLE_REGISTERED, ROLE_ADMIN]
             )
         when:
-            ResponseEntity<String> response = restTemplate.exchange("/api/admin/users/${newUser.uniqueId}/roles",
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUserData(newUser.uniqueId),
                     PUT,
                     builder()
                             .body(request)
@@ -49,17 +56,24 @@ class UpdateUserRolesResourceSpec extends AbstractSpec {
             !response.body
 
             User updatedUser = users.findByUniqueId(newUser.uniqueId).get()
+            updatedUser.email == 'newemail@github.com'
+            updatedUser.enabled
+            updatedUser.accountNotExpired
+            updatedUser.credentialsNonExpired
+            updatedUser.accountNotLocked
             updatedUser.authorities.contains(ROLE_REGISTERED)
-            updatedUser.authorities.contains(ROLE_USER)
             updatedUser.authorities.contains(ROLE_ADMIN)
     }
 
-    def 'not admin user should not access create new user endpoint'() {
+    def 'not admin user should not access update user data endpoint'() {
+        given:
+            User newUser = userHelper.createRegisteredUser()
         when:
-            ResponseEntity<String> response = restTemplate.exchange("/api/admin/users/123/roles",
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUserData(newUser.uniqueId),
                     PUT,
                     builder()
-                            .body(new UpdateUserRolesRequest())
+                            .body(new UpdateUserDataRequest())
                             .bearer(userToken)
                             .build(),
                     String

@@ -5,11 +5,14 @@ import com.modzo.jwt.domain.clients.commands.CreateClient
 import com.modzo.jwt.domain.clients.commands.UpdateClientData
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.commands.CreateUser
+import com.modzo.jwt.domain.users.commands.UpdateUserData
 import groovy.transform.Immutable
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
+import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
+import static com.modzo.jwt.domain.users.User.Authority.ROLE_USER
 import static com.modzo.jwt.helpers.RandomDataUtil.randomEmail
 
 @Component
@@ -17,14 +20,14 @@ class TestDataInit {
 
     static final TestClient TEST_CLIENT = new TestClient('test', 'secret')
     static final TestUser TEST_ADMIN_USER = new TestUser(
-            randomEmail(),
-            'adminPassword',
-            [User.Authority.ROLE_ADMIN] as Set
+            email: randomEmail(),
+            password: 'adminPassword',
+            authorities: [ROLE_ADMIN] as Set
     )
     static final TestUser TEST_USER = new TestUser(
-            randomEmail(),
-            'userPassword',
-            [User.Authority.ROLE_USER] as Set
+            email: randomEmail(),
+            password: 'userPassword',
+            authorities: [ROLE_USER] as Set
     )
 
     @Bean
@@ -60,11 +63,27 @@ class TestDataInit {
     }
 
     @Bean
-    InitializingBean initTestUsers(CreateUser.Handler handler) {
+    InitializingBean initTestUsers(CreateUser.Handler createUserHandler,
+                                   UpdateUserData.Handler updateUserDataHandler) {
         return {
-            handler.handle(TEST_ADMIN_USER.asCreateUserCommand())
-            handler.handle(TEST_USER.asCreateUserCommand())
+            createUser(createUserHandler, updateUserDataHandler, TEST_ADMIN_USER)
+            createUser(createUserHandler, updateUserDataHandler, TEST_USER)
         }
+    }
+
+    private static void createUser(CreateUser.Handler createUserHandler,
+                                   UpdateUserData.Handler updateUserDataHandler,
+                                   TestUser testUser) {
+        CreateUser.Response response = createUserHandler.handle(testUser.asCreateUserCommand())
+        updateUserDataHandler.handle(new UpdateUserData(
+                uniqueId: response.uniqueId,
+                email: testUser.email,
+                enabled: true,
+                accountNotExpired: true,
+                credentialsNonExpired: true,
+                accountNotLocked: true,
+                authorities: testUser.authorities
+        ))
     }
 
     @Immutable
@@ -81,7 +100,7 @@ class TestDataInit {
 
         CreateUser asCreateUserCommand() {
             return new CreateUser(
-                    email, password, authorities
+                    email, password
             )
         }
     }

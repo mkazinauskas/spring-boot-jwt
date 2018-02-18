@@ -24,8 +24,7 @@ class RegisterUserResource {
         CreateUser.Response response = handler.handle(
                 new CreateUser(
                         account.getEmail(),
-                        account.getPassword(),
-                        account.getAuthorities()
+                        account.getPassword()
                 )
         );
         return ResponseEntity.created(URI.create("/api/admin/users/" + response.getUniqueId())).build();

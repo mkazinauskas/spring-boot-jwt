@@ -39,8 +39,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             String randomString = randomAlphanumeric(5)
             RegisterUserRequest request = new RegisterUserRequest(
                     email: "${randomString}@${randomString}.com",
-                    password: randomString,
-                    authorities: [ROLE_ADMIN]
+                    password: randomString
             )
         when:
             ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
@@ -59,7 +58,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             User user = users.findByUniqueId(uniqueId).get()
             user.email == request.email
             passwordEncoder.matches(request.password, user.encodedPassword)
-            user.authorities == [ROLE_REGISTERED, ROLE_ADMIN] as Set
+            user.authorities == [ROLE_REGISTERED] as Set
             user.encodedPassword
             user.accountNotLocked
             user.credentialsNonExpired
