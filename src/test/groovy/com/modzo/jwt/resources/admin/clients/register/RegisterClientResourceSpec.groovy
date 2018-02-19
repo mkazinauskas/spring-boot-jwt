@@ -75,26 +75,26 @@ class RegisterClientResourceSpec extends AbstractSpec {
             client.resourceIds == [] as Set
     }
 
-    @Ignore
-    /**
-     * org.springframework.web.client.ResourceAccessException:
-     * I/O error on POST request for "http://localhost:44379/api/admin/users":
-     * cannot retry due to server authentication, in streaming mode;
-     * nested exception is java.net.HttpRetryException:
-     * cannot retry due to server authentication, in streaming mode
-     * */
-    def 'unauthorized user should not access create new user endpoint'() {
+    def 'should fail to validate create new client request'() {
+        given:
+            RegisterClientRequest request = new RegisterClientRequest(
+                    clientId: null,
+                    secret: null
+            )
         when:
-            ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
+            ResponseEntity<String> response = restTemplate.postForEntity(
+                    adminClients(),
                     builder()
-                            .body(new RegisterUserRequest())
-                            .basic('fakeUser', 'fakePassword')
+                            .body(request)
+                            .bearer(adminToken)
                             .build(),
                     String
             )
         then:
-            response.statusCode == UNAUTHORIZED
-            !response.body
+            response.statusCode == BAD_REQUEST
+        and:
+            response.body.contains('NotBlank.clientId')
+            response.body.contains('NotBlank.secret')
     }
 
     def 'not admin user should not access create new user endpoint'() {

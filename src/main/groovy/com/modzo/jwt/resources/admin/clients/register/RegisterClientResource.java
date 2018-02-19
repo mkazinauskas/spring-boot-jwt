@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -21,7 +22,7 @@ class RegisterClientResource {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/admin/clients")
-    ResponseEntity register(@RequestBody RegisterClientRequest client) {
+    ResponseEntity register(@RequestBody @Valid RegisterClientRequest client) {
         CreateClient.Response response = handler.handle(client.toCreateClient());
         return ResponseEntity.created(URI.create("/api/admin/clients/" + response.getUniqueId())).build();
     }

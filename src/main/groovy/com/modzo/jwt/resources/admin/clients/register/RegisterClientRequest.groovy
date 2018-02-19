@@ -7,6 +7,7 @@ class RegisterClientRequest {
     @NotBlank
     String clientId
 
+    @NotBlank
     String secret
 
     CreateClient toCreateClient() {
