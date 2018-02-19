@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 class UpdateClientSecretResource {
 
@@ -21,7 +23,7 @@ class UpdateClientSecretResource {
     @PutMapping("/api/admin/clients/{uniqueId}/secret")
     ResponseEntity updateSecret(
             @PathVariable("uniqueId") String uniqueId,
-            @RequestBody UpdateClientSecretRequest request) {
+            @Valid @RequestBody UpdateClientSecretRequest request) {
         handler.handle(request.toUpdateClientSecret(uniqueId));
         return ResponseEntity.ok().build();
     }

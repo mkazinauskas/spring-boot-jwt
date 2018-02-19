@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional
 class UpdateClientSecret {
     String uniqueId
 
-    String oldSecret
-
     String newSecret
 
     @Component
@@ -28,12 +26,8 @@ class UpdateClientSecret {
         }
 
         void validate(UpdateClientSecret updateClientSecret) {
-            Client client = clients.findByUniqueId(updateClientSecret.uniqueId).orElseThrow {
+            clients.findByUniqueId(updateClientSecret.uniqueId).orElseThrow {
                 DomainException.clientByUniqueIdWasNotFound(updateClientSecret.uniqueId)
-            }
-
-            if (!passwordEncoder.matches(updateClientSecret.oldSecret, client.clientEncodedSecret)) {
-                throw DomainException.passwordsDoNotMatch();
             }
         }
     }

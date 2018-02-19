@@ -43,10 +43,9 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
 
     def 'should update client secret'() {
         given:
-            Client client = clientHelper.createRegisteredClient('oldSecret')
+            Client client = clientHelper.createRegisteredClient()
         and:
-            UpdateClientSecretRequest updateCientSecret = new UpdateClientSecretRequest(
-                    oldSecret: 'oldSecret',
+            UpdateClientSecretRequest updateClientSecret = new UpdateClientSecretRequest(
                     newSecret: 'newSecret'
             )
         when:
@@ -54,7 +53,7 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
                     adminUpdateClientSecret(client.uniqueId),
                     PUT,
                     builder()
-                            .body(updateCientSecret)
+                            .body(updateClientSecret)
                             .bearer(adminToken)
                             .build(),
                     String
@@ -72,7 +71,6 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
             Client client = clientHelper.createRegisteredClient('oldSecret')
         and:
             UpdateClientSecretRequest updateClientSecret = new UpdateClientSecretRequest(
-                    oldSecret: 'oldSecret',
                     newSecret: 'newSecret'
             )
         when:
