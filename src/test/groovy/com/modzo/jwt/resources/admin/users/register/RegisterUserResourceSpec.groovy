@@ -9,8 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Ignore
 import spock.lang.Shared
 
-import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
-import static com.modzo.jwt.domain.users.User.Authority.ROLE_REGISTERED
+import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpStatus.*
@@ -58,7 +57,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             User user = users.findByUniqueId(uniqueId).get()
             user.email == request.email
             passwordEncoder.matches(request.password, user.encodedPassword)
-            user.authorities == [ROLE_REGISTERED] as Set
+            user.authorities == [REGISTERED_USER] as Set
             user.encodedPassword
             user.accountNotLocked
             user.credentialsNonExpired

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
+import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
 import static com.modzo.jwt.domain.users.User.Authority.ROLE_USER
 import static com.modzo.jwt.helpers.RandomDataUtil.randomEmail
@@ -28,6 +29,11 @@ class TestDataInit {
             email: randomEmail(),
             password: 'userPassword',
             authorities: [ROLE_USER] as Set
+    )
+    static final TestUser TEST_REGISTERED_USER = new TestUser(
+            email: randomEmail(),
+            password: 'registeredUserPassword',
+            authorities: [REGISTERED_USER] as Set
     )
 
     @Bean
@@ -68,6 +74,7 @@ class TestDataInit {
         return {
             createUser(createUserHandler, updateUserDataHandler, TEST_ADMIN_USER)
             createUser(createUserHandler, updateUserDataHandler, TEST_USER)
+            createUser(createUserHandler, updateUserDataHandler, TEST_REGISTERED_USER)
         }
     }
 

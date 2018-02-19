@@ -61,7 +61,7 @@ class User {
     final Set<Authority> authorities = []
 
     static enum Authority {
-        ROLE_REGISTERED,
+        REGISTERED_USER,
         ROLE_USER,
         ROLE_ADMIN
     }

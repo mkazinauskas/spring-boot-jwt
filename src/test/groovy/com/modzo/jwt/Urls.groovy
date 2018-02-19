@@ -51,4 +51,8 @@ class Urls {
     static String adminUserData(String uniqueId) {
         return "/api/admin/users/${uniqueId}"
     }
+
+    static String managementUpdatePassword() {
+        return '/api/management/password'
+    }
 }

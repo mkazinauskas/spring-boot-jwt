@@ -39,7 +39,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
                     accountNotExpired: true,
                     credentialsNonExpired: true,
                     accountNotLocked: true,
-                    authorities: [ROLE_REGISTERED, ROLE_ADMIN]
+                    authorities: [REGISTERED_USER, ROLE_ADMIN]
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -61,7 +61,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
             updatedUser.accountNotExpired
             updatedUser.credentialsNonExpired
             updatedUser.accountNotLocked
-            updatedUser.authorities.contains(ROLE_REGISTERED)
+            updatedUser.authorities.contains(REGISTERED_USER)
             updatedUser.authorities.contains(ROLE_ADMIN)
     }
 
