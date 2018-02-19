@@ -8,8 +8,7 @@ os:
 
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle
 
 before_script:
   - echo "Skipping before script"
