@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService
 import org.springframework.security.oauth2.provider.ClientRegistrationException
 import org.springframework.stereotype.Service
 
-import static com.modzo.jwt.domain.clients.exceptions.ClientNotFoundException.byClientId
+import static com.modzo.jwt.domain.DomainException.clientByClientIdWasNotFound
 
 @Service
 @CompileStatic
@@ -23,7 +23,7 @@ class LocalClientDetailsService implements ClientDetailsService {
 
     @Override
     ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-        Client client = clients.findByClientId(clientId).orElseThrow { -> byClientId(clientId) }
+        Client client = clients.findByClientId(clientId).orElseThrow { -> clientByClientIdWasNotFound(clientId) }
         return new LocalClientDetails(
                 clientId: client.clientId,
                 clientSecret: client.clientEncodedSecret,

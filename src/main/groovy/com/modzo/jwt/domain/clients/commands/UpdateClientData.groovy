@@ -2,9 +2,11 @@ package com.modzo.jwt.domain.clients.commands
 
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-import com.modzo.jwt.domain.clients.exceptions.ClientNotFoundException
+
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+
+import static com.modzo.jwt.domain.DomainException.clientByUniqueIdWasNotFound
 
 class UpdateClientData {
     String uniqueId
@@ -44,7 +46,7 @@ class UpdateClientData {
         @Transactional
         void handle(UpdateClientData updateClient) {
             Client client = clients.findByUniqueId(updateClient.uniqueId)
-                    .orElseThrow { ClientNotFoundException.byUniqueId(updateClient.uniqueId) }
+                    .orElseThrow { clientByUniqueIdWasNotFound(updateClient.uniqueId) }
             client.clientId = updateClient.clientId
             client.scoped = updateClient.scoped
             client.secretRequired = updateClient.secretRequired

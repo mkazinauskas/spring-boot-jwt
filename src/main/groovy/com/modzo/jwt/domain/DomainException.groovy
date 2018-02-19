@@ -16,6 +16,11 @@ class DomainException extends RuntimeException {
         return new DomainException('CLIENT_BY_UNIQUE_ID_WAS_NOT_FOUND', "Client by unique id `${uniqueId}` was not found")
     }
 
+    static DomainException clientByClientIdWasNotFound(String clientId) {
+        return new DomainException('CLIENT_BY_CLIENT_ID_WAS_NOT_FOUND', "Client by client id `${clientId}` was not found")
+    }
+
+
     static DomainException userByUniqueIdWasNotFound(String uniqueId) {
         return new DomainException('USER_BY_UNIQUE_ID_WAS_NOT_FOUND', "User by unique id `${uniqueId}` was not found")
     }

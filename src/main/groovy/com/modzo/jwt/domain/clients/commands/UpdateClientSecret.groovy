@@ -3,7 +3,7 @@ package com.modzo.jwt.domain.clients.commands
 import com.modzo.jwt.domain.DomainException
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-import com.modzo.jwt.domain.clients.exceptions.ClientNotFoundException
+
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -51,7 +51,7 @@ class UpdateClientSecret {
         void handle(UpdateClientSecret updateClient) {
             validator.validate(updateClient)
             Client client = clients.findByUniqueId(updateClient.uniqueId)
-                    .orElseThrow { ClientNotFoundException.byUniqueId(updateClient.uniqueId) }
+                    .orElseThrow { DomainException.clientByUniqueIdWasNotFound(updateClient.uniqueId) }
 
             client.clientEncodedSecret = passwordEncoder.encode(updateClient.newSecret)
 
