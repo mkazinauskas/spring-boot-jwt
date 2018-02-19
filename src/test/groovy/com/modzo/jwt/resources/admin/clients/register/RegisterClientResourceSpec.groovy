@@ -13,6 +13,8 @@ import spock.lang.Shared
 
 import static com.modzo.jwt.Urls.adminClients
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.jwt.helpers.RandomDataUtil.randomClientId
+import static com.modzo.jwt.helpers.RandomDataUtil.randomSecret
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpStatus.*
 
@@ -37,8 +39,8 @@ class RegisterClientResourceSpec extends AbstractSpec {
 
     def 'should create new client'() {
         given:
-            String clientId = randomAlphanumeric(5)
-            String secret = randomAlphanumeric(5)
+            String clientId = randomClientId()
+            String secret = randomSecret()
             RegisterClientRequest request = new RegisterClientRequest(
                     clientId: clientId,
                     secret: secret
@@ -98,11 +100,16 @@ class RegisterClientResourceSpec extends AbstractSpec {
     }
 
     def 'not admin user should not access create new user endpoint'() {
+        given:
+            RegisterClientRequest request = new RegisterClientRequest(
+                    clientId: randomClientId(),
+                    secret: randomSecret()
+            )
         when:
             ResponseEntity<String> response = restTemplate.postForEntity(
                     adminClients(),
                     builder()
-                            .body(new RegisterUserRequest())
+                            .body(request)
                             .bearer(userToken)
                             .build(),
                     String
