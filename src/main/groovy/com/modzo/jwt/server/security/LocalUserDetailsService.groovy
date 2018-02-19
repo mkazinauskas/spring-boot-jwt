@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-import static com.modzo.jwt.domain.users.exceptions.UserNotFoundException.byEmail
+import static com.modzo.jwt.domain.DomainException.userByEmailWasNotFound
 
 @Component
 class LocalUserDetailsService implements UserDetailsService {
@@ -23,7 +23,7 @@ class LocalUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = users.findByEmail(email).orElseThrow { byEmail(email) }
+        User user = users.findByEmail(email).orElseThrow { userByEmailWasNotFound(email) }
 
         return new LocalUserDetails(user)
     }

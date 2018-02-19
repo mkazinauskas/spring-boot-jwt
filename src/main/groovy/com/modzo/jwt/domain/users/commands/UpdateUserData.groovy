@@ -5,7 +5,7 @@ import com.modzo.jwt.domain.users.Users
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-import static com.modzo.jwt.domain.users.exceptions.UserNotFoundException.byUniqueId
+import static com.modzo.jwt.domain.DomainException.userByUniqueIdWasNotFound
 
 class UpdateUserData {
     String uniqueId
@@ -38,7 +38,8 @@ class UpdateUserData {
 
         @Transactional
         void handle(UpdateUserData updateUserData) {
-            User user = users.findByUniqueId(updateUserData.uniqueId).orElseThrow { byUniqueId(updateUserData.uniqueId) }
+            User user = users.findByUniqueId(updateUserData.uniqueId)
+                    .orElseThrow { userByUniqueIdWasNotFound(updateUserData.uniqueId) }
             user.enabled = updateUserData.enabled
             user.email = updateUserData.email
             user.accountNotExpired = updateUserData.accountNotExpired
