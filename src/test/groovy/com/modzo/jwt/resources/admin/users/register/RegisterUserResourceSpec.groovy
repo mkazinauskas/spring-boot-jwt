@@ -33,7 +33,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should create new user'() {
+    def 'should register new user'() {
         given:
             String randomString = randomAlphanumeric(5)
             RegisterUserRequest request = new RegisterUserRequest(
@@ -64,29 +64,27 @@ class RegisterUserResourceSpec extends AbstractSpec {
             user.enabled
     }
 
-    @Ignore
-    /**
-     * org.springframework.web.client.ResourceAccessException:
-     * I/O error on POST request for "http://localhost:44379/api/admin/users":
-     * cannot retry due to server authentication, in streaming mode;
-     * nested exception is java.net.HttpRetryException:
-     * cannot retry due to server authentication, in streaming mode
-     * */
-    def 'unauthorized user should not access create new user endpoint'() {
+    def 'should fail register new user validation'() {
+        given:
+            RegisterUserRequest request = new RegisterUserRequest(
+                    email: null,
+                    password: null
+            )
         when:
             ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
                     builder()
-                            .body(new RegisterUserRequest())
-                            .basic('fakeUser', 'fakePassword')
+                            .body(request)
+                            .bearer(adminToken)
                             .build(),
                     String
             )
         then:
-            response.statusCode == UNAUTHORIZED
-            !response.body
+            response.statusCode == BAD_REQUEST
+            response.body.contains('NotBlank.email')
+            response.body.contains('NotBlank.password')
     }
 
-    def 'not admin user should not access create new user endpoint'() {
+    def 'not admin user should not access register new user endpoint'() {
         when:
             ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
                     builder()
@@ -100,3 +98,4 @@ class RegisterUserResourceSpec extends AbstractSpec {
             response.body.contains('access_denied')
     }
 }
+
