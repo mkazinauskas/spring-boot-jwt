@@ -23,7 +23,6 @@ class ClientsResource {
         this.clients = clients;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/admin/clients/{uniqueId}")
     @ResponseStatus(OK)
     ResponseEntity<ClientBean> getClient(@PathVariable("uniqueId") String uniqueId) {
@@ -32,7 +31,6 @@ class ClientsResource {
         return ResponseEntity.ok(user);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/admin/clients")
     @ResponseStatus(OK)
     ResponseEntity<Page<ClientBean>> getClients(Pageable pageable) {

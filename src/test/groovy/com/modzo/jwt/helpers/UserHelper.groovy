@@ -7,7 +7,7 @@ import com.modzo.jwt.domain.users.commands.UpdateUserData
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
-import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
+import static com.modzo.jwt.domain.users.User.Authority.ADMIN
 import static com.modzo.jwt.helpers.RandomDataUtil.randomEmail
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
@@ -32,7 +32,7 @@ class UserHelper {
         CreateUser.Response response = createUserHandler.handle(
                 new CreateUser(email, password))
 
-        updateData(response.uniqueId, email, [REGISTERED_USER, ROLE_ADMIN] as Set<User.Authority>)
+        updateData(response.uniqueId, email, [REGISTERED_USER, ADMIN] as Set<User.Authority>)
 
         return users.findByUniqueId(response.uniqueId).get()
     }

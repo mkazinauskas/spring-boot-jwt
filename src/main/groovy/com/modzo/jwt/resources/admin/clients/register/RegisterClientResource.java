@@ -20,7 +20,6 @@ class RegisterClientResource {
         this.handler = handler;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/admin/clients")
     ResponseEntity register(@RequestBody @Valid RegisterClientRequest client) {
         CreateClient.Response response = handler.handle(client.toCreateClient());

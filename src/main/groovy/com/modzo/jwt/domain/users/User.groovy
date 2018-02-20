@@ -62,8 +62,8 @@ class User {
 
     static enum Authority {
         REGISTERED_USER,
-        ROLE_USER,
-        ROLE_ADMIN
+        USER,
+        ADMIN
     }
 }
 

@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
-import static com.modzo.jwt.domain.users.User.Authority.ROLE_ADMIN
-import static com.modzo.jwt.domain.users.User.Authority.ROLE_USER
+import static com.modzo.jwt.domain.users.User.Authority.ADMIN
+import static com.modzo.jwt.domain.users.User.Authority.USER
 import static com.modzo.jwt.helpers.RandomDataUtil.randomEmail
 
 @Component
@@ -23,12 +23,12 @@ class TestDataInit {
     static final TestUser TEST_ADMIN_USER = new TestUser(
             email: randomEmail(),
             password: 'adminPassword',
-            authorities: [ROLE_ADMIN] as Set
+            authorities: [ADMIN] as Set
     )
     static final TestUser TEST_USER = new TestUser(
             email: randomEmail(),
             password: 'userPassword',
-            authorities: [ROLE_USER] as Set
+            authorities: [USER] as Set
     )
     static final TestUser TEST_REGISTERED_USER = new TestUser(
             email: randomEmail(),

@@ -19,7 +19,6 @@ class UpdateClientSecretResource {
         this.handler = handler;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/admin/clients/{uniqueId}/secret")
     ResponseEntity updateSecret(
             @PathVariable("uniqueId") String uniqueId,

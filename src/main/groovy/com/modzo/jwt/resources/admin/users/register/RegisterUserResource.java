@@ -18,7 +18,6 @@ class RegisterUserResource {
         this.handler = handler;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/admin/users")
     ResponseEntity register(@RequestBody RegisterUserRequest account) {
         CreateUser.Response response = handler.handle(

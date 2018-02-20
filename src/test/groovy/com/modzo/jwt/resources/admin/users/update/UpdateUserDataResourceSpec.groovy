@@ -39,7 +39,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
                     accountNotExpired: true,
                     credentialsNonExpired: true,
                     accountNotLocked: true,
-                    authorities: [REGISTERED_USER, ROLE_ADMIN]
+                    authorities: [REGISTERED_USER, ADMIN]
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -62,7 +62,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
             updatedUser.credentialsNonExpired
             updatedUser.accountNotLocked
             updatedUser.authorities.contains(REGISTERED_USER)
-            updatedUser.authorities.contains(ROLE_ADMIN)
+            updatedUser.authorities.contains(ADMIN)
     }
 
     def 'not admin user should not access update user data endpoint'() {

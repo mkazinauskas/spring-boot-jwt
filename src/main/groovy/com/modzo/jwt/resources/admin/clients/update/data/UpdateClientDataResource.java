@@ -17,7 +17,6 @@ class UpdateClientDataResource {
         this.handler = handler;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/admin/clients/{uniqueId}")
     ResponseEntity updateClientData(
             @PathVariable("uniqueId") String uniqueId,
