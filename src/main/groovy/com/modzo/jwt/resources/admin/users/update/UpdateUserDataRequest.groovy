@@ -3,12 +3,13 @@ package com.modzo.jwt.resources.admin.users.update
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.commands.UpdateUserData
 import org.hibernate.validator.constraints.Email
+import org.hibernate.validator.constraints.NotBlank
 import org.hibernate.validator.constraints.NotEmpty
 
 import javax.validation.constraints.NotNull
 
 class UpdateUserDataRequest {
-    @NotEmpty
+    @NotBlank
     @Email
     String email
 

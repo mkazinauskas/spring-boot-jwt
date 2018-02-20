@@ -11,6 +11,7 @@ import static com.modzo.jwt.Urls.adminUserData
 import static com.modzo.jwt.domain.users.User.Authority.*
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
+import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
@@ -65,7 +66,38 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
             updatedUser.authorities.contains(ADMIN)
     }
 
-    def 'not admin user should not access update user data endpoint'() {
+    def 'should fail to update user data'() {
+        given:
+            User newUser = userHelper.createRegisteredUser()
+            UpdateUserDataRequest request = new UpdateUserDataRequest(
+                    email: null,
+                    enabled: null,
+                    accountNotExpired: null,
+                    credentialsNonExpired: null,
+                    accountNotLocked: null,
+                    authorities: null
+            )
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUserData(newUser.uniqueId),
+                    PUT,
+                    builder()
+                            .body(request)
+                            .bearer(adminToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == BAD_REQUEST
+            response.body.contains('NotBlank.email')
+            response.body.contains('NotNull.enabled')
+            response.body.contains('NotNull.accountNotExpired')
+            response.body.contains('NotNull.credentialsNonExpired')
+            response.body.contains('NotNull.accountNotLocked')
+            response.body.contains('NotEmpty.authorities')
+    }
+
+    def 'simple user should not access update user data endpoint'() {
         given:
             User newUser = userHelper.createRegisteredUser()
         when:
