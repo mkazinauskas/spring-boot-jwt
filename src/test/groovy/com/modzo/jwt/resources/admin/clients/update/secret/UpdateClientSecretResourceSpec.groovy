@@ -1,26 +1,17 @@
 package com.modzo.jwt.resources.admin.clients.update.secret
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-import com.modzo.jwt.resources.admin.clients.update.data.UpdateClientDataRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Shared
 
-import static com.modzo.jwt.Urls.adminUpdateClientData
 import static com.modzo.jwt.Urls.adminUpdateClientSecret
-import static com.modzo.jwt.domain.clients.Client.Authority.CLIENT
-import static com.modzo.jwt.domain.clients.Client.GrantType.IMPLICIT
-import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
-import static com.modzo.jwt.domain.clients.Client.Scope.READ
-import static com.modzo.jwt.domain.clients.Client.Scope.WRITE
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
-import static org.springframework.http.HttpStatus.FORBIDDEN
-import static org.springframework.http.HttpStatus.OK
+import static org.springframework.http.HttpStatus.*
 
 class UpdateClientSecretResourceSpec extends AbstractSpec {
 
@@ -64,6 +55,28 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
 
             Client updatedClient = clients.findByUniqueId(client.uniqueId).get()
             passwordEncoder.matches('newSecret', updatedClient.clientEncodedSecret)
+    }
+
+    def 'should fail update client'() {
+        given:
+            Client client = clientHelper.createRegisteredClient('oldSecret')
+        and:
+            UpdateClientSecretRequest updateClientSecret = new UpdateClientSecretRequest(
+                    newSecret: null
+            )
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUpdateClientSecret(client.uniqueId),
+                    PUT,
+                    builder()
+                            .body(updateClientSecret)
+                            .bearer(adminToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == BAD_REQUEST
+            response.body.contains('NotBlank.newSecret')
     }
 
     def 'simple user should not access update client data endpoint'() {
