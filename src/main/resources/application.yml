@@ -2,3 +2,5 @@ spring.profiles.active: prod
 
 security.oauth2.authorization:
   signing-key: veryStongSigningKey
+
+application.init.data: true
