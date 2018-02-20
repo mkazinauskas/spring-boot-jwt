@@ -89,6 +89,50 @@ class UpdateClientDataResourceSpec extends AbstractSpec {
             updatedClient.resourceIds == ['test', 'go'] as Set
     }
 
+    def 'should fail to process wrong request'() {
+        given:
+            Client client = clientHelper.createRegisteredClient()
+
+            UpdateClientDataRequest updateClientDataRequest = new UpdateClientDataRequest(
+                    clientId: null,
+                    scoped: null,
+                    secretRequired: null,
+                    enabled: null,
+                    autoApprove: null,
+                    accessTokenValiditySeconds: null,
+                    refreshTokenValiditySeconds: null,
+                    authorities: null,
+                    scopes: null,
+                    authorizedGrantTypes: null,
+                    registeredRedirectUris: null,
+                    resourceIds: null
+            )
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUpdateClientData(client.uniqueId),
+                    PUT,
+                    builder()
+                            .body(updateClientDataRequest)
+                            .bearer(adminToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == BAD_REQUEST
+            response.body.contains('NotBlank.clientId')
+            response.body.contains('NotNull.scoped')
+            response.body.contains('NotNull.secretRequired')
+            response.body.contains('NotNull.enabled')
+            response.body.contains('NotNull.autoApprove')
+            response.body.contains('NotNull.accessTokenValiditySeconds')
+            response.body.contains('NotNull.refreshTokenValiditySeconds')
+            response.body.contains('NotNull.authorities')
+            response.body.contains('NotNull.scopes')
+            response.body.contains('NotNull.authorizedGrantTypes')
+            response.body.contains('NotNull.registeredRedirectUris')
+            response.body.contains('NotNull.resourceIds')
+    }
+
     def 'simple user should not access update client data endpoint'() {
         given:
             Client client = clientHelper.createRegisteredClient()
