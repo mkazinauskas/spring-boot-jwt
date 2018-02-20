@@ -1,11 +1,13 @@
 package com.modzo.jwt.resources.management.secret;
 
-import com.modzo.jwt.resources.TokenHelper;
 import com.modzo.jwt.domain.users.commands.UpdateUserPassword;
+import com.modzo.jwt.resources.TokenHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 class UpdateUserPasswordResource {
@@ -20,7 +22,7 @@ class UpdateUserPasswordResource {
     }
 
     @PutMapping("/api/management/password")
-    ResponseEntity updateSecret(@RequestBody UpdateUserPasswordRequest request) {
+    ResponseEntity updateSecret(@Valid @RequestBody UpdateUserPasswordRequest request) {
         handler.handle(request.toCommand(tokenHelper.getDetails().getUniqueId()));
         return ResponseEntity.ok().build();
     }
