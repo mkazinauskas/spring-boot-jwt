@@ -55,4 +55,8 @@ class Urls {
     static String managementUpdatePassword() {
         return '/api/management/password'
     }
+
+    static String swaggerUi() {
+        return '/swagger-ui.html'
+    }
 }

@@ -16,7 +16,7 @@ class JwtApplication {
     }
 
     @Bean
-    PasswordEncoder encoder(){
+    PasswordEncoder encoder() {
         return new BCryptPasswordEncoder()
     }
 
