@@ -9,12 +9,15 @@ import org.hibernate.validator.constraints.NotEmpty
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
+import static javax.persistence.GenerationType.SEQUENCE
+
 @CompileStatic
 @Entity
 @Table(name = 'users')
 class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = 'users_sequence', strategy = SEQUENCE)
+    @SequenceGenerator(name = 'users_sequence', sequenceName = 'users_sequence', allocationSize = 1)
     @Column(name = 'id')
     Long id
 

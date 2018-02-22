@@ -2,11 +2,10 @@ package com.modzo.jwt.domain.clients
 
 import groovy.transform.CompileStatic
 import org.hibernate.validator.constraints.NotBlank
-import org.hibernate.validator.constraints.NotEmpty
-import org.hibernate.validator.constraints.URL
 
 import javax.persistence.*
 
+import static javax.persistence.GenerationType.SEQUENCE
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 @CompileStatic
@@ -14,7 +13,8 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 @Table(name = 'clients')
 class Client {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = 'clients_sequence', strategy = SEQUENCE)
+    @SequenceGenerator(name = 'clients_sequence', sequenceName = 'clients_sequence', allocationSize = 1)
     @Column(name = 'id')
     Long id
 

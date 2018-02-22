@@ -4,6 +4,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql://hostname/databasename
+
 security.oauth2.authorization:
   signing-key: veryStongSigningKey
 logging:

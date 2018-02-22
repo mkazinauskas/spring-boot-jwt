@@ -37,16 +37,16 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: enabled
-                  type: bit
+                  type: boolean
               - column:
                   name: account_not_expired
-                  type: bit
+                  type: boolean
               - column:
                   name: credentials_not_expired
-                  type: bit
+                  type: boolean
               - column:
                   name: account_not_locked
-                  type: bit
+                  type: boolean
               - column:
                   name: password_reset_code
                   type: varchar(32)
@@ -59,6 +59,11 @@ databaseChangeLog:
                   constraints:
                     nullable: true
                     unique: true
+        - createSequence:
+            schemaName: public
+            sequenceName: users_sequence
+            incrementBy: 1
+            startValue: 1
         - createTable:
             tableName: user_authorities
             columns:
@@ -120,22 +125,27 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: secret_required
-                  type: bit
+                  type: boolean
               - column:
                   name: enabled
-                  type: bit
+                  type: boolean
               - column:
                   name: scoped
-                  type: bit
+                  type: boolean
               - column:
                   name: auto_approve
-                  type: bit
+                  type: boolean
               - column:
                   name: access_token_validity_seconds
                   type: int
               - column:
                   name: refresh_token_validity_seconds
                   type: int
+        - createSequence:
+            schemaName: public
+            sequenceName: clients_sequence
+            incrementBy: 1
+            startValue: 1
         - createTable:
             tableName: client_authorities
             columns:
