@@ -8,5 +8,7 @@
 1. Execute `docker-compose up`
 2. Run application
 
-## TODOString
-This project is still in progress
+## TODO
+* Activation email
+* Password reset
+* Bruteforce protection
