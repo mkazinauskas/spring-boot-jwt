@@ -16,12 +16,12 @@ class Urls {
         "/oauth/token?grant_type=${REFRESH_TOKEN.type}&refresh_token=${refreshToken}"
     }
 
-    static String revokeAccessToken(String accessToken){
-        return "/tokens?accessToken=${accessToken}"
+    static String revokeToken(){
+        return "/api/management/tokens"
     }
 
     static String revokeRefreshToken(String refreshToken){
-        return "/tokens?refreshToken=${refreshToken}"
+        return "/api/management/tokens?refreshToken=${refreshToken}"
     }
 
     static String adminClients(){

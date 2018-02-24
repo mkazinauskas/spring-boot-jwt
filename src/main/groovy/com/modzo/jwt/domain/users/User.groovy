@@ -56,7 +56,7 @@ class User {
     @Column(name = 'activation_code', length = 32)
     String activationCode
 
-    @NotEmpty
+    @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = 'user_authorities', joinColumns = @JoinColumn(name = 'user_id', nullable = false))
@@ -67,6 +67,10 @@ class User {
         REGISTERED_USER,
         USER,
         ADMIN
+
+        static String[] stringValues() {
+            return values().collect {Authority value -> value.name() } as String[]
+        }
     }
 }
 
