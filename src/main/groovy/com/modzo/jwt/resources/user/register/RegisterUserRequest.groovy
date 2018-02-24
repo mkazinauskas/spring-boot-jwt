@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.admin.users.register
+package com.modzo.jwt.resources.user.register
 
 import com.modzo.jwt.domain.users.commands.CreateUser
 import org.hibernate.validator.constraints.Email

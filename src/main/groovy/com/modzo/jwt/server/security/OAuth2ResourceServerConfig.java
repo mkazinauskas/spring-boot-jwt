@@ -17,6 +17,7 @@ class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers("/api/user/**").hasAuthority(USER.name())
+                .antMatchers("/api/users").permitAll()
                 .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues());
     }
 }

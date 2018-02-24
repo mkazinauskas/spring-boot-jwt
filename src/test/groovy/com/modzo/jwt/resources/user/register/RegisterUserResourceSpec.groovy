@@ -1,14 +1,15 @@
-package com.modzo.jwt.resources.admin.users.register
+package com.modzo.jwt.resources.user.register
 
 import com.modzo.jwt.AbstractSpec
+import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
-import spock.lang.Ignore
 import spock.lang.Shared
 
+import static com.modzo.jwt.Urls.registerUser
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
@@ -41,10 +42,9 @@ class RegisterUserResourceSpec extends AbstractSpec {
                     password: randomString
             )
         when:
-            ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
+            ResponseEntity<String> response = restTemplate.postForEntity(registerUser(),
                     builder()
                             .body(request)
-                            .bearer(adminToken)
                             .build(),
                     String
             )
@@ -52,9 +52,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             response.statusCode == CREATED
             !response.body
         and:
-            String uniqueId = response.headers.getLocation().path.split('/').last()
-
-            User user = users.findByUniqueId(uniqueId).get()
+            User user = users.findByEmail(request.email).get()
             user.email == request.email
             passwordEncoder.matches(request.password, user.encodedPassword)
             user.authorities == [REGISTERED_USER] as Set
@@ -71,10 +69,9 @@ class RegisterUserResourceSpec extends AbstractSpec {
                     password: null
             )
         when:
-            ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
+            ResponseEntity<String> response = restTemplate.postForEntity(registerUser(),
                     builder()
                             .body(request)
-                            .bearer(adminToken)
                             .build(),
                     String
             )
@@ -83,19 +80,4 @@ class RegisterUserResourceSpec extends AbstractSpec {
             response.body.contains('NotBlank.email')
             response.body.contains('NotBlank.password')
     }
-
-    def 'not admin user should not access register new user endpoint'() {
-        when:
-            ResponseEntity<String> response = restTemplate.postForEntity('/api/admin/users',
-                    builder()
-                            .body(new RegisterUserRequest())
-                            .bearer(userToken)
-                            .build(),
-                    String
-            )
-        then:
-            response.statusCode == FORBIDDEN
-            response.body.contains('access_denied')
-    }
 }
-

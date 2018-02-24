@@ -63,4 +63,8 @@ class Urls {
     static String index(){
         return '/'
     }
+
+    static String registerUser() {
+        return '/api/users'
+    }
 }
