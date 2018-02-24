@@ -4,5 +4,9 @@
 
 # Spring Boot OAUTH2 JWT Bootstrap
 
-## TODO
+# How to start
+1. Execute `docker-compose up`
+2. Run application
+
+## TODOString
 This project is still in progress

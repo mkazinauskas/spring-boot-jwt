@@ -1,4 +1,14 @@
-spring.profiles.active: prod
+spring:
+  profiles:
+    active: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:8081/jwt
+    username: dockeruser
+    password: dockerpassword
 
 security.oauth2.authorization:
   signing-key: veryStongSigningKey
