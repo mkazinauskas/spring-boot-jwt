@@ -1,7 +1,6 @@
-package com.modzo.jwt.resources.user.register
+package com.modzo.jwt.resources.users.register
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
 import org.springframework.beans.factory.annotation.Autowired
