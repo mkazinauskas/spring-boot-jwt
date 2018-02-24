@@ -59,4 +59,8 @@ class Urls {
     static String swaggerUi() {
         return '/swagger-ui.html'
     }
+
+    static String index(){
+        return '/'
+    }
 }
