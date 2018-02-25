@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db:
+    container_name: spring-boot-jwt-postgres-db
+    image: postgres:9.4
+    environment:
+      - POSTGRES_DB=jwt
+      - POSTGRES_USER=dockeruser
+      - POSTGRES_PASSWORD=dockerpassword
+    ports:
+      - 8081:5432
+    volumes:
+      - /data/spring_boot_jwt_db:/var/lib/postgresql/data

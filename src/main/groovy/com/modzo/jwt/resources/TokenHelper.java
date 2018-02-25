@@ -19,7 +19,7 @@ public class TokenHelper {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (principal instanceof OAuth2AuthenticationDetails) {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(((OAuth2AuthenticationDetails) principal).getTokenValue());
-            return new TokenDetails(accessToken.getAdditionalInformation());
+            return new TokenDetails(accessToken);
         }
         throw new IllegalArgumentException("Token data is not present");
     }

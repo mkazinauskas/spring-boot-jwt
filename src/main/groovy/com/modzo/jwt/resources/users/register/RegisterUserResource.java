@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.admin.users.register;
+package com.modzo.jwt.resources.users.register;
 
 import com.modzo.jwt.domain.users.commands.CreateUser;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ class RegisterUserResource {
         this.handler = handler;
     }
 
-    @PostMapping("/api/admin/users")
+    @PostMapping("/api/users")
     ResponseEntity register(@Valid @RequestBody RegisterUserRequest account) {
         CreateUser.Response response = handler.handle(
                 new CreateUser(
@@ -26,6 +26,6 @@ class RegisterUserResource {
                         account.getPassword()
                 )
         );
-        return ResponseEntity.created(URI.create("/api/admin/users/" + response.getUniqueId())).build();
+        return ResponseEntity.created(URI.create("/")).build();
     }
 }

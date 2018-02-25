@@ -3,17 +3,10 @@ package com.modzo.jwt.resources.admin.clients.update.data
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-import com.modzo.jwt.resources.admin.clients.register.RegisterClientRequest
-import com.modzo.jwt.resources.admin.clients.update.data.UpdateClientDataRequest
-import com.modzo.jwt.resources.admin.users.register.RegisterUserRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.password.PasswordEncoder
-import spock.lang.Ignore
 import spock.lang.Shared
 
-import static com.modzo.jwt.Urls.adminClients
 import static com.modzo.jwt.Urls.adminUpdateClientData
 import static com.modzo.jwt.domain.clients.Client.Authority.CLIENT
 import static com.modzo.jwt.domain.clients.Client.GrantType.IMPLICIT
@@ -21,7 +14,6 @@ import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
 import static com.modzo.jwt.domain.clients.Client.Scope.READ
 import static com.modzo.jwt.domain.clients.Client.Scope.WRITE
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.*
 

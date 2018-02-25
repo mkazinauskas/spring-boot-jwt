@@ -77,7 +77,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
         given:
             User user = userHelper.createRegisteredUser('oldSecret')
         and:
-            userHelper.changeAuthorities(user, [User.Authority.USER] as Set)
+            userHelper.changeAuthorities(user, [] as Set)
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
                     oldSecret: 'oldSecret',

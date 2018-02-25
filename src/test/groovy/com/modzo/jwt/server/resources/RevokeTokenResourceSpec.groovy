@@ -1,7 +1,6 @@
 package com.modzo.jwt.server.resources
 
 import com.modzo.jwt.AbstractSpec
-import com.modzo.jwt.Urls
 import com.modzo.jwt.helpers.TokenResponse
 import groovy.json.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,38 +20,40 @@ class RevokeTokenResourceSpec extends AbstractSpec {
     @Autowired
     TokenStore tokenStore
 
+    TokenResponse userToken
+
+    void setup() {
+        userToken = authorizationHelper.userToken()
+    }
+
     def 'revoked token should not be present in token store'() {
-        given:
-            String tokenBeforeRevoke = authorizationHelper.adminAccessToken()
         when:
             ResponseEntity<String> entity = restTemplate.exchange(
-                    revokeAccessToken(tokenBeforeRevoke),
+                    revokeToken(),
                     DELETE,
-                    builder().build(),
+                    builder().bearer(userToken.accessToken).build(),
                     String)
         then:
             entity.statusCode == OK
         and:
-            !tokenStore.readAccessToken(tokenBeforeRevoke)
+            !tokenStore.readAccessToken(userToken.accessToken)
     }
 
     def 'cannot refresh token from revoked refresh token'() {
-        given:
-            TokenResponse tokenBeforeRevoke = authorizationHelper.adminToken()
         when:
             ResponseEntity<String> revokeResponse = restTemplate.exchange(
-                    revokeRefreshToken(tokenBeforeRevoke.refreshToken),
+                    revokeToken(),
                     DELETE,
-                    builder().build(),
+                    builder().bearer(userToken.accessToken).build(),
                     String)
         then:
             revokeResponse.statusCode == OK
         and:
-            !tokenStore.readRefreshToken(tokenBeforeRevoke.refreshToken)
-            !tokenStore.readAccessToken(tokenBeforeRevoke.accessToken)
+            !tokenStore.readRefreshToken(userToken.refreshToken)
+            !tokenStore.readAccessToken(userToken.accessToken)
         when:
             ResponseEntity<String> refreshResponse = restTemplate.exchange(
-                    refreshTokens(tokenBeforeRevoke.refreshToken),
+                    refreshTokens(userToken.refreshToken),
                     POST,
                     builder()
                             .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
@@ -63,6 +64,6 @@ class RevokeTokenResourceSpec extends AbstractSpec {
         and:
             def body = new JsonSlurper().parseText(refreshResponse.body)
             body.error == 'invalid_grant'
-            body.error_description == "Invalid refresh token: ${tokenBeforeRevoke.refreshToken}"
+            body.error_description == "Invalid refresh token: ${userToken.refreshToken}"
     }
 }
