@@ -2,6 +2,7 @@ package com.modzo.jwt.domain.users.commands
 
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
+import com.modzo.jwt.email.commands.SendActivationEmail
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -23,10 +24,12 @@ class CreateUser {
     static class Handler {
         private final Users users
         private final PasswordEncoder passwordEncoder
+        private final SendActivationEmail.Handler sendActivationEmail
 
-        Handler(Users users, PasswordEncoder passwordEncoder) {
+        Handler(Users users, PasswordEncoder passwordEncoder, SendActivationEmail.Handler sendActivationEmail) {
             this.users = users
             this.passwordEncoder = passwordEncoder
+            this.sendActivationEmail = sendActivationEmail
         }
 
         @Transactional
@@ -40,8 +43,18 @@ class CreateUser {
                     accountNotLocked: true
             )
             user.authorities.addAll([REGISTERED_USER])
-            User save = users.save(user)
-            return new Response(uniqueId: save.uniqueId)
+            User savedUser = users.saveAndFlush(user)
+            sendActivationEmail(savedUser)
+            return new Response(uniqueId: savedUser.uniqueId)
+        }
+
+        private void sendActivationEmail(User savedUser) {
+            sendActivationEmail.handle(
+                    new SendActivationEmail(
+                            savedUser.uniqueId,
+                            savedUser.email,
+                            savedUser.activationCode)
+            )
         }
     }
 

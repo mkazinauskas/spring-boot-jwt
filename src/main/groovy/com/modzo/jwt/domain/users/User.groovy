@@ -10,6 +10,7 @@ import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 import static javax.persistence.GenerationType.SEQUENCE
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 @CompileStatic
 @Entity
@@ -23,7 +24,7 @@ class User {
 
     @NotBlank
     @Column(name = 'unique_id', unique = true, length = 10)
-    String uniqueId = RandomStringUtils.randomAlphanumeric(10)
+    String uniqueId = randomAlphanumeric(10)
 
     @Version
     @Column(name = 'version', nullable = false)
@@ -54,7 +55,7 @@ class User {
     String passwordResetCode
 
     @Column(name = 'activation_code', length = 32)
-    String activationCode
+    String activationCode = randomAlphanumeric(10)
 
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
