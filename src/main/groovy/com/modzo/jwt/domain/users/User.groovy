@@ -64,13 +64,18 @@ class User {
     @Column(name = 'authority')
     final Set<Authority> authorities = []
 
+    void activate() {
+        enabled = true
+        activationCode = null
+    }
+
     static enum Authority {
         REGISTERED_USER,
         USER,
         ADMIN
 
         static String[] stringValues() {
-            return values().collect {Authority value -> value.name() } as String[]
+            return values().collect { Authority value -> value.name() } as String[]
         }
     }
 }

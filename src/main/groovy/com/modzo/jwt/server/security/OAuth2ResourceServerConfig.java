@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 import static com.modzo.jwt.domain.users.User.Authority.ADMIN;
 import static com.modzo.jwt.domain.users.User.Authority.USER;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @EnableResourceServer
 @Configuration
@@ -17,7 +19,8 @@ class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers("/api/user/**").hasAuthority(USER.name())
-                .antMatchers("/api/users").permitAll()
-                .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues());
+                .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues())
+                .antMatchers(POST, "/api/users").permitAll()
+                .antMatchers(GET, "/api/user/activation/**").permitAll();
     }
 }

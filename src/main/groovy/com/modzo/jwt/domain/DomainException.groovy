@@ -27,4 +27,8 @@ class DomainException extends RuntimeException {
     static DomainException userByEmailWasNotFound(String email) {
         return new DomainException('USER_BY_EMAIL_WAS_NOT_FOUND', "User by email `${email}` was not found")
     }
+
+    static DomainException userActivationCodeIsIncorrect(String activationCode) {
+        return new DomainException('USER_ACTIVATION_CODE_IS_INCORRECT', "User activation code is incorrect for uniqueId `${activationCode}`")
+    }
 }

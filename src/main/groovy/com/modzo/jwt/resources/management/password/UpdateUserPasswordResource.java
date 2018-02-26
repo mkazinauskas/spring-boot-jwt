@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.management.secret;
+package com.modzo.jwt.resources.management.password;
 
 import com.modzo.jwt.domain.users.commands.UpdateUserPassword;
 import com.modzo.jwt.resources.TokenHelper;

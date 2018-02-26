@@ -67,4 +67,8 @@ class Urls {
     static String registerUser() {
         return '/api/users'
     }
+
+    static String activateUser(String activationCode) {
+        return "/api/user/activation?activationCode=${activationCode}"
+    }
 }

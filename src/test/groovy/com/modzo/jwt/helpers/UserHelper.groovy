@@ -45,7 +45,7 @@ class UserHelper {
         updateUserDataHandler.handle(new UpdateUserData(
                 uniqueId: uniqueId,
                 email: email,
-                enabled: true,
+                enabled: false,
                 accountNotExpired: true,
                 credentialsNonExpired: true,
                 accountNotLocked: true,
