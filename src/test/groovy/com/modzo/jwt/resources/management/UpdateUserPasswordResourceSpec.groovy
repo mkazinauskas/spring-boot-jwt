@@ -25,7 +25,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
 
     def 'should update user password'() {
         given:
-            User user = userHelper.createRegisteredUser('oldPassword')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
                     oldPassword: 'oldPassword',
@@ -37,7 +37,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
                     PUT,
                     HttpEntityBuilder.builder()
                             .body(request)
-                            .bearer(authorizationHelper.getToken(user.email, 'oldSecret').accessToken)
+                            .bearer(authorizationHelper.getToken(user.email, 'oldPassword').accessToken)
                             .build(),
                     String
             )
@@ -51,7 +51,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
 
     def 'should fail to update user password'() {
         given:
-            User user = userHelper.createRegisteredUser('oldPassword')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
                     oldPassword: null,
@@ -69,13 +69,13 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
             )
         then:
             response.statusCode == BAD_REQUEST
-            response.body.contains('NotBlank.oldSecret')
+            response.body.contains('NotBlank.oldPassword')
             response.body.contains('NotBlank.newPassword')
     }
 
     def 'user without roles should not access change password endpoint'() {
         given:
-            User user = userHelper.createRegisteredUser('oldPassword')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             userHelper.changeAuthorities(user, [] as Set)
         and:

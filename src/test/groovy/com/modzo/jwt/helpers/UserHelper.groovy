@@ -27,25 +27,25 @@ class UserHelper {
         this.users = users
     }
 
-    User createRegisteredUser(String password = randomAlphanumeric(5)) {
+    User createRegisteredUser(boolean activated, String password = randomAlphanumeric(5)) {
         String email = randomEmail()
         CreateUser.Response response = createUserHandler.handle(
-                new CreateUser(false, email, password))
+                new CreateUser(activated, email, password))
 
-        updateData(response.uniqueId, email, [REGISTERED_USER, ADMIN] as Set<User.Authority>)
+        updateData(activated, response.uniqueId, email, [REGISTERED_USER, ADMIN] as Set<User.Authority>)
 
         return users.findByUniqueId(response.uniqueId).get()
     }
 
     void changeAuthorities(User user, Set<User.Authority> authorities) {
-        updateData(user.uniqueId, user.email, authorities)
+        updateData(user.enabled, user.uniqueId, user.email, authorities)
     }
 
-    private updateData(String uniqueId, String email, Set<User.Authority> authorities) {
+    private updateData(boolean activated, String uniqueId, String email, Set<User.Authority> authorities) {
         updateUserDataHandler.handle(new UpdateUserData(
                 uniqueId: uniqueId,
                 email: email,
-                enabled: false,
+                enabled: activated,
                 accountNotExpired: true,
                 credentialsNonExpired: true,
                 accountNotLocked: true,

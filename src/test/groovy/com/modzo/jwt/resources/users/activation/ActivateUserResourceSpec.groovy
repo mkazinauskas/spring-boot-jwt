@@ -17,7 +17,7 @@ class ActivateUserResourceSpec extends AbstractSpec {
 
     def 'should activate registered user'() {
         given:
-            User registeredUser = userHelper.createRegisteredUser()
+            User registeredUser = userHelper.createRegisteredUser(false)
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(
                     activateUser(registeredUser.activationCode),
