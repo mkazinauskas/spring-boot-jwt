@@ -22,6 +22,7 @@ class RegisterUserResource {
     ResponseEntity register(@Valid @RequestBody RegisterUserRequest account) {
         CreateUser.Response response = handler.handle(
                 new CreateUser(
+                        false,
                         account.getEmail(),
                         account.getPassword()
                 )

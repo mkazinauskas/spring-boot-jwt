@@ -30,7 +30,7 @@ class UserHelper {
     User createRegisteredUser(String password = randomAlphanumeric(5)) {
         String email = randomEmail()
         CreateUser.Response response = createUserHandler.handle(
-                new CreateUser(email, password))
+                new CreateUser(false, email, password))
 
         updateData(response.uniqueId, email, [REGISTERED_USER, ADMIN] as Set<User.Authority>)
 

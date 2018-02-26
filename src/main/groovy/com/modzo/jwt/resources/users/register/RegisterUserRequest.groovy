@@ -13,6 +13,6 @@ class RegisterUserRequest {
     String password
 
     CreateUser toCreateUser() {
-        return new CreateUser(email, password)
+        return new CreateUser(false, email, password)
     }
 }

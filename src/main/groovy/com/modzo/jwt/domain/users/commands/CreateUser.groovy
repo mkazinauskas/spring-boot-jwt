@@ -11,11 +11,14 @@ import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 
 class CreateUser {
 
+    final boolean activated
+
     final String email
 
     final String password
 
-    CreateUser(String email, String password) {
+    CreateUser(boolean activated, String email, String password) {
+        this.activated = activated
         this.email = email
         this.password = password
     }
@@ -37,14 +40,19 @@ class CreateUser {
             User user = new User(
                     email: createUser.email,
                     encodedPassword: passwordEncoder.encode(createUser.password),
-                    enabled: true,
+                    enabled: createUser.activated,
                     accountNotExpired: true,
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
+            if (createUser.activated) {
+                user.activationCode = null
+            }
             user.authorities.addAll([REGISTERED_USER])
             User savedUser = users.saveAndFlush(user)
-            sendActivationEmail(savedUser)
+            if (!createUser.activated) {
+                sendActivationEmail(savedUser)
+            }
             return new Response(uniqueId: savedUser.uniqueId)
         }
 

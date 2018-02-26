@@ -73,7 +73,7 @@ class DataInitService {
 
         CreateUser asCreateUserCommand() {
             return new CreateUser(
-                    email, password
+                    true, email, password
             )
         }
     }

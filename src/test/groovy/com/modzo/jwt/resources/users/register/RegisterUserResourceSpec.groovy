@@ -64,7 +64,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
             user.encodedPassword
             user.accountNotLocked
             user.credentialsNonExpired
-            user.enabled
+            !user.enabled
         and:
             SimpleMailMessage message = mailSender.sentSimpleMailMessages.find { it.to.first() == user.email }
             message.subject == 'User activation'
