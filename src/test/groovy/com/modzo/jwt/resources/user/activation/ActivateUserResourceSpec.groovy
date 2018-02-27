@@ -20,7 +20,7 @@ class ActivateUserResourceSpec extends AbstractSpec {
             User registeredUser = userHelper.createRegisteredUser(false)
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(
-                    activateUser(registeredUser.activationCode),
+                    activateUser(registeredUser.email, registeredUser.activationCode),
                     String
             )
         then:
@@ -34,7 +34,7 @@ class ActivateUserResourceSpec extends AbstractSpec {
     def 'should fail activate user'() {
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(
-                    activateUser(null),
+                    activateUser(null, null),
                     String
             )
         then:

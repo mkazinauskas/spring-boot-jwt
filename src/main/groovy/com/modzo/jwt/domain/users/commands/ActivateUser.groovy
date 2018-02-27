@@ -2,19 +2,20 @@ package com.modzo.jwt.domain.users.commands
 
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
-import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-import static com.modzo.jwt.domain.DomainException.userActivationCodeIsIncorrect
-import static com.modzo.jwt.domain.DomainException.userWithActivationCodeIsAlreadyActivated
+import static com.modzo.jwt.domain.DomainException.*
 import static org.apache.commons.lang3.StringUtils.isBlank
 
 class ActivateUser {
 
+    final String email
+
     final String activationCode
 
-    ActivateUser(String activationCode) {
+    ActivateUser(String email, String activationCode) {
+        this.email = email
         this.activationCode = activationCode
     }
 
@@ -28,13 +29,21 @@ class ActivateUser {
 
         void validate(ActivateUser activateUser) {
             if (isBlank(activateUser.activationCode)) {
-               throw userActivationCodeIsIncorrect(activateUser.activationCode)
+                throw userActivationCodeIsIncorrect(activateUser.activationCode)
             }
 
-            User user = users.findByActivationCode(activateUser.activationCode)
-                    .orElseThrow { userActivationCodeIsIncorrect(activateUser.activationCode) }
+            if (isBlank(activateUser.email)) {
+                throw userByEmailWasNotFound(activateUser.email)
+            }
 
-            if(user.enabled){
+            User user = users.findByEmail(activateUser.email)
+                    .orElseThrow { userByEmailWasNotFound(activateUser.email) }
+
+            if (user.activationCode != activateUser.activationCode) {
+                throw userActivationCodeIsIncorrect(activateUser.activationCode)
+            }
+
+            if (user.enabled) {
                 userWithActivationCodeIsAlreadyActivated(activateUser.activationCode)
             }
         }

@@ -68,8 +68,11 @@ class Urls {
         return '/api/users'
     }
 
-    static String activateUser(String activationCode) {
-        return '/api/user/activation' + (activationCode ? "?activationCode=${activationCode}" : '')
+    static String activateUser(String email, String activationCode) {
+        List<String> params = []
+        activationCode ? params << "activationCode=${activationCode}" : ''
+        email ? params << "&email=${email}" : ''
+        return '/api/user/activation?' + params.join('&')
     }
 
     static String remindPassword() {

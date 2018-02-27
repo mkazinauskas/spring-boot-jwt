@@ -17,9 +17,10 @@ class ActivateUserResource {
         this.handler = handler;
     }
 
-    @GetMapping(value = "/api/user/activation", params = {"activationCode"})
+    @GetMapping(value = "/api/user/activation", params = {"activationCode", "email"})
     @ResponseStatus(OK)
-    void updateSecret(@RequestParam("activationCode") String activationCode) {
-        handler.handle(new ActivateUser(activationCode));
+    void updateSecret(@RequestParam("email") String email,
+                      @RequestParam("activationCode") String activationCode) {
+        handler.handle(new ActivateUser(email, activationCode));
     }
 }
