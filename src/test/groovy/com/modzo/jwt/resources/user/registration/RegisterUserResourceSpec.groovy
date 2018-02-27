@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.user.register
+package com.modzo.jwt.resources.user.registration
 
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.users.User
@@ -27,17 +27,6 @@ class RegisterUserResourceSpec extends AbstractSpec {
 
     @Autowired
     StubJavaMailSender mailSender
-
-    @Shared
-    String adminToken
-
-    @Shared
-    String userToken
-
-    void setup() {
-        adminToken = authorizationHelper.adminAccessToken()
-        userToken = authorizationHelper.userAccessToken()
-    }
 
     def 'should register new user'() {
         given:

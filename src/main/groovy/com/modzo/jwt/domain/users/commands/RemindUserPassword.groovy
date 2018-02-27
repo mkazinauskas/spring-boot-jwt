@@ -2,13 +2,11 @@ package com.modzo.jwt.domain.users.commands
 
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
+import com.modzo.jwt.email.commands.SendPasswordResetEmail
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-import static com.modzo.jwt.domain.DomainException.userActivationCodeIsIncorrect
 import static com.modzo.jwt.domain.DomainException.userByEmailWasNotFound
-import static com.modzo.jwt.domain.DomainException.userWithActivationCodeIsAlreadyActivated
-import static org.apache.commons.lang3.StringUtils.isBlank
 
 class RemindUserPassword {
 
@@ -38,11 +36,12 @@ class RemindUserPassword {
 
         private final Validator validator
 
-        private final
+        private final SendPasswordResetEmail.Handler handler
 
-        Handler(Users users, Validator validator) {
+        Handler(Users users, Validator validator, SendPasswordResetEmail.Handler handler) {
             this.users = users
             this.validator = validator
+            this.handler = handler
         }
 
         @Transactional
@@ -52,7 +51,7 @@ class RemindUserPassword {
             User user = users.findByEmail(command.email).get()
             user.newPasswordResetCode()
 
-            //Send email
+            handler.handle(new SendPasswordResetEmail(user.email, user.passwordResetCode))
         }
     }
 }

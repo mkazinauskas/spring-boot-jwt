@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.user.remind
+package com.modzo.jwt.resources.user.reminder
 
 import com.modzo.jwt.domain.users.commands.RemindUserPassword
 import org.hibernate.validator.constraints.NotBlank

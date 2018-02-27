@@ -4,13 +4,13 @@ import com.modzo.jwt.email.EmailService
 import com.modzo.jwt.email.MessageTemplatingService
 import org.springframework.stereotype.Component
 
-class SendActivationEmail {
+class SendPasswordResetEmail {
     final String email
-    final String activationCode
+    final String passwordResetCode
 
-    SendActivationEmail(String email, String activationCode) {
+    SendPasswordResetEmail(String email, String passwordResetCode) {
         this.email = email
-        this.activationCode = activationCode
+        this.passwordResetCode = passwordResetCode
     }
 
     @Component
@@ -24,11 +24,12 @@ class SendActivationEmail {
             this.templatingService = templatingService
         }
 
-        void handle(SendActivationEmail command) {
-            String subject = 'User activation'
+        void handle(SendPasswordResetEmail command) {
+            String subject = 'Password reset'
             String text = templatingService.mergeTemplateIntoString(
-                    MessageTemplatingService.Template.ACTIVATION,
-                    ['activationCode': command.activationCode])
+                    MessageTemplatingService.Template.PASSWORD_RESET,
+                    ['email'  : command.email,
+                     'passwordResetCode': command.passwordResetCode])
             emailService.sendMessage(new EmailService.Message(command.email, subject, text))
         }
     }

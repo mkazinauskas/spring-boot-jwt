@@ -1,7 +1,8 @@
-package com.modzo.jwt.resources.user.remind;
+package com.modzo.jwt.resources.user.reminder;
 
 import com.modzo.jwt.domain.users.commands.RemindUserPassword;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ class RemindUserPasswordResource {
 
     @PostMapping(value = "/api/user/password-reminder")
     @ResponseStatus(OK)
-    void remindUserPasswordRequest(@Valid RemindUserPasswordRequest remindUserPasswordRequest) {
+    void remindUserPasswordRequest(@RequestBody @Valid RemindUserPasswordRequest remindUserPasswordRequest) {
         handler.handle(remindUserPasswordRequest.toRemindUserPassword());
     }
 }

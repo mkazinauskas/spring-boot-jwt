@@ -45,8 +45,8 @@ class CreateUser {
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
-            if (createUser.activated) {
-                user.activationCode = null
+            if (!createUser.activated) {
+                user.deactivate()
             }
             user.authorities.addAll([REGISTERED_USER])
             User savedUser = users.saveAndFlush(user)
@@ -59,7 +59,6 @@ class CreateUser {
         private void sendActivationEmail(User savedUser) {
             sendActivationEmail.handle(
                     new SendActivationEmail(
-                            savedUser.uniqueId,
                             savedUser.email,
                             savedUser.activationCode)
             )

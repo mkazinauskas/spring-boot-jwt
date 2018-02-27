@@ -6,6 +6,6 @@ class EmailException extends RuntimeException{
     }
 
     static EmailException templateParsingFailed(String templatePath){
-        return EmailException("Template parsing from path `${templatePath}` has failed")
+        return new EmailException("Template parsing from path `${templatePath}` has failed")
     }
 }

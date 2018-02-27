@@ -26,13 +26,15 @@ class MessageTemplatingService {
             Reader template = templateLoader.getTemplate(trimmedTemplateReference)
             return compiler.compile(template).execute(model)
         } catch (Exception e) {
-            log.error("Template parsing has failed", e)
+            log.error('Template parsing has failed', e)
             throw templateParsingFailed(templatePath.getPath())
         }
     }
 
     enum Template {
-        ACTIVATION("email-templates/user-activation")
+        ACTIVATION("email-templates/user-activation"),
+        PASSWORD_RESET("email-templates/password-reset")
+
         private final String path
 
         Template(String path) {

@@ -71,4 +71,8 @@ class Urls {
     static String activateUser(String activationCode) {
         return '/api/user/activation' + (activationCode ? "?activationCode=${activationCode}" : '')
     }
+
+    static String remindPassword() {
+        return '/api/user/password-reminder'
+    }
 }
