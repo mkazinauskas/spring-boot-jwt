@@ -52,13 +52,11 @@ databaseChangeLog:
                   type: varchar(32)
                   constraints:
                     nullable: true
-                    unique: true
               - column:
                   name: activation_code
                   type: varchar(32)
                   constraints:
                     nullable: true
-                    unique: true
         - createSequence:
             schemaName: public
             sequenceName: users_sequence

@@ -1,10 +1,8 @@
 package com.modzo.jwt.domain.users
 
 import groovy.transform.CompileStatic
-import org.apache.commons.lang3.RandomStringUtils
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.NotBlank
-import org.hibernate.validator.constraints.NotEmpty
 
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -51,11 +49,11 @@ class User {
     @Column(name = 'account_not_locked')
     boolean accountNotLocked
 
-    @Column(name = 'password_reset_code', length = 32)
+    @Column(name = 'password_reset_code', length = 32, nullable = true)
     String passwordResetCode
 
-    @Column(name = 'activation_code', length = 32)
-    String activationCode = randomAlphanumeric(10)
+    @Column(name = 'activation_code', length = 32, nullable = true)
+    String activationCode
 
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
@@ -67,6 +65,15 @@ class User {
     void activate() {
         enabled = true
         activationCode = null
+    }
+
+    void deactivate() {
+        enabled = false
+        activationCode = randomAlphanumeric(10)
+    }
+
+    void newPasswordResetCode() {
+        this.passwordResetCode = randomAlphanumeric(10)
     }
 
     static enum Authority {

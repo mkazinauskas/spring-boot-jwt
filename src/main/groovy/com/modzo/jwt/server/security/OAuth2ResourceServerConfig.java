@@ -17,6 +17,7 @@ class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(POST, "/api/user/password-reminder").permitAll()
                 .antMatchers(GET, "/api/user/activation").permitAll()
                 .antMatchers(POST, "/api/users").permitAll()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
