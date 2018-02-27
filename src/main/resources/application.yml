@@ -14,11 +14,3 @@ security.oauth2.authorization:
   signing-key: veryStongSigningKey
 
 application.init.data: true
-
-spring.mail:
-  host: smtp.gmail.com
-  port: 587
-  username: <login user to smtp server>
-  password: <login password to smtp server>
-  properties.mail.smtp.auth: true
-  properties.mail.smtp.starttls.enable: true

@@ -31,4 +31,8 @@ class DomainException extends RuntimeException {
     static DomainException userActivationCodeIsIncorrect(String activationCode) {
         return new DomainException('USER_ACTIVATION_CODE_IS_INCORRECT', "User activation code is incorrect for uniqueId `${activationCode}`")
     }
+
+    static DomainException userWithActivationCodeIsAlreadyActivated(String activationCode) {
+        return new DomainException('USER_WITH_ACTIVATION_CODE_IS_ACTIVATED', "User with activation code `${activationCode}` is already activated")
+    }
 }

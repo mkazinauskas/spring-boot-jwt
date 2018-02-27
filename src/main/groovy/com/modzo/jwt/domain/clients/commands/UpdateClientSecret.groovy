@@ -14,7 +14,7 @@ class UpdateClientSecret {
     String newSecret
 
     @Component
-    static class Validator {
+    private static class Validator {
 
         private final Clients clients
 

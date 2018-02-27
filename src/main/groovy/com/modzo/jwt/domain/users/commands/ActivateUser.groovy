@@ -2,10 +2,13 @@ package com.modzo.jwt.domain.users.commands
 
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 import static com.modzo.jwt.domain.DomainException.userActivationCodeIsIncorrect
+import static com.modzo.jwt.domain.DomainException.userWithActivationCodeIsAlreadyActivated
+import static org.apache.commons.lang3.StringUtils.isBlank
 
 class ActivateUser {
 
@@ -24,8 +27,16 @@ class ActivateUser {
         }
 
         void validate(ActivateUser activateUser) {
-            users.findByActivationCode(activateUser.activationCode)
+            if (isBlank(activateUser.activationCode)) {
+               throw userActivationCodeIsIncorrect(activateUser.activationCode)
+            }
+
+            User user = users.findByActivationCode(activateUser.activationCode)
                     .orElseThrow { userActivationCodeIsIncorrect(activateUser.activationCode) }
+
+            if(user.enabled){
+                userWithActivationCodeIsAlreadyActivated(activateUser.activationCode)
+            }
         }
     }
 

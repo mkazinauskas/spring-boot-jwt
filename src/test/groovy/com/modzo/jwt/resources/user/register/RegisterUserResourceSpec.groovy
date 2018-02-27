@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.users.register
+package com.modzo.jwt.resources.user.register
 
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.users.User

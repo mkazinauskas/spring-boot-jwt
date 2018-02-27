@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.users.activation;
+package com.modzo.jwt.resources.user.activation;
 
 import com.modzo.jwt.domain.users.commands.ActivateUser;
 import org.springframework.web.bind.annotation.GetMapping;

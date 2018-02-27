@@ -17,10 +17,10 @@ class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(GET, "/api/user/activation").permitAll()
+                .antMatchers(POST, "/api/users").permitAll()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers("/api/user/**").hasAuthority(USER.name())
-                .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues())
-                .antMatchers(POST, "/api/users").permitAll()
-                .antMatchers(GET, "/api/user/activation/**").permitAll();
+                .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues());
     }
 }
