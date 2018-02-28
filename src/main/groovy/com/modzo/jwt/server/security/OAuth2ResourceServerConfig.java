@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 import static com.modzo.jwt.domain.users.User.Authority.ADMIN;
 import static com.modzo.jwt.domain.users.User.Authority.USER;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @EnableResourceServer
 @Configuration
@@ -15,9 +17,11 @@ class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers(POST, "/api/user/password-reminder").permitAll()
+                .antMatchers(GET, "/api/user/activation").permitAll()
+                .antMatchers(POST, "/api/users").permitAll()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers("/api/user/**").hasAuthority(USER.name())
-                .antMatchers("/api/users").permitAll()
                 .antMatchers("/api/management/**").hasAnyAuthority(User.Authority.stringValues());
     }
 }

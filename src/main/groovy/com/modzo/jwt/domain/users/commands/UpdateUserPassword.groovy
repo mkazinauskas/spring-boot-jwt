@@ -17,7 +17,7 @@ class UpdateUserPassword {
     String newPassword
 
     @Component
-    static class Validator {
+    private static class Validator {
 
         private final Users users
 

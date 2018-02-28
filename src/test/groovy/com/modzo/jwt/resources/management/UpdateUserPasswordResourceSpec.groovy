@@ -5,7 +5,7 @@ import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
 import com.modzo.jwt.helpers.HttpEntityBuilder
-import com.modzo.jwt.resources.management.secret.UpdateUserPasswordRequest
+import com.modzo.jwt.resources.management.password.UpdateUserPasswordRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -25,11 +25,11 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
 
     def 'should update user password'() {
         given:
-            User user = userHelper.createRegisteredUser('oldSecret')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
-                    oldSecret: 'oldSecret',
-                    newSecret: 'newSecret'
+                    oldPassword: 'oldPassword',
+                    newPassword: 'newPassword'
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -37,7 +37,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
                     PUT,
                     HttpEntityBuilder.builder()
                             .body(request)
-                            .bearer(authorizationHelper.getToken(user.email, 'oldSecret').accessToken)
+                            .bearer(authorizationHelper.getToken(user.email, 'oldPassword').accessToken)
                             .build(),
                     String
             )
@@ -46,16 +46,16 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
             !response.body
 
             User updatedUser = users.findByUniqueId(user.uniqueId).get()
-            passwordEncoder.matches('newSecret', updatedUser.encodedPassword)
+            passwordEncoder.matches('newPassword', updatedUser.encodedPassword)
     }
 
     def 'should fail to update user password'() {
         given:
-            User user = userHelper.createRegisteredUser('oldSecret')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
-                    oldSecret: null,
-                    newSecret: null
+                    oldPassword: null,
+                    newPassword: null
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -63,25 +63,25 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
                     PUT,
                     HttpEntityBuilder.builder()
                             .body(request)
-                            .bearer(authorizationHelper.getToken(user.email, 'oldSecret').accessToken)
+                            .bearer(authorizationHelper.getToken(user.email, 'oldPassword').accessToken)
                             .build(),
                     String
             )
         then:
             response.statusCode == BAD_REQUEST
-            response.body.contains('NotBlank.oldSecret')
-            response.body.contains('NotBlank.newSecret')
+            response.body.contains('NotBlank.oldPassword')
+            response.body.contains('NotBlank.newPassword')
     }
 
     def 'user without roles should not access change password endpoint'() {
         given:
-            User user = userHelper.createRegisteredUser('oldSecret')
+            User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
             userHelper.changeAuthorities(user, [] as Set)
         and:
             UpdateUserPasswordRequest request = new UpdateUserPasswordRequest(
-                    oldSecret: 'oldSecret',
-                    newSecret: 'newSecret'
+                    oldPassword: 'oldPassword',
+                    newPassword: 'newPassword'
             )
         when:
             ResponseEntity<String> response = restTemplate.exchange(
@@ -89,7 +89,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
                     PUT,
                     HttpEntityBuilder.builder()
                             .body(request)
-                            .bearer(authorizationHelper.getToken(user.email, 'oldSecret').accessToken)
+                            .bearer(authorizationHelper.getToken(user.email, 'oldPassword').accessToken)
                             .build(),
                     String
             )

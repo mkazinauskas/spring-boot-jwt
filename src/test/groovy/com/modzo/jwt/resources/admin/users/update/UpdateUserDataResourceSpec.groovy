@@ -33,7 +33,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
 
     def 'should update user data'() {
         given:
-            User newUser = userHelper.createRegisteredUser()
+            User newUser = userHelper.createRegisteredUser(false)
             UpdateUserDataRequest request = new UpdateUserDataRequest(
                     email: 'newemail@github.com',
                     enabled: true,
@@ -68,7 +68,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
 
     def 'should fail to update user data'() {
         given:
-            User newUser = userHelper.createRegisteredUser()
+            User newUser = userHelper.createRegisteredUser(false)
             UpdateUserDataRequest request = new UpdateUserDataRequest(
                     email: null,
                     enabled: null,
@@ -99,7 +99,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
 
     def 'simple user should not access update user data endpoint'() {
         given:
-            User newUser = userHelper.createRegisteredUser()
+            User newUser = userHelper.createRegisteredUser(false)
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     adminUserData(newUser.uniqueId),

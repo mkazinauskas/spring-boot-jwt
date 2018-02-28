@@ -66,7 +66,7 @@ class ClientsResourceSpec extends AbstractSpec {
 
     def 'created client should be visible for admin only'() {
         given:
-            User user = userHelper.createRegisteredUser()
+            User user = userHelper.createRegisteredUser(false)
         when:
             ResponseEntity<String> response = restTemplate.exchange(Urls.adminClient(user.uniqueId),
                     GET,

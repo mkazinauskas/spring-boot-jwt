@@ -1,10 +1,12 @@
-package com.modzo.jwt.resources.users.register
+package com.modzo.jwt.resources.user.registration
 
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
+import com.modzo.jwt.helpers.StubJavaMailSender
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.mail.SimpleMailMessage
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Shared
 
@@ -12,7 +14,8 @@ import static com.modzo.jwt.Urls.registerUser
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
-import static org.springframework.http.HttpStatus.*
+import static org.springframework.http.HttpStatus.BAD_REQUEST
+import static org.springframework.http.HttpStatus.CREATED
 
 class RegisterUserResourceSpec extends AbstractSpec {
 
@@ -22,16 +25,8 @@ class RegisterUserResourceSpec extends AbstractSpec {
     @Autowired
     PasswordEncoder passwordEncoder
 
-    @Shared
-    String adminToken
-
-    @Shared
-    String userToken
-
-    void setup() {
-        adminToken = authorizationHelper.adminAccessToken()
-        userToken = authorizationHelper.userAccessToken()
-    }
+    @Autowired
+    StubJavaMailSender mailSender
 
     def 'should register new user'() {
         given:
@@ -58,7 +53,11 @@ class RegisterUserResourceSpec extends AbstractSpec {
             user.encodedPassword
             user.accountNotLocked
             user.credentialsNonExpired
-            user.enabled
+            !user.enabled
+        and:
+            SimpleMailMessage message = mailSender.sentSimpleMailMessages.find { it.to.first() == user.email }
+            message.subject == 'User activation'
+            message.text == "<h1>Hi,</h1>\n<p>Your activation code is <b>${user.activationCode}</b></p>\n\n<p>Best regards!</p>"
     }
 
     def 'should fail register new user validation'() {

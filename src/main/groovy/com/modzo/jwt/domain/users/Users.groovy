@@ -9,5 +9,7 @@ interface Users extends JpaRepository<User, Long> {
 
     Optional<User> findByUniqueId(String uniqueId)
 
+    Optional<User> findByActivationCode(String activationCode)
+
     int deleteAccountById(Long id)
 }
