@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.users.register;
+package com.modzo.jwt.resources.user.registration;
 
 import com.modzo.jwt.domain.users.commands.CreateUser;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,7 @@ class RegisterUserResource {
     ResponseEntity register(@Valid @RequestBody RegisterUserRequest account) {
         CreateUser.Response response = handler.handle(
                 new CreateUser(
+                        false,
                         account.getEmail(),
                         account.getPassword()
                 )

@@ -16,15 +16,15 @@ class Urls {
         "/oauth/token?grant_type=${REFRESH_TOKEN.type}&refresh_token=${refreshToken}"
     }
 
-    static String revokeToken(){
+    static String revokeToken() {
         return "/api/management/tokens"
     }
 
-    static String revokeRefreshToken(String refreshToken){
+    static String revokeRefreshToken(String refreshToken) {
         return "/api/management/tokens?refreshToken=${refreshToken}"
     }
 
-    static String adminClients(){
+    static String adminClients() {
         return '/api/admin/clients'
     }
 
@@ -44,7 +44,7 @@ class Urls {
         return '/api/admin/users'
     }
 
-    static String adminUser(String user){
+    static String adminUser(String user) {
         return "/api/admin/users/${user}"
     }
 
@@ -60,11 +60,22 @@ class Urls {
         return '/swagger-ui.html'
     }
 
-    static String index(){
+    static String index() {
         return '/'
     }
 
     static String registerUser() {
         return '/api/users'
+    }
+
+    static String activateUser(String email, String activationCode) {
+        List<String> params = []
+        activationCode ? params << "activationCode=${activationCode}" : ''
+        email ? params << "&email=${email}" : ''
+        return '/api/user/activation?' + params.join('&')
+    }
+
+    static String remindPassword() {
+        return '/api/user/password-reminder'
     }
 }

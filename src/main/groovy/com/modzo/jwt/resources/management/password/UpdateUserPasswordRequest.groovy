@@ -1,22 +1,21 @@
-package com.modzo.jwt.resources.management.secret
+package com.modzo.jwt.resources.management.password
 
-import com.modzo.jwt.domain.clients.commands.UpdateClientSecret
 import com.modzo.jwt.domain.users.commands.UpdateUserPassword
 import org.hibernate.validator.constraints.NotBlank
 
 class UpdateUserPasswordRequest {
 
     @NotBlank
-    String oldSecret
+    String oldPassword
 
     @NotBlank
-    String newSecret
+    String newPassword
 
     UpdateUserPassword toCommand(String uniqueId) {
         return new UpdateUserPassword(
                 uniqueId: uniqueId,
-                oldPassword: oldSecret,
-                newPassword: newSecret
+                oldPassword: oldPassword,
+                newPassword: newPassword
         )
     }
 }

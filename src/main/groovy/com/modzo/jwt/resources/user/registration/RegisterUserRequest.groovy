@@ -1,4 +1,4 @@
-package com.modzo.jwt.resources.users.register
+package com.modzo.jwt.resources.user.registration
 
 import com.modzo.jwt.domain.users.commands.CreateUser
 import org.hibernate.validator.constraints.Email
@@ -13,6 +13,6 @@ class RegisterUserRequest {
     String password
 
     CreateUser toCreateUser() {
-        return new CreateUser(email, password)
+        return new CreateUser(false, email, password)
     }
 }

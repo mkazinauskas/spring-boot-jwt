@@ -12,8 +12,6 @@ class UpdateUserData {
 
     String email
 
-    long version
-
     boolean enabled
 
     boolean accountNotExpired
@@ -21,10 +19,6 @@ class UpdateUserData {
     boolean credentialsNonExpired
 
     boolean accountNotLocked
-
-    String passwordResetCode
-
-    String activationCode
 
     Set<User.Authority> authorities
 

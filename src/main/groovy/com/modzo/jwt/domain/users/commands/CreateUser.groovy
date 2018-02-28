@@ -2,6 +2,7 @@ package com.modzo.jwt.domain.users.commands
 
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
+import com.modzo.jwt.email.commands.SendActivationEmail
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -10,11 +11,14 @@ import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
 
 class CreateUser {
 
+    final boolean activated
+
     final String email
 
     final String password
 
-    CreateUser(String email, String password) {
+    CreateUser(boolean activated, String email, String password) {
+        this.activated = activated
         this.email = email
         this.password = password
     }
@@ -23,10 +27,12 @@ class CreateUser {
     static class Handler {
         private final Users users
         private final PasswordEncoder passwordEncoder
+        private final SendActivationEmail.Handler sendActivationEmail
 
-        Handler(Users users, PasswordEncoder passwordEncoder) {
+        Handler(Users users, PasswordEncoder passwordEncoder, SendActivationEmail.Handler sendActivationEmail) {
             this.users = users
             this.passwordEncoder = passwordEncoder
+            this.sendActivationEmail = sendActivationEmail
         }
 
         @Transactional
@@ -34,14 +40,28 @@ class CreateUser {
             User user = new User(
                     email: createUser.email,
                     encodedPassword: passwordEncoder.encode(createUser.password),
-                    enabled: true,
+                    enabled: createUser.activated,
                     accountNotExpired: true,
                     credentialsNonExpired: true,
                     accountNotLocked: true
             )
+            if (!createUser.activated) {
+                user.deactivate()
+            }
             user.authorities.addAll([REGISTERED_USER])
-            User save = users.save(user)
-            return new Response(uniqueId: save.uniqueId)
+            User savedUser = users.saveAndFlush(user)
+            if (!createUser.activated) {
+                sendActivationEmail(savedUser)
+            }
+            return new Response(uniqueId: savedUser.uniqueId)
+        }
+
+        private void sendActivationEmail(User savedUser) {
+            sendActivationEmail.handle(
+                    new SendActivationEmail(
+                            savedUser.email,
+                            savedUser.activationCode)
+            )
         }
     }
 
