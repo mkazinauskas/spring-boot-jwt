@@ -9,6 +9,4 @@
 2. Run application
 
 ## TODO
-* Activation email
-* Password reset
 * Bruteforce protection
