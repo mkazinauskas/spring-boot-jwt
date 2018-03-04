@@ -34,7 +34,7 @@ class UpdateUserPassword {
             }
 
             if (!passwordEncoder.matches(command.oldPassword, user.encodedPassword)) {
-                throw DomainException.passwordsDoNotMatch();
+                throw DomainException.passwordsDoNotMatch()
             }
         }
     }
