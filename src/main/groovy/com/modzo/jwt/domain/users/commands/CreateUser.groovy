@@ -51,17 +51,13 @@ class CreateUser {
             user.authorities.addAll([REGISTERED_USER])
             User savedUser = users.saveAndFlush(user)
             if (!createUser.activated) {
-                sendActivationEmail(savedUser)
+                sendActivationEmail.handle(
+                        new SendActivationEmail(
+                                savedUser.email,
+                                savedUser.activationCode)
+                )
             }
             return new Response(uniqueId: savedUser.uniqueId)
-        }
-
-        private void sendActivationEmail(User savedUser) {
-            sendActivationEmail.handle(
-                    new SendActivationEmail(
-                            savedUser.email,
-                            savedUser.activationCode)
-            )
         }
     }
 
