@@ -14,10 +14,15 @@ import static org.springframework.http.HttpMethod.POST
 
 class TokenIssueSpec extends AbstractSpec {
 
-    def 'should create token for client'() {
+    void 'should create token for client'() {
         when:
             ResponseEntity<TokenResponse> response = restTemplate.postForEntity(
-                    Urls.getAccessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, TEST_ADMIN_USER.password),
+                    Urls.getAccessToken(
+                            PASSWORD,
+                            TEST_CLIENT.clientId,
+                            TEST_ADMIN_USER.email,
+                            TEST_ADMIN_USER.password
+                    ),
                     builder()
                             .basic(TEST_CLIENT.clientId, TEST_CLIENT.secret)
                             .build(),
@@ -31,7 +36,7 @@ class TokenIssueSpec extends AbstractSpec {
             body.refreshToken.length() > 0
     }
 
-    def 'should fail to create token for client if credentials are incorrect'() {
+    void 'should fail to create token for client if credentials are incorrect'() {
         when:
             ResponseEntity response = restTemplate.postForEntity(
                     Urls.getAccessToken(PASSWORD, TEST_CLIENT.clientId, TEST_ADMIN_USER.email, 'wrongPassword'),
@@ -44,7 +49,7 @@ class TokenIssueSpec extends AbstractSpec {
             response.statusCode == HttpStatus.BAD_REQUEST
     }
 
-    def 'should create use the same token for the same user'() {
+    void 'should create use the same token for the same user'() {
         when:
             String firstAdminToken = authorizationHelper.adminAccessToken()
         and:
@@ -53,7 +58,7 @@ class TokenIssueSpec extends AbstractSpec {
             firstAdminToken == secondAdminToken
     }
 
-    def 'should get access token with refresh token'() {
+    void 'should get access token with refresh token'() {
         given:
             TokenResponse tokenBeforeRefresh = authorizationHelper.adminToken()
         when:

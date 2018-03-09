@@ -101,7 +101,7 @@ ruleset {
     NoTabCharacter
     ParameterReassignment
     TernaryCouldBeElvis
-    TrailingComma
+//    TrailingComma
     VariableTypeRequired
     VectorIsObsolete
 
@@ -130,10 +130,10 @@ ruleset {
     ToStringReturnsNull
 
     // rulesets/dry.xml
-    DuplicateListLiteral
-    DuplicateMapLiteral
-    DuplicateNumberLiteral
-    DuplicateStringLiteral
+//    DuplicateListLiteral
+//    DuplicateMapLiteral
+//    DuplicateNumberLiteral
+//    DuplicateStringLiteral
 
     // rulesets/enhanced.xml
     CloneWithoutCloneable
@@ -175,7 +175,7 @@ ruleset {
 //    ClassJavadoc
     ClosureStatementOnOpeningLineOfMultipleLineClosure
     ConsecutiveBlankLines
-    FileEndsWithoutNewline
+//    FileEndsWithoutNewline
 //    Indentation
     LineLength
     MissingBlankLineAfterImports
@@ -185,7 +185,7 @@ ruleset {
     SpaceAfterComma
     SpaceAfterFor
     SpaceAfterIf
-    SpaceAfterOpeningBrace
+//    SpaceAfterOpeningBrace
     SpaceAfterSemicolon
     SpaceAfterSwitch
     SpaceAfterWhile
@@ -309,7 +309,7 @@ ruleset {
     ClassName
     ClassNameSameAsFilename
     ClassNameSameAsSuperclass
-    ConfusingMethodName
+//    ConfusingMethodName
 //    FactoryMethodName
     FieldName
     InterfaceName
@@ -373,7 +373,7 @@ ruleset {
     UnnecessaryFinalOnPrivateMethod
     UnnecessaryFloatInstantiation
     UnnecessaryGString
-    UnnecessaryGetter
+//    UnnecessaryGetter
     UnnecessaryIfStatement
     UnnecessaryInstanceOfCheck
     UnnecessaryInstantiationToGetClass
@@ -382,7 +382,7 @@ ruleset {
     UnnecessaryModOne
     UnnecessaryNullCheck
     UnnecessaryNullCheckBeforeInstanceOf
-    UnnecessaryObjectReferences
+//    UnnecessaryObjectReferences
     UnnecessaryOverridingMethod
     UnnecessaryPackageReference
     UnnecessaryParenthesesForMethodCallWithClosure

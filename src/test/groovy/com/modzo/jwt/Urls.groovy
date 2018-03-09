@@ -17,7 +17,7 @@ class Urls {
     }
 
     static String revokeToken() {
-        return "/api/management/tokens"
+        return '/api/management/tokens'
     }
 
     static String revokeRefreshToken(String refreshToken) {

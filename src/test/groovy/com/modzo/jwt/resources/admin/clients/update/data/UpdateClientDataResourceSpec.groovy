@@ -33,7 +33,7 @@ class UpdateClientDataResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should update client data'() {
+    void 'should update client data'() {
         given:
             Client client = clientHelper.createRegisteredClient()
         and:
@@ -81,7 +81,7 @@ class UpdateClientDataResourceSpec extends AbstractSpec {
             updatedClient.resourceIds == ['test', 'go'] as Set
     }
 
-    def 'should fail to process wrong request'() {
+    void 'should fail to process wrong request'() {
         given:
             Client client = clientHelper.createRegisteredClient()
 
@@ -125,7 +125,7 @@ class UpdateClientDataResourceSpec extends AbstractSpec {
             response.body.contains('NotNull.resourceIds')
     }
 
-    def 'simple user should not access update client data endpoint'() {
+    void 'simple user should not access update client data endpoint'() {
         given:
             Client client = clientHelper.createRegisteredClient()
 

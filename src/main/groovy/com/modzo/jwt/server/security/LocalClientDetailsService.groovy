@@ -32,7 +32,7 @@ class LocalClientDetailsService implements ClientDetailsService {
                 scope: client.scopes*.type as Set,
                 resourceIds: client.resourceIds,
                 authorizedGrantTypes: client.authorizedGrantTypes*.type as Set,
-                authorities: client.authorities.collect { it.name() } as Set,
+                authorities: client.authorities*.name() as Set,
                 registeredRedirectUri: client.registeredRedirectUris,
                 accessTokenValiditySeconds: client.accessTokenValiditySeconds,
                 refreshTokenValiditySeconds: client.refreshTokenValiditySeconds,

@@ -32,7 +32,7 @@ class UsersResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should retrieve created user'() {
+    void 'should retrieve created user'() {
         given:
             User user = userHelper.createRegisteredUser(false)
         when:
@@ -56,7 +56,7 @@ class UsersResourceSpec extends AbstractSpec {
             response.body.authorities == user.authorities
     }
 
-    def 'created user should not be visible for not admin'() {
+    void 'created user should not be visible for not admin'() {
         given:
             User user = userHelper.createRegisteredUser(false)
         when:
@@ -73,7 +73,7 @@ class UsersResourceSpec extends AbstractSpec {
             response.body.contains('access_denied')
     }
 
-    def 'should list all users'() {
+    void 'should list all users'() {
         given:
             userHelper.createRegisteredUser(false)
         when:
@@ -100,7 +100,7 @@ class UsersResourceSpec extends AbstractSpec {
             responseUser.authorities == currentUser.authorities
     }
 
-    def 'users list should not be visible for not admin'() {
+    void 'users list should not be visible for not admin'() {
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     adminUsers(),

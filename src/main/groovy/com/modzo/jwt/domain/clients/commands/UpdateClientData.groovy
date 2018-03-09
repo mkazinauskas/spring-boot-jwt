@@ -2,7 +2,6 @@ package com.modzo.jwt.domain.clients.commands
 
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -47,28 +46,30 @@ class UpdateClientData {
         void handle(UpdateClientData updateClient) {
             Client client = clients.findByUniqueId(updateClient.uniqueId)
                     .orElseThrow { clientByUniqueIdWasNotFound(updateClient.uniqueId) }
-            client.clientId = updateClient.clientId
-            client.scoped = updateClient.scoped
-            client.secretRequired = updateClient.secretRequired
-            client.enabled = updateClient.enabled
-            client.autoApprove = updateClient.autoApprove
-            client.accessTokenValiditySeconds = updateClient.accessTokenValiditySeconds
-            client.refreshTokenValiditySeconds = updateClient.refreshTokenValiditySeconds
+            client.with {
+                clientId = updateClient.clientId
+                scoped = updateClient.scoped
+                secretRequired = updateClient.secretRequired
+                enabled = updateClient.enabled
+                autoApprove = updateClient.autoApprove
+                accessTokenValiditySeconds = updateClient.accessTokenValiditySeconds
+                refreshTokenValiditySeconds = updateClient.refreshTokenValiditySeconds
 
-            client.authorities.clear()
-            client.authorities.addAll(updateClient.authorities)
+                authorities.clear()
+                authorities.addAll(updateClient.authorities)
 
-            client.scopes.clear()
-            client.scopes.addAll(updateClient.scopes)
+                scopes.clear()
+                scopes.addAll(updateClient.scopes)
 
-            client.authorizedGrantTypes.clear()
-            client.authorizedGrantTypes.addAll(updateClient.authorizedGrantTypes)
+                authorizedGrantTypes.clear()
+                authorizedGrantTypes.addAll(updateClient.authorizedGrantTypes)
 
-            client.registeredRedirectUris.clear()
-            client.registeredRedirectUris.addAll(updateClient.registeredRedirectUris)
+                registeredRedirectUris.clear()
+                registeredRedirectUris.addAll(updateClient.registeredRedirectUris)
 
-            client.resourceIds.clear()
-            client.resourceIds.addAll(updateClient.resourceIds)
+                resourceIds.clear()
+                resourceIds.addAll(updateClient.resourceIds)
+            }
 
             clients.save(client)
         }

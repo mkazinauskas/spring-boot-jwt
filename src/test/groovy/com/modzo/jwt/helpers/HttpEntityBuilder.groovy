@@ -13,7 +13,7 @@ class HttpEntityBuilder<B> {
 
     private B body
 
-    private HttpHeaders headers = new HttpHeaders()
+    private final HttpHeaders headers = new HttpHeaders()
 
     static HttpEntityBuilder<B> builder() {
         return new HttpEntityBuilder<B>()
@@ -25,7 +25,7 @@ class HttpEntityBuilder<B> {
     }
 
     HttpEntityBuilder<B> jsonType() {
-        headers.setContentType(APPLICATION_JSON)
+        headers.contentType == APPLICATION_JSON
         return this
     }
 
@@ -37,7 +37,7 @@ class HttpEntityBuilder<B> {
     HttpEntityBuilder<B> basic(String username, String password) {
         String auth = "${username}:${password}"
 
-        String encoded = Base64.getEncoder().encodeToString(auth.getBytes(Charset.forName("US-ASCII")))
+        String encoded = Base64.encoder.encodeToString(auth.getBytes(Charset.forName('US-ASCII')))
 
         headers.add('Authorization', "Basic ${encoded}")
         return this

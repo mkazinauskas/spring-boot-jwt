@@ -23,23 +23,20 @@ class TokenDetails {
     }
 
     TokenDetails(OAuth2AccessToken accessToken) {
-        uniqueId = accessToken.getAdditionalInformation().uniqueId as String
+        uniqueId = accessToken.additionalInformation.uniqueId as String
         this.accessToken = accessToken.value
         refreshToken = accessToken.refreshToken
-
     }
 
-    Optional<String> getAccessToken(){
+    Optional<String> getAccessToken() {
         return of(accessToken)
     }
 
-    Optional<String> getRefreshToken(){
+    Optional<String> getRefreshToken() {
         return of(refreshToken)
     }
 
     Map<String, Object> asMap() {
-        return [
-                uniqueId: uniqueId
-        ]
+        return [uniqueId: uniqueId]
     }
 }

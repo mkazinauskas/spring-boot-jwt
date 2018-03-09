@@ -8,7 +8,7 @@ import static org.springframework.http.HttpStatus.OK
 
 class IndexPageIsAvailable extends AbstractSpec {
 
-    def 'index page should be accessible publicly'() {
+    void 'index page should be accessible publicly'() {
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(index(), String)
         then:
