@@ -14,6 +14,9 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 @Entity
 @Table(name = 'users')
 class User {
+    static final int DEFAULT_ACTIVATION_CODE_LENGTH = 10
+    static final int DEFAULT_PASSWORD_RESET_CODE_LENGTH = 10
+
     @Id
     @GeneratedValue(generator = 'users_sequence', strategy = SEQUENCE)
     @SequenceGenerator(name = 'users_sequence', sequenceName = 'users_sequence', allocationSize = 1)
@@ -69,11 +72,11 @@ class User {
 
     void deactivate() {
         enabled = false
-        activationCode = randomAlphanumeric(10)
+        activationCode = randomAlphanumeric(DEFAULT_ACTIVATION_CODE_LENGTH)
     }
 
     void newPasswordResetCode() {
-        this.passwordResetCode = randomAlphanumeric(10)
+        this.passwordResetCode = randomAlphanumeric(DEFAULT_PASSWORD_RESET_CODE_LENGTH)
     }
 
     static enum Authority {
@@ -82,7 +85,7 @@ class User {
         ADMIN
 
         static String[] stringValues() {
-            return values().collect { Authority value -> value.name() } as String[]
+            return values()*.name() as String[]
         }
     }
 }

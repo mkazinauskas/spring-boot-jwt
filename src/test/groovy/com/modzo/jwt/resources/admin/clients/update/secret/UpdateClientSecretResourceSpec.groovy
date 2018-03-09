@@ -32,7 +32,7 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should update client secret'() {
+    void 'should update client secret'() {
         given:
             Client client = clientHelper.createRegisteredClient()
         and:
@@ -57,7 +57,7 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
             passwordEncoder.matches('newSecret', updatedClient.clientEncodedSecret)
     }
 
-    def 'should fail update client'() {
+    void 'should fail update client'() {
         given:
             Client client = clientHelper.createRegisteredClient('oldSecret')
         and:
@@ -79,7 +79,7 @@ class UpdateClientSecretResourceSpec extends AbstractSpec {
             response.body.contains('NotBlank.newSecret')
     }
 
-    def 'simple user should not access update client data endpoint'() {
+    void 'simple user should not access update client data endpoint'() {
         given:
             Client client = clientHelper.createRegisteredClient('oldSecret')
         and:

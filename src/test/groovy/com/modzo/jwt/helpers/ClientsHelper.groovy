@@ -20,7 +20,9 @@ class ClientsHelper {
     }
 
     Client createClient() {
-        CreateUser.Response response = createUserHandler.handle(new CreateUser(true, randomEmail(), randomAlphanumeric(5)))
+        CreateUser.Response response = createUserHandler.handle(
+                new CreateUser(true, randomEmail(), randomAlphanumeric(5))
+        )
         return users.findByUniqueId(response.uniqueId).get()
     }
 }

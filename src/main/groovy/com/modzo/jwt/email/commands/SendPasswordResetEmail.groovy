@@ -28,8 +28,11 @@ class SendPasswordResetEmail {
             String subject = 'Password reset'
             String text = templatingService.mergeTemplateIntoString(
                     MessageTemplatingService.Template.PASSWORD_RESET,
-                    ['email'  : command.email,
-                     'passwordResetCode': command.passwordResetCode])
+                    [
+                            'email'            : command.email,
+                            'passwordResetCode': command.passwordResetCode
+                    ]
+            )
             emailService.sendMessage(new EmailService.Message(command.email, subject, text))
         }
     }

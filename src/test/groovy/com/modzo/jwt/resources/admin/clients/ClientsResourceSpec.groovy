@@ -32,7 +32,7 @@ class ClientsResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should retrieve created client'() {
+    void 'should retrieve created client'() {
         given:
             Client client = clientHelper.createRegisteredClient()
         when:
@@ -64,7 +64,7 @@ class ClientsResourceSpec extends AbstractSpec {
             response.body.resourceIds == client.resourceIds
     }
 
-    def 'created client should be visible for admin only'() {
+    void 'created client should be visible for admin only'() {
         given:
             User user = userHelper.createRegisteredUser(false)
         when:
@@ -80,7 +80,7 @@ class ClientsResourceSpec extends AbstractSpec {
             response.body.contains('access_denied')
     }
 
-    def 'should list all clients'() {
+    void 'should list all clients'() {
         given:
             clientHelper.createRegisteredClient()
         when:
@@ -113,7 +113,7 @@ class ClientsResourceSpec extends AbstractSpec {
             clientBean.resourceIds == savedClient.resourceIds
     }
 
-    def 'clients list should be visible for admin only'() {
+    void 'clients list should be visible for admin only'() {
         when:
             ResponseEntity<String> response = restTemplate.exchange(Urls.adminClients(),
                     GET,

@@ -15,7 +15,7 @@ class ActivateUserResourceSpec extends AbstractSpec {
     @Autowired
     Users users
 
-    def 'should activate registered user'() {
+    void 'should activate registered user'() {
         given:
             User registeredUser = userHelper.createRegisteredUser(false)
         when:
@@ -31,7 +31,7 @@ class ActivateUserResourceSpec extends AbstractSpec {
             activatedUser.enabled
     }
 
-    def 'should fail activate user'() {
+    void 'should fail activate user'() {
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(
                     activateUser(null, null),

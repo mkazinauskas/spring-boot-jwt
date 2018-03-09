@@ -72,9 +72,7 @@ class DataInitService {
         Set<User.Authority> authorities = []
 
         CreateUser asCreateUserCommand() {
-            return new CreateUser(
-                    true, email, password
-            )
+            new CreateUser(true, email, password)
         }
     }
 }

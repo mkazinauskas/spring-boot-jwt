@@ -38,7 +38,6 @@ class UpdateClientSecret {
 
         private final Clients clients
 
-
         private final Validator validator
 
         Handler(PasswordEncoder passwordEncoder, Clients clients, Validator validator) {

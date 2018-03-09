@@ -41,7 +41,7 @@ class UserHelper {
         updateData(user.enabled, user.uniqueId, user.email, authorities)
     }
 
-    private updateData(boolean activated, String uniqueId, String email, Set<User.Authority> authorities) {
+    private void updateData(boolean activated, String uniqueId, String email, Set<User.Authority> authorities) {
         updateUserDataHandler.handle(new UpdateUserData(
                 uniqueId: uniqueId,
                 email: email,

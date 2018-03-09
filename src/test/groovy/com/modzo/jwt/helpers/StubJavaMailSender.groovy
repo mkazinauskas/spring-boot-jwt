@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage
 @Component
 @Primary
 @CompileStatic
-class StubJavaMailSender implements JavaMailSender{
+class StubJavaMailSender implements JavaMailSender {
 
     final List<SimpleMailMessage> sentSimpleMailMessages = []
 
@@ -29,22 +29,18 @@ class StubJavaMailSender implements JavaMailSender{
 
     @Override
     void send(MimeMessage mimeMessage) throws MailException {
-
     }
 
     @Override
     void send(MimeMessage... mimeMessages) throws MailException {
-
     }
 
     @Override
     void send(MimeMessagePreparator mimeMessagePreparator) throws MailException {
-
     }
 
     @Override
     void send(MimeMessagePreparator... mimeMessagePreparators) throws MailException {
-
     }
 
     @Override
@@ -54,6 +50,5 @@ class StubJavaMailSender implements JavaMailSender{
 
     @Override
     void send(SimpleMailMessage... simpleMessages) throws MailException {
-
     }
 }

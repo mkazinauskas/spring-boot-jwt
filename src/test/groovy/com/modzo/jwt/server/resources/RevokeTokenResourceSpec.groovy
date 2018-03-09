@@ -26,7 +26,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userToken()
     }
 
-    def 'revoked token should not be present in token store'() {
+    void 'revoked token should not be present in token store'() {
         when:
             ResponseEntity<String> entity = restTemplate.exchange(
                     revokeToken(),
@@ -39,7 +39,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
             !tokenStore.readAccessToken(userToken.accessToken)
     }
 
-    def 'cannot refresh token from revoked refresh token'() {
+    void 'cannot refresh token from revoked refresh token'() {
         when:
             ResponseEntity<String> revokeResponse = restTemplate.exchange(
                     revokeToken(),
@@ -62,7 +62,7 @@ class RevokeTokenResourceSpec extends AbstractSpec {
         then:
             refreshResponse.statusCode == BAD_REQUEST
         and:
-            def body = new JsonSlurper().parseText(refreshResponse.body)
+            Object body = new JsonSlurper().parseText(refreshResponse.body)
             body.error == 'invalid_grant'
             body.error_description == "Invalid refresh token: ${userToken.refreshToken}"
     }

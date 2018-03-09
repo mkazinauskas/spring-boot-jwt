@@ -65,20 +65,28 @@ class Client {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = 'client_authorized_grant_types', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @CollectionTable(
+            name = 'client_authorized_grant_types',
+            joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+
     @Column(name = 'authorized_grant_type')
     final Set<GrantType> authorizedGrantTypes = []
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = 'client_registered_redirect_uris', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @CollectionTable(
+            name = 'client_registered_redirect_uris',
+            joinColumns = @JoinColumn(name = 'client_id', nullable = false)
+    )
     @Column(name = 'uri')
     final Set<String> registeredRedirectUris = []
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = 'client_resource_ids', joinColumns = @JoinColumn(name = 'client_id', nullable = false))
+    @CollectionTable(
+            name = 'client_resource_ids',
+            joinColumns = @JoinColumn(name = 'client_id', nullable = false)
+    )
     @Column(name = 'resource_id')
     final Set<String> resourceIds = []
-
 
     static enum Authority {
         ADMIN, CLIENT

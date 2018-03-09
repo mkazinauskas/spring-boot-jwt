@@ -23,7 +23,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
     @Autowired
     Users users
 
-    def 'should update user password'() {
+    void 'should update user password'() {
         given:
             User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
@@ -49,7 +49,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
             passwordEncoder.matches('newPassword', updatedUser.encodedPassword)
     }
 
-    def 'should fail to update user password'() {
+    void 'should fail to update user password'() {
         given:
             User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:
@@ -73,7 +73,7 @@ class UpdateUserPasswordResourceSpec extends AbstractSpec {
             response.body.contains('NotBlank.newPassword')
     }
 
-    def 'user without roles should not access change password endpoint'() {
+    void 'user without roles should not access change password endpoint'() {
         given:
             User user = userHelper.createRegisteredUser(true, 'oldPassword')
         and:

@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.OK
 
 class SwaggerPageIsAvailable extends AbstractSpec {
 
-    def 'swagger ui should be available'() {
+    void 'swagger ui should be available'() {
         when:
             ResponseEntity<String> response = restTemplate.exchange(
                     swaggerUi(),

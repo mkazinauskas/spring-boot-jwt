@@ -15,10 +15,10 @@ import static com.modzo.jwt.domain.DomainException.clientByClientIdWasNotFound
 @CompileStatic
 class LocalClientDetailsService implements ClientDetailsService {
 
-    private final Clients clients;
+    private final Clients clients
 
     LocalClientDetailsService(Clients clients) {
-        this.clients = clients;
+        this.clients = clients
     }
 
     @Override
@@ -29,10 +29,10 @@ class LocalClientDetailsService implements ClientDetailsService {
                 clientSecret: client.clientEncodedSecret,
                 secretRequired: client.secretRequired,
                 scoped: client.scoped,
-                scope: client.scopes.collect { it.type } as Set,
+                scope: client.scopes*.type as Set,
                 resourceIds: client.resourceIds,
-                authorizedGrantTypes: client.authorizedGrantTypes.collect { it.type } as Set,
-                authorities: client.authorities.collect { it.name() } as Set,
+                authorizedGrantTypes: client.authorizedGrantTypes*.type as Set,
+                authorities: client.authorities*.name() as Set,
                 registeredRedirectUri: client.registeredRedirectUris,
                 accessTokenValiditySeconds: client.accessTokenValiditySeconds,
                 refreshTokenValiditySeconds: client.refreshTokenValiditySeconds,
@@ -85,7 +85,7 @@ class LocalClientDetailsService implements ClientDetailsService {
 
         @Override
         Map<String, Object> getAdditionalInformation() {
-            return null
+            return [:]
         }
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.security.crypto.password.PasswordEncoder
-import spock.lang.Shared
 
 import static com.modzo.jwt.Urls.registerUser
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
@@ -28,7 +27,7 @@ class RegisterUserResourceSpec extends AbstractSpec {
     @Autowired
     StubJavaMailSender mailSender
 
-    def 'should register new user'() {
+    void 'should register new user'() {
         given:
             String randomString = randomAlphanumeric(5)
             RegisterUserRequest request = new RegisterUserRequest(
@@ -57,10 +56,12 @@ class RegisterUserResourceSpec extends AbstractSpec {
         and:
             SimpleMailMessage message = mailSender.sentSimpleMailMessages.find { it.to.first() == user.email }
             message.subject == 'User activation'
-            message.text == "<h1>Hi,</h1>\n<p>Your activation code is <b>${user.activationCode}</b></p>\n\n<p>Best regards!</p>"
+            message.text == '<h1>Hi,</h1>\n' +
+                    "<p>Your activation code is <b>${user.activationCode}</b></p>" +
+                    '\n\n<p>Best regards!</p>'
     }
 
-    def 'should fail register new user validation'() {
+    void 'should fail register new user validation'() {
         given:
             RegisterUserRequest request = new RegisterUserRequest(
                     email: null,

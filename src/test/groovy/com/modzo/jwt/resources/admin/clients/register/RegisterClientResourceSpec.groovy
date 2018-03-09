@@ -33,7 +33,7 @@ class RegisterClientResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should create new client'() {
+    void 'should create new client'() {
         given:
             String clientId = randomClientId()
             String secret = randomSecret()
@@ -73,7 +73,7 @@ class RegisterClientResourceSpec extends AbstractSpec {
             client.resourceIds == [] as Set
     }
 
-    def 'should fail to validate create new client request'() {
+    void 'should fail to validate create new client request'() {
         given:
             RegisterClientRequest request = new RegisterClientRequest(
                     clientId: null,
@@ -95,7 +95,7 @@ class RegisterClientResourceSpec extends AbstractSpec {
             response.body.contains('NotBlank.secret')
     }
 
-    def 'not admin user should not access create new user endpoint'() {
+    void 'not admin user should not access create new user endpoint'() {
         given:
             RegisterClientRequest request = new RegisterClientRequest(
                     clientId: randomClientId(),

@@ -11,7 +11,7 @@ import spock.lang.Specification
 
 @ContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AbstractSpec extends Specification{
+class AbstractSpec extends Specification {
 
     @Autowired
     protected TestRestTemplate restTemplate

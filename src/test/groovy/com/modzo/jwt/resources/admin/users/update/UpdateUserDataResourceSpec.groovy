@@ -31,7 +31,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
         userToken = authorizationHelper.userAccessToken()
     }
 
-    def 'should update user data'() {
+    void 'should update user data'() {
         given:
             User newUser = userHelper.createRegisteredUser(false)
             UpdateUserDataRequest request = new UpdateUserDataRequest(
@@ -66,7 +66,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
             updatedUser.authorities.contains(ADMIN)
     }
 
-    def 'should fail to update user data'() {
+    void 'should fail to update user data'() {
         given:
             User newUser = userHelper.createRegisteredUser(false)
             UpdateUserDataRequest request = new UpdateUserDataRequest(
@@ -97,7 +97,7 @@ class UpdateUserDataResourceSpec extends AbstractSpec {
             response.body.contains('NotEmpty.authorities')
     }
 
-    def 'simple user should not access update user data endpoint'() {
+    void 'simple user should not access update user data endpoint'() {
         given:
             User newUser = userHelper.createRegisteredUser(false)
         when:
