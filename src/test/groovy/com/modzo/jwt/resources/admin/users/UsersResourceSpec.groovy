@@ -3,9 +3,10 @@ package com.modzo.jwt.resources.admin.users
 import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
-import com.modzo.jwt.helpers.PageWrapper
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.hateoas.PagedResources
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
@@ -77,17 +78,17 @@ class UsersResourceSpec extends AbstractSpec {
         given:
             userHelper.createRegisteredUser(false)
         when:
-            ResponseEntity<PageWrapper<UserBean>> response = restTemplate.exchange(
+            ResponseEntity<PagedResources<UserBean>> response = restTemplate.exchange(
                     adminUsers(),
                     GET,
                     builder()
                             .bearer(adminToken)
                             .build(),
-                    new ParameterizedTypeReference<PageWrapper<UserBean>>() {}
+                    new ParameterizedTypeReference<PagedResources<UserBean>>() {}
             )
         then:
             response.statusCode == OK
-            response.body.size > 1
+            response.body.content.size() > 1
         and:
             UserBean responseUser = response.body.content.first()
             User currentUser = users.findByUniqueId(responseUser.uniqueId).get()
