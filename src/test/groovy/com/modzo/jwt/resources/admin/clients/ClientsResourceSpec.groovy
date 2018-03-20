@@ -5,9 +5,10 @@ import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
 import com.modzo.jwt.domain.users.User
-import com.modzo.jwt.helpers.PageWrapper
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.hateoas.PagedResources
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
@@ -84,16 +85,16 @@ class ClientsResourceSpec extends AbstractSpec {
         given:
             clientHelper.createRegisteredClient()
         when:
-            ResponseEntity<PageWrapper<ClientBean>> response = restTemplate.exchange(Urls.adminClients(),
+            ResponseEntity<PagedResources<ClientBean>> response = restTemplate.exchange(Urls.adminClients(),
                     GET,
                     builder()
                             .bearer(adminToken)
                             .build(),
-                    new ParameterizedTypeReference<PageWrapper<ClientBean>>() {}
+                    new ParameterizedTypeReference<PagedResources<ClientBean>>() {}
             )
         then:
             response.statusCode == OK
-            response.body.size > 1
+            response.body.content.size() > 1
         and:
             ClientBean clientBean = response.body.content.first()
             Client savedClient = clients.findByUniqueId(clientBean.uniqueId).get()
