@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service
 import static com.modzo.jwt.domain.DomainException.clientByClientIdWasNotFound
 
 @Service
-@CompileStatic
 class LocalClientDetailsService implements ClientDetailsService {
 
     private final Clients clients
