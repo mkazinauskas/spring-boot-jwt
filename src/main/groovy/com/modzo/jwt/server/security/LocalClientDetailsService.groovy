@@ -2,7 +2,6 @@ package com.modzo.jwt.server.security
 
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.Clients
-import groovy.transform.CompileStatic
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.oauth2.provider.ClientDetails
 import org.springframework.security.oauth2.provider.ClientDetailsService
