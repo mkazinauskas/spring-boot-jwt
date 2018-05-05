@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class BruteForceIPsRegisterSpec extends Specification {
 
-    def 'should count how many times address and email failed'() {
+    void 'should count how many times address and email failed'() {
         given:
             String ipAddress = RandomDataUtil.randomIPAddress()
             String email = RandomDataUtil.randomEmail()
@@ -17,7 +17,7 @@ class BruteForceIPsRegisterSpec extends Specification {
             register.failedCount(ipAddress, email) == 1
     }
 
-    def 'ip address and email should be blacklisted if failed less than 10 times'() {
+    void 'ip address and email should be blacklisted if failed less than 10 times'() {
         given:
             String ipAddress = RandomDataUtil.randomIPAddress()
             String email = RandomDataUtil.randomEmail()
@@ -29,7 +29,7 @@ class BruteForceIPsRegisterSpec extends Specification {
             !register.isBlacklisted(ipAddress, email)
     }
 
-    def 'ip address and email should be blacklisted if failed more than 10 times'() {
+    void 'ip address and email should be blacklisted if failed more than 10 times'() {
         given:
             String ipAddress = RandomDataUtil.randomIPAddress()
             String email = RandomDataUtil.randomEmail()
@@ -41,7 +41,7 @@ class BruteForceIPsRegisterSpec extends Specification {
             register.isBlacklisted(ipAddress, email)
     }
 
-    def 'ip address and email should be removed from blacklisted after successful'() {
+    void 'ip address and email should be removed from blacklisted after successful'() {
         given:
             String ipAddress = RandomDataUtil.randomIPAddress()
             String email = RandomDataUtil.randomEmail()
@@ -55,7 +55,7 @@ class BruteForceIPsRegisterSpec extends Specification {
             !register.isBlacklisted(ipAddress, email)
     }
 
-    def 'failed ip address and email should expire'() {
+    void 'failed ip address and email should expire'() {
         given:
             String ipAddress = RandomDataUtil.randomIPAddress()
             String email = RandomDataUtil.randomEmail()
