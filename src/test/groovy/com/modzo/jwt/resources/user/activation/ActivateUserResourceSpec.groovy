@@ -31,6 +31,22 @@ class ActivateUserResourceSpec extends AbstractSpec {
             activatedUser.enabled
     }
 
+    void 'should fail activate activated user'() {
+        given:
+            User registeredUser = userHelper.createRegisteredUser(true)
+        when:
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    activateUser(registeredUser.email, registeredUser.activationCode),
+                    String
+            )
+        then:
+            response.statusCode == BAD_REQUEST
+        and:
+            User activatedUser = users.findByUniqueId(registeredUser.uniqueId).get()
+            activatedUser.activationCode == null
+            activatedUser.enabled
+    }
+
     void 'should fail activate user'() {
         when:
             ResponseEntity<String> response = restTemplate.getForEntity(

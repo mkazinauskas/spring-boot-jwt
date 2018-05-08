@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 import static com.google.common.cache.RemovalCause.EXPIRED;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Component

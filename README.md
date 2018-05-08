@@ -7,6 +7,3 @@
 # How to start
 1. Execute `docker-compose up`
 2. Run application
-
-## TODO
-* Bruteforce protection
