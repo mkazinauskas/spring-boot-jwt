@@ -1,6 +1,7 @@
 package com.modzo.jwt.configuration;
 
 import com.modzo.jwt.JwtApplication;
+import groovy.lang.MetaClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
@@ -27,6 +28,7 @@ class SwaggerConfiguration {
     @Bean
     Docket api() {
         return new Docket(SWAGGER_2)
+                .ignoredParameterTypes(MetaClass.class)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(JwtApplication.class.getPackage().getName()))
                 .paths(PathSelectors.any())
