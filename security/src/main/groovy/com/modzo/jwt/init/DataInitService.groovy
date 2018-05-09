@@ -1,4 +1,4 @@
-package com.modzo.jwt.configuration.init
+package com.modzo.jwt.init
 
 import com.modzo.jwt.domain.clients.Client
 import com.modzo.jwt.domain.clients.commands.CreateClient
@@ -8,8 +8,9 @@ import com.modzo.jwt.domain.users.commands.CreateUser
 import com.modzo.jwt.domain.users.commands.UpdateUserData
 import groovy.transform.Immutable
 import org.springframework.context.annotation.Configuration
+import org.springframework.stereotype.Component
 
-@Configuration
+@Component
 class DataInitService {
     private final CreateUser.Handler createUserHandler
     private final UpdateUserData.Handler updateUserDataHandler

@@ -1,6 +1,6 @@
-package com.modzo.jwt.configuration;
+package com.modzo.configuration;
 
-import com.modzo.jwt.JwtApplication;
+import com.modzo.Application;
 import groovy.lang.MetaClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ class SwaggerConfiguration {
         return new Docket(SWAGGER_2)
                 .ignoredParameterTypes(MetaClass.class)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(JwtApplication.class.getPackage().getName()))
+                .apis(RequestHandlerSelectors.basePackage(Application.class.getPackage().getName()))
                 .paths(PathSelectors.any())
                 .build();
     }

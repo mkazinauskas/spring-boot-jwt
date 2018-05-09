@@ -1,6 +1,5 @@
 package com.modzo.jwt.init
 
-import com.modzo.jwt.configuration.init.DataInitService
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component

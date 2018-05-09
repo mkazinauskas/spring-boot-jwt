@@ -1,6 +1,6 @@
-package com.modzo.jwt.configuration
+package com.modzo.configuration
 
-import com.modzo.jwt.configuration.init.DataInitService
+import com.modzo.jwt.init.DataInitService
 import com.modzo.jwt.domain.clients.Clients
 import com.modzo.jwt.domain.users.Users
 import org.springframework.beans.factory.InitializingBean
