@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 
 import static com.modzo.jwt.Urls.remindPassword
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpStatus.OK
 
 class RemindUserPasswordResourceSpec extends AbstractSpec {

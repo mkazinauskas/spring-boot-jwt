@@ -1,12 +1,10 @@
-package com.modzo.jwt.helpers
+package com.modzo.test.helpers
 
 import groovy.transform.CompileStatic
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 
 import java.nio.charset.Charset
-
-import static org.springframework.http.MediaType.APPLICATION_JSON
 
 @CompileStatic
 class HttpEntityBuilder<B> {

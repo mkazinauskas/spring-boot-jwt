@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
-import static com.modzo.jwt.init.TestDataInit.TEST_ADMIN_USER
-import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.POST
 
 class TokenIssueSpec extends AbstractSpec {

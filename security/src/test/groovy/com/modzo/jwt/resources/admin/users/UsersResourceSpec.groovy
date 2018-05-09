@@ -12,7 +12,7 @@ import spock.lang.Shared
 
 import static com.modzo.jwt.Urls.adminUser
 import static com.modzo.jwt.Urls.adminUsers
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.OK

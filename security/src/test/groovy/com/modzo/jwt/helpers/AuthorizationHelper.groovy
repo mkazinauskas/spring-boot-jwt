@@ -6,8 +6,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.stereotype.Component
 
 import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
-import static com.modzo.jwt.init.TestDataInit.*
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 
 @Component
 class AuthorizationHelper {

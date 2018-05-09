@@ -14,4 +14,6 @@ dependencies {
     compile('org.apache.commons:commons-lang3:3.4')
 
     compile 'com.google.guava:guava:25.0-jre'
+
+    testCompile project (':test-commons')
 }

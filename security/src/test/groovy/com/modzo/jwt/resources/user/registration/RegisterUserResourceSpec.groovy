@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 import static com.modzo.jwt.Urls.registerUser
 import static com.modzo.jwt.domain.users.User.Authority.REGISTERED_USER
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.CREATED

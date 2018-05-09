@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'groovy'
     apply plugin: 'org.springframework.boot'

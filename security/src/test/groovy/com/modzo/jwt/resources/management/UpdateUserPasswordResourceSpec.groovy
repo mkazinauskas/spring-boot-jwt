@@ -4,7 +4,7 @@ import com.modzo.jwt.AbstractSpec
 import com.modzo.jwt.Urls
 import com.modzo.jwt.domain.users.User
 import com.modzo.jwt.domain.users.Users
-import com.modzo.jwt.helpers.HttpEntityBuilder
+import HttpEntityBuilder
 import com.modzo.jwt.resources.management.password.UpdateUserPasswordRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

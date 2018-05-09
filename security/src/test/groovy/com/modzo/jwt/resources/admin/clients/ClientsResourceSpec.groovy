@@ -12,7 +12,7 @@ import org.springframework.hateoas.PagedResources
 import org.springframework.http.ResponseEntity
 import spock.lang.Shared
 
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpStatus.FORBIDDEN
 import static org.springframework.http.HttpStatus.OK

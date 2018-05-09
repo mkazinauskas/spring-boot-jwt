@@ -9,7 +9,7 @@ import spock.lang.Shared
 
 import static com.modzo.jwt.Urls.adminUserData
 import static com.modzo.jwt.domain.users.User.Authority.*
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.BAD_REQUEST
 import static org.springframework.http.HttpStatus.FORBIDDEN

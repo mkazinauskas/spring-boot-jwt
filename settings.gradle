@@ -1,1 +1,1 @@
-include 'security', 'application'
+include 'security', 'application', 'test-commons'

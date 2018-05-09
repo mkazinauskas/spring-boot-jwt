@@ -9,8 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.oauth2.provider.token.TokenStore
 
 import static com.modzo.jwt.Urls.*
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
-import static com.modzo.jwt.init.TestDataInit.TEST_CLIENT
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.DELETE
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpStatus.BAD_REQUEST

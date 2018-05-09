@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Shared
 
 import static com.modzo.jwt.Urls.adminClients
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static com.modzo.jwt.helpers.RandomDataUtil.randomClientId
 import static com.modzo.jwt.helpers.RandomDataUtil.randomSecret
 import static org.springframework.http.HttpStatus.*

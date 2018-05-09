@@ -13,7 +13,7 @@ import static com.modzo.jwt.domain.clients.Client.GrantType.IMPLICIT
 import static com.modzo.jwt.domain.clients.Client.GrantType.PASSWORD
 import static com.modzo.jwt.domain.clients.Client.Scope.READ
 import static com.modzo.jwt.domain.clients.Client.Scope.WRITE
-import static com.modzo.jwt.helpers.HttpEntityBuilder.builder
+import static com.modzo.test.helpers.HttpEntityBuilder.builder
 import static org.springframework.http.HttpMethod.PUT
 import static org.springframework.http.HttpStatus.*
 
