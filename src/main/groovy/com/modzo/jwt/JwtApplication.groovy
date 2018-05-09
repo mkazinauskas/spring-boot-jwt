@@ -2,9 +2,6 @@ package com.modzo.jwt
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Bean
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 
 @SpringBootApplication
 class JwtApplication {
@@ -13,8 +10,4 @@ class JwtApplication {
         SpringApplication.run JwtApplication, args
     }
 
-    @Bean
-    PasswordEncoder encoder() {
-        new BCryptPasswordEncoder()
-    }
 }
