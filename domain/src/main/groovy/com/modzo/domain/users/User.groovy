@@ -1,11 +1,8 @@
 package com.modzo.domain.users
 
 import groovy.transform.CompileStatic
-import org.hibernate.validator.constraints.Email
-import org.hibernate.validator.constraints.NotBlank
 
 import javax.persistence.*
-import javax.validation.constraints.NotNull
 
 import static javax.persistence.GenerationType.SEQUENCE
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
@@ -23,7 +20,6 @@ class User {
     @Column(name = 'id')
     Long id
 
-    @NotBlank
     @Column(name = 'unique_id', unique = true, length = 10)
     String uniqueId = randomAlphanumeric(10)
 
@@ -31,13 +27,10 @@ class User {
     @Column(name = 'version', nullable = false)
     long version
 
-    @Email
-    @NotNull
-    @Column(name = 'email', unique = true)
+    @Column(name = 'email', unique = true, nullable = false)
     String email
 
-    @NotNull
-    @Column(name = 'encoded_password')
+    @Column(name = 'encoded_password', nullable = false)
     String encodedPassword
 
     @Column(name = 'enabled')
@@ -58,7 +51,6 @@ class User {
     @Column(name = 'activation_code', length = 32, nullable = true)
     String activationCode
 
-    @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = 'user_authorities', joinColumns = @JoinColumn(name = 'user_id', nullable = false))

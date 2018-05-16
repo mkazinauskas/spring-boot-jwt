@@ -1,7 +1,6 @@
 package com.modzo.domain.clients
 
 import groovy.transform.CompileStatic
-import org.hibernate.validator.constraints.NotBlank
 
 import javax.persistence.*
 
@@ -18,7 +17,6 @@ class Client {
     @Column(name = 'id')
     Long id
 
-    @NotBlank
     @Column(name = 'unique_id', unique = true, length = 10)
     String uniqueId = randomAlphanumeric(10)
 
@@ -26,8 +24,7 @@ class Client {
     @Column(name = 'version', nullable = false)
     long version
 
-    @NotBlank
-    @Column(name = 'client_id', unique = true)
+    @Column(name = 'client_id', unique = true, nullable = false)
     String clientId
 
     @Column(name = 'client_encoded_secret')
