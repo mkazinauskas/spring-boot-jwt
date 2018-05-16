@@ -1,4 +1,4 @@
-package com.resources
+package com.modzo.resources
 
 import com.modzo.AbstractSpec
 import org.springframework.http.ResponseEntity

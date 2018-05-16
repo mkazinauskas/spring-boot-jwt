@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -79,10 +78,5 @@ class OAuth2AuthorizationServerConfigJwt extends AuthorizationServerConfigurerAd
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(jwtSecurityConfiguration.getSigningKey());
         return converter;
-    }
-
-    @Bean
-    PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
     }
 }
