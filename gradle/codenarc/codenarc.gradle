@@ -4,5 +4,5 @@ codenarc {
     toolVersion = '1.1'
     reportFormat = 'html'
     ignoreFailures false
-    configFile file('gradle/codenarc/rules.groovy')
+    configFile file("${rootDir}/gradle/codenarc/rules.groovy")
 }
