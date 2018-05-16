@@ -11,58 +11,35 @@ buildscript {
     }
 }
 
-apply plugin: 'groovy'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'jacoco'
-apply from: 'gradle/codenarc/codenarc.gradle'
+subprojects {
+    apply plugin: 'groovy'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply from: "${rootDir}/gradle/jacoco/jacoco.gradle"
+    apply from: "${rootDir}/gradle/codenarc/codenarc.gradle"
 
-group = 'com.modzo'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+    group = 'com.modzo'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-}
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+    }
 
-dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.security:spring-security-jwt')
-    compile('org.springframework.cloud:spring-cloud-starter-oauth2')
-    compile('org.springframework.boot:spring-boot-starter-mail')
-    compile('org.springframework.boot:spring-boot-starter-mustache')
+    dependencies {
+        compile('org.apache.commons:commons-lang3:3.4')
 
-    compile('org.springframework.boot:spring-boot-configuration-processor')
+        compile('org.codehaus.groovy:groovy-all')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+        testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
+        testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
+        testCompile('org.testcontainers:postgresql:1.6.0')
+    }
 
-    compile('org.liquibase:liquibase-core')
-    runtime('org.postgresql:postgresql')
-
-    compile('org.apache.commons:commons-lang3:3.4')
-
-    compile('io.springfox:springfox-swagger2:2.8.0')
-    compile('io.springfox:springfox-swagger-ui:2.8.0')
-
-    compile('org.codehaus.groovy:groovy-all')
-    testCompile('org.springframework.boot:spring-boot-starter-hateoas')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
-    testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
-    testCompile('org.testcontainers:postgresql:1.6.0')
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
     }
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
-
-check.dependsOn jacocoTestReport

@@ -1,0 +1,118 @@
+package com.modzo.security.resources.admin.users
+
+import com.modzo.AbstractSpec
+import com.modzo.domain.users.User
+import com.modzo.domain.users.Users
+
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.hateoas.PagedResources
+import org.springframework.http.ResponseEntity
+import spock.lang.Shared
+
+import static com.modzo.Urls.adminUser
+import static com.modzo.Urls.adminUsers
+import static com.modzo.helpers.HttpEntityBuilder.builder
+import static org.springframework.http.HttpMethod.GET
+import static org.springframework.http.HttpStatus.FORBIDDEN
+import static org.springframework.http.HttpStatus.OK
+
+class UsersResourceSpec extends AbstractSpec {
+
+    @Autowired
+    Users users
+
+    @Shared
+    String adminToken
+
+    @Shared
+    String userToken
+
+    void setup() {
+        adminToken = authorizationHelper.adminAccessToken()
+        userToken = authorizationHelper.userAccessToken()
+    }
+
+    void 'should retrieve created user'() {
+        given:
+            User user = userHelper.createRegisteredUser(false)
+        when:
+            ResponseEntity<UserBean> response = restTemplate.exchange(
+                    adminUser(user.uniqueId),
+                    GET,
+                    builder()
+                            .bearer(adminToken)
+                            .build(),
+                    UserBean
+            )
+        then:
+            response.statusCode == OK
+            response.body
+            response.body.uniqueId == user.uniqueId
+            response.body.email == user.email
+            response.body.enabled == user.enabled
+            response.body.credentialsNonExpired == user.credentialsNonExpired
+            response.body.accountNotLocked == user.accountNotLocked
+            response.body.accountNotExpired == user.accountNotExpired
+            response.body.authorities == user.authorities
+    }
+
+    void 'created user should not be visible for not admin'() {
+        given:
+            User user = userHelper.createRegisteredUser(false)
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUser(user.uniqueId),
+                    GET,
+                    builder()
+                            .bearer(userToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == FORBIDDEN
+            response.body.contains('access_denied')
+    }
+
+    void 'should list all users'() {
+        given:
+            userHelper.createRegisteredUser(false)
+        when:
+            ResponseEntity<PagedResources<UserBean>> response = restTemplate.exchange(
+                    adminUsers(),
+                    GET,
+                    builder()
+                            .bearer(adminToken)
+                            .build(),
+                    new ParameterizedTypeReference<PagedResources<UserBean>>() {}
+            )
+        then:
+            response.statusCode == OK
+            response.body.content.size() > 1
+        and:
+            UserBean responseUser = response.body.content.first()
+            User currentUser = users.findByUniqueId(responseUser.uniqueId).get()
+            responseUser.uniqueId == currentUser.uniqueId
+            responseUser.email == currentUser.email
+            responseUser.enabled == currentUser.enabled
+            responseUser.credentialsNonExpired == currentUser.credentialsNonExpired
+            responseUser.accountNotLocked == currentUser.accountNotLocked
+            responseUser.accountNotExpired == currentUser.accountNotExpired
+            responseUser.authorities == currentUser.authorities
+    }
+
+    void 'users list should not be visible for not admin'() {
+        when:
+            ResponseEntity<String> response = restTemplate.exchange(
+                    adminUsers(),
+                    GET,
+                    builder()
+                            .bearer(userToken)
+                            .build(),
+                    String
+            )
+        then:
+            response.statusCode == FORBIDDEN
+            response.body.contains('access_denied')
+    }
+}
