@@ -1,9 +1,9 @@
 package com.modzo.domain.users.commands
 
 import com.modzo.domain.DomainException
+import com.modzo.domain.commons.DomainPasswordEncoder
 import com.modzo.domain.users.User
 import com.modzo.domain.users.Users
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,9 +21,9 @@ class UpdateUserPassword {
 
         private final Users users
 
-        private final PasswordEncoder passwordEncoder
+        private final DomainPasswordEncoder passwordEncoder
 
-        Validator(Users users, PasswordEncoder passwordEncoder) {
+        Validator(Users users, DomainPasswordEncoder passwordEncoder) {
             this.users = users
             this.passwordEncoder = passwordEncoder
         }
@@ -41,13 +41,13 @@ class UpdateUserPassword {
 
     @Component
     static class Handler {
-        private final PasswordEncoder passwordEncoder
+        private final DomainPasswordEncoder passwordEncoder
 
         private final Users users
 
         private final Validator validator
 
-        Handler(PasswordEncoder passwordEncoder, Users users, Validator validator) {
+        Handler(DomainPasswordEncoder passwordEncoder, Users users, Validator validator) {
             this.passwordEncoder = passwordEncoder
             this.users = users
             this.validator = validator

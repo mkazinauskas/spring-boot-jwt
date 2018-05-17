@@ -2,7 +2,7 @@ package com.modzo.domain.clients.commands
 
 import com.modzo.domain.clients.Client
 import com.modzo.domain.clients.Clients
-import org.springframework.security.crypto.password.PasswordEncoder
+import com.modzo.domain.commons.DomainPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,9 +21,9 @@ class CreateClient {
     static class Handler {
         private final Clients clients
 
-        private final PasswordEncoder passwordEncoder
+        private final DomainPasswordEncoder passwordEncoder
 
-        Handler(Clients clients, PasswordEncoder passwordEncoder) {
+        Handler(Clients clients, DomainPasswordEncoder passwordEncoder) {
             this.clients = clients
             this.passwordEncoder = passwordEncoder
         }

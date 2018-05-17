@@ -3,8 +3,7 @@ package com.modzo.domain.clients.commands
 import com.modzo.domain.DomainException
 import com.modzo.domain.clients.Client
 import com.modzo.domain.clients.Clients
-
-import org.springframework.security.crypto.password.PasswordEncoder
+import com.modzo.domain.commons.DomainPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,9 +17,9 @@ class UpdateClientSecret {
 
         private final Clients clients
 
-        private final PasswordEncoder passwordEncoder
+        private final DomainPasswordEncoder passwordEncoder
 
-        Validator(Clients clients, PasswordEncoder passwordEncoder) {
+        Validator(Clients clients, DomainPasswordEncoder passwordEncoder) {
             this.clients = clients
             this.passwordEncoder = passwordEncoder
         }
@@ -34,13 +33,13 @@ class UpdateClientSecret {
 
     @Component
     static class Handler {
-        private final PasswordEncoder passwordEncoder
+        private final DomainPasswordEncoder passwordEncoder
 
         private final Clients clients
 
         private final Validator validator
 
-        Handler(PasswordEncoder passwordEncoder, Clients clients, Validator validator) {
+        Handler(DomainPasswordEncoder passwordEncoder, Clients clients, Validator validator) {
             this.passwordEncoder = passwordEncoder
             this.clients = clients
             this.validator = validator

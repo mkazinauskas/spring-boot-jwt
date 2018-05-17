@@ -1,9 +1,9 @@
 package com.modzo.domain.users.commands
 
+import com.modzo.domain.commons.ActivationEmail
+import com.modzo.domain.commons.DomainPasswordEncoder
 import com.modzo.domain.users.User
 import com.modzo.domain.users.Users
-import com.modzo.email.commands.SendActivationEmail
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -26,13 +26,13 @@ class CreateUser {
     @Component
     static class Handler {
         private final Users users
-        private final PasswordEncoder passwordEncoder
-        private final SendActivationEmail.Handler sendActivationEmail
+        private final DomainPasswordEncoder passwordEncoder
+        private final ActivationEmail activationEmail
 
-        Handler(Users users, PasswordEncoder passwordEncoder, SendActivationEmail.Handler sendActivationEmail) {
+        Handler(Users users, DomainPasswordEncoder passwordEncoder, ActivationEmail activationEmail) {
             this.users = users
             this.passwordEncoder = passwordEncoder
-            this.sendActivationEmail = sendActivationEmail
+            this.activationEmail = activationEmail
         }
 
         @Transactional
@@ -51,11 +51,7 @@ class CreateUser {
             user.authorities.addAll([REGISTERED_USER])
             User savedUser = users.saveAndFlush(user)
             if (!createUser.activated) {
-                sendActivationEmail.handle(
-                        new SendActivationEmail(
-                                savedUser.email,
-                                savedUser.activationCode)
-                )
+                activationEmail.send(savedUser.email, savedUser.activationCode)
             }
             return new Response(uniqueId: savedUser.uniqueId)
         }

@@ -1,8 +1,8 @@
 package com.modzo.domain.users.commands
 
+import com.modzo.domain.commons.PasswordResetEmail
 import com.modzo.domain.users.User
 import com.modzo.domain.users.Users
-import com.modzo.email.commands.SendPasswordResetEmail
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -36,12 +36,12 @@ class RemindUserPassword {
 
         private final Validator validator
 
-        private final SendPasswordResetEmail.Handler handler
+        private final PasswordResetEmail passwordResetEmail
 
-        Handler(Users users, Validator validator, SendPasswordResetEmail.Handler handler) {
+        Handler(Users users, Validator validator, PasswordResetEmail passwordResetEmail) {
             this.users = users
             this.validator = validator
-            this.handler = handler
+            this.passwordResetEmail = passwordResetEmail
         }
 
         @Transactional
@@ -51,7 +51,7 @@ class RemindUserPassword {
             User user = users.findByEmail(command.email).get()
             user.newPasswordResetCode()
 
-            handler.handle(new SendPasswordResetEmail(user.email, user.passwordResetCode))
+            passwordResetEmail.send(user.email, user.passwordResetCode)
         }
     }
 }

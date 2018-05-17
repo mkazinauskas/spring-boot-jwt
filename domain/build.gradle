@@ -1,9 +1,8 @@
 dependencies {
-    compile project(':email')
-
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.security:spring-security-core'
 
     compile 'org.liquibase:liquibase-core'
     runtime 'org.postgresql:postgresql'
+
+    testCompile project(':test-commons')
 }
