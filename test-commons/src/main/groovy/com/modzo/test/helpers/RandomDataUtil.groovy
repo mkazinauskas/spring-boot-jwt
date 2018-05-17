@@ -1,4 +1,4 @@
-package com.modzo.helpers
+package com.modzo.test.helpers
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric
