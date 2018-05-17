@@ -1,6 +1,6 @@
 package com.modzo.security.server.bruteforce
 
-import com.modzo.helpers.RandomDataUtil
+import com.modzo.test.helpers.RandomDataUtil
 import spock.lang.Specification
 
 class BruteForceIPsRegisterSpec extends Specification {

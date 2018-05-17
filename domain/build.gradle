@@ -5,4 +5,5 @@ dependencies {
     runtime 'org.postgresql:postgresql'
 
     testCompile project(':test-commons')
+    testCompile 'org.testcontainers:postgresql:1.6.0'
 }

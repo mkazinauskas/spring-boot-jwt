@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 
 import static com.modzo.domain.users.User.Authority.REGISTERED_USER
 import static com.modzo.domain.users.User.Authority.ADMIN
-import static com.modzo.helpers.RandomDataUtil.randomEmail
+import static com.modzo.test.helpers.RandomDataUtil.randomEmail
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 @Component

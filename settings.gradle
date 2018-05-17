@@ -1,4 +1,5 @@
 include 'domain'
 include 'api'
 include 'email'
+include 'test-commons'
 

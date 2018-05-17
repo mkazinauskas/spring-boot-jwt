@@ -10,8 +10,8 @@ import spock.lang.Shared
 
 import static com.modzo.Urls.adminClients
 import static com.modzo.helpers.HttpEntityBuilder.builder
-import static com.modzo.helpers.RandomDataUtil.randomClientId
-import static com.modzo.helpers.RandomDataUtil.randomSecret
+import static com.modzo.test.helpers.RandomDataUtil.randomClientId
+import static com.modzo.test.helpers.RandomDataUtil.randomSecret
 import static org.springframework.http.HttpStatus.*
 
 class RegisterClientResourceSpec extends AbstractSpec {

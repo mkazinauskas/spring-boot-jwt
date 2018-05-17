@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
 
 import static com.modzo.domain.users.User.Authority.*
-import static com.modzo.helpers.RandomDataUtil.randomEmail
+import static com.modzo.test.helpers.RandomDataUtil.randomEmail
 
 @Component
 class TestDataInit {

@@ -3,7 +3,7 @@ package com.modzo.security.resources.user.registration
 import com.modzo.AbstractSpec
 import com.modzo.domain.users.User
 import com.modzo.domain.users.Users
-import com.modzo.helpers.StubJavaMailSender
+import com.modzo.test.helpers.StubJavaMailSender
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
